@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/screens/testPage.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -17,7 +18,18 @@ class SettingsPage extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+
             LogoutButton(),
+
+            ElevatedButton(
+              child: Text('To the test page'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TestPage()),
+                );
+              },
+            ),
           ],
         ),
       ),

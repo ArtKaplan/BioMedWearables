@@ -2,47 +2,76 @@ import 'package:flutter/material.dart';
 import 'package:the_app/screens/profilePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
+import 'package:the_app/utils/loginStatus.dart';
+import 'package:the_app/screens/sessionExpiredPage.dart';
+
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
-  static const routename = 'Homepage';
+  Future<LoginStatus> _checkStatus() => checkLoginStatus();
 
   @override
   Widget build(BuildContext context) {
-    print('${HomePage.routename} built');
+    return FutureBuilder<LoginStatus>(
+      future: _checkStatus(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (snapshot.data == LoginStatus.expired) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const SessionExpiredPage()),
+              (route) => false,
+            );
+          });
+          return const SizedBox();// empty placeholder
+        }
+
+        return _buildHomeScreen(context);// the normal homescreen, when logged in
+      },
+    );
+  }
+
+  Widget _buildHomeScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(HomePage.routename)),
+      appBar: AppBar(title: const Text('Home Page')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             ElevatedButton(
-              child: Text('To the profile'),
+              child: const Text('To the profile'),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                  MaterialPageRoute(builder: (_) => const ProfilePage()),
                 );
               },
             ),
 
             ElevatedButton(
-              child: Text('To the hikes'),
+              child: const Text('To the hikes'),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HikesPage()),
+                  MaterialPageRoute(builder: (_) => const HikesPage()),
                 );
               },
             ),
 
             ElevatedButton(
-              child: Text('To the settings'),
+              child: const Text('To the settings'),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                  MaterialPageRoute(builder: (_) => const SettingsPage()),
                 );
               },
             ),
@@ -50,5 +79,6 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
-  } //build
-} //HomePage
+  }
+}
+
