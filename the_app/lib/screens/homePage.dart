@@ -4,6 +4,7 @@ import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -42,38 +43,75 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home Page')),
       body: Center(
-        child: Column(
+        child:
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: [ 
+           SfRadialGauge(axes: <RadialAxis>[
+                      RadialAxis(
+                        minimum: 0,
+                        maximum: 10000, // this should become the provider of the step goal
+                        showLabels: false,
+                        showTicks: false,
+                        axisLineStyle: AxisLineStyle(
+                          thickness: 0.2,
+                          cornerStyle: CornerStyle.bothCurve,
+                          color: Color.fromARGB(30, 0, 169, 181),
+                          thicknessUnit: GaugeSizeUnit.factor,
+                        ),
+                        pointers: <GaugePointer>[
+                          RangePointer(
+                          value: 8056, // this should become the provider of the amount stepped today
+                          cornerStyle: CornerStyle.bothCurve,
+                          width: 0.2,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          )
+                          ],
+                        annotations: <GaugeAnnotation>[
+                          GaugeAnnotation(
+                          positionFactor: 0,
+                          angle: 90,
+                          widget: Text(
+                          ' 8056 / 10000', // this should become amount stepped today / goal
+                          style: TextStyle(fontSize: 30),
+                          ))
+                          ],
+                      )
+                    ]),   
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-            ElevatedButton(
-              child: const Text('To the profile'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProfilePage()),
-                );
-              },
-            ),
+                ElevatedButton(
+                  child: const Text('To the profile'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ProfilePage()),
+                    );
+                  },
+                ),
 
-            ElevatedButton(
-              child: const Text('To the hikes'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HikesPage()),
-                );
-              },
-            ),
+                ElevatedButton(
+                  child: const Text('To the hikes'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HikesPage()),
+                    );
+                  },
+                ),
 
-            ElevatedButton(
-              child: const Text('To the settings'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SettingsPage()),
-                );
-              },
+                ElevatedButton(
+                  child: const Text('To the settings'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SettingsPage()),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
