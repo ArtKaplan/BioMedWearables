@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.5.3
+  syncfusion_flutter_gauges: ^29.1.41
+  fl_chart: ^0.71.0
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:
