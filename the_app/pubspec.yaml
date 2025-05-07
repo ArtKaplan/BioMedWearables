@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http:
   shared_preferences: ^2.5.3
   syncfusion_flutter_gauges: ^29.1.41
   fl_chart: ^0.71.0
