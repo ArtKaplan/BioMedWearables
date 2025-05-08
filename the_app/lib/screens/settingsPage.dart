@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/screens/testPage.dart';
+import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/logoutButton.dart';
-import 'package:flutter/cupertino.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -22,12 +22,8 @@ class SettingsPage extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(30, 30, 30, 50),
                 child: Text("add here: textbox to change weekly goal"),
             ),
-            ElevatedButton(
-              child: Text('To the home'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+
+            HomeButton(),
 
             LogoutButton(),
 
