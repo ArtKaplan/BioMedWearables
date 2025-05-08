@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/widgets/logoutButton.dart';
+import 'package:the_app/widgets/pingButton.dart';
 import 'package:the_app/widgets/testExpiracyDateButton.dart';
 import 'package:the_app/widgets/LoginStatusButton.dart';
 
@@ -30,6 +31,8 @@ class TestPage extends StatelessWidget {
             TestExpiracyDateButton(),
 
             LoginStatusButton(),
+
+            PingButton(),
           ],
         ),
       ),
