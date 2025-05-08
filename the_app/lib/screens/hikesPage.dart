@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/widgets/homeButton.dart';
 
 class HikesPage extends StatelessWidget {
   const HikesPage({Key? key}) : super(key: key);
@@ -10,12 +11,7 @@ class HikesPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-              child: Text('To the home'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            HomeButton(),
           ],
         ),
       ),
