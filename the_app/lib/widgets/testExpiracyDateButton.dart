@@ -5,13 +5,14 @@ class TestExpiracyDateButton extends StatelessWidget {
   const TestExpiracyDateButton({super.key});
 
   Future<void> _simulateOldLogin(BuildContext context) async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context); // to use context only before await
     final sp = await SharedPreferences.getInstance();
     final DateTime fakePastDate = DateTime.now().subtract(
       const Duration(days: 31),
     );
     await sp.setString('last_login', fakePastDate.toIso8601String());
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    scaffoldMessenger.showSnackBar(
       const SnackBar(content: Text('Simulated login 31 days ago')),
     );
   }
@@ -21,7 +22,7 @@ class TestExpiracyDateButton extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: () => _simulateOldLogin(context),
       icon: const Icon(Icons.access_time),
-      label: const Text('Time Flies'),
+      label: const Text('set loggin to a past date'),
     );
   }
 }

@@ -12,15 +12,17 @@ class PingButton extends StatelessWidget {
     return ElevatedButton.icon(
       icon: const Icon(Icons.network_ping),
       label: const Text('Ping Server'),
-      onPressed: () => _ping_server(context),
+      onPressed: () => _pingServer(context),
     );
   }
 }
 
-_ping_server(BuildContext context) async {
+_pingServer(BuildContext context) async {
   final url = Impact.baseURL + Impact.pingEndpoint;
   final uri = Uri.parse(url);
+  final scaffoldMessenger = ScaffoldMessenger.of(context); // get the context before any await
   final response = await http.get(uri);
+  
   String message;
   if (response.statusCode == 200) {
     message = 'Server is up';
@@ -28,7 +30,7 @@ _ping_server(BuildContext context) async {
     message = 'There is a problem : ${response.statusCode}';
   }
 
-  ScaffoldMessenger.of(context).showSnackBar(
+  scaffoldMessenger.showSnackBar(
     SnackBar(content: Text(message), duration: const Duration(seconds: 3)),
   );
 }

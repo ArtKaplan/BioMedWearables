@@ -3,7 +3,7 @@ import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 import 'package:the_app/widgets/pingButton.dart';
 import 'package:the_app/widgets/testExpiracyDateButton.dart';
-import 'package:the_app/widgets/LoginStatusButton.dart';
+import 'package:the_app/widgets/loginStatusButton.dart';
 
 class TestPage extends StatelessWidget {
   const TestPage({Key? key}) : super(key: key);

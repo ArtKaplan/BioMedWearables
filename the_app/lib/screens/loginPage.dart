@@ -5,8 +5,10 @@ import 'package:the_app/utils/impact.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatelessWidget {
+
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class LoginPage extends StatelessWidget {
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  _try_login(
+                  _tryLogin(
                     context,
                     userController.text,
                     passwordController.text,
@@ -67,7 +69,7 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               child: Text('login (debug)'),
               onPressed: () {
-                _login_successful(context);
+                _loginSuccessful(context);
               },
             ),
           ],
@@ -77,12 +79,13 @@ class LoginPage extends StatelessWidget {
   } //build
 } //ProfilePage
 
-_try_login(BuildContext context, username, password) async {
-  if (await _is_server_online()) {
-    if (await _is_credentials_correct(username = username, password = password)) {
-      _login_successful(context);
+// check if the server is up, then if credentials are correct and act accordingly (logged and move to home or text of wrong credentials)
+_tryLogin(BuildContext context, username, password) async {
+  if (await _isServerOnline()) {
+    if (await _isCredentialsCorrect(username = username, password = password)) {
+      _loginSuccessful(context);
     } else {
-      _login_wrong(context);
+      _loginWrong(context);
     }
   } else {
     ScaffoldMessenger.of(
@@ -92,7 +95,7 @@ _try_login(BuildContext context, username, password) async {
 }
 
 // ask the server is the creditenials in parameters are correct
-Future<bool> _is_credentials_correct(String username, String password) async {
+Future<bool> _isCredentialsCorrect(String username, String password) async {
   final url = Impact.baseURL + Impact.tokenEndpoint;
   final uri = Uri.parse(url);
   final body = {'username': username, 'password': password};
@@ -101,7 +104,7 @@ Future<bool> _is_credentials_correct(String username, String password) async {
 }
 
 //check if the server is online
-Future<bool> _is_server_online() async {
+Future<bool> _isServerOnline() async {
   final url = Impact.baseURL + Impact.pingEndpoint;
   final uri = Uri.parse(url);
   final response = await http.get(uri);
@@ -109,16 +112,16 @@ Future<bool> _is_server_online() async {
 }
 
 // write a message saying the credentials are wrong
-_login_wrong(BuildContext context) {
+_loginWrong(BuildContext context) {
   ScaffoldMessenger.of(
     context,
   ).showSnackBar(const SnackBar(content: Text('Wrong credentials')));
 }
 
 // go to homepage and set the login status to logged in
-_login_successful(BuildContext context) async {
+_loginSuccessful(BuildContext context) async {
   //await otherwise go to homepage without the status changed yet and come back
-  await _set_logged_in(); // set the loggin status and the date
+  await _setLoggedIn(); // set the loggin status and the date
 
   Navigator.pushAndRemoveUntil(
     context,
@@ -128,7 +131,7 @@ _login_successful(BuildContext context) async {
 }
 
 // set the loginstatus as logged in in shared preferences
-_set_logged_in() async {
+_setLoggedIn() async {
   final sp = await SharedPreferences.getInstance();
   await sp.setBool('login_status', true);
   await sp.setString('last_login', DateTime.now().toIso8601String());

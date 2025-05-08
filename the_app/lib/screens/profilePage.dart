@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:the_app/widgets/BarChart.dart';
+import 'package:the_app/widgets/barChart.dart';
 
 
 class ProfilePage extends StatelessWidget {

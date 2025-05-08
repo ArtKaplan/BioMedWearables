@@ -5,6 +5,9 @@ class LoginStatusButton extends StatelessWidget {
   const LoginStatusButton({super.key});
 
   Future<void> _checkStatus(BuildContext context) async {
+    final scaffoldMessenger = ScaffoldMessenger.of(
+      context,
+    ); // get the context before any await
     final sp = await SharedPreferences.getInstance();
     final bool isLoggedIn = sp.getBool('login_status') ?? false;
     final String? lastLoginString = sp.getString('last_login');
@@ -25,7 +28,7 @@ class LoginStatusButton extends StatelessWidget {
       }
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    scaffoldMessenger.showSnackBar(
       SnackBar(content: Text(message), duration: const Duration(seconds: 3)),
     );
   }
