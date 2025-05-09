@@ -12,7 +12,12 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile Page')),
+      appBar: AppBar(title: Text('Profile Page'), actions: [
+          IconButton(
+            icon: Image.asset('lib/pictures/logo simple.png'),
+            onPressed: (){Navigator.pop(context);},
+          ),
+        ],),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

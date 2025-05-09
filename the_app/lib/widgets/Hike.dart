@@ -1,0 +1,1 @@
+// 1500 steps/km for woman, 1300 steps/km for man

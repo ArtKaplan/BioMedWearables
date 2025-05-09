@@ -41,12 +41,16 @@ class HomePage extends StatelessWidget {
 
   Widget _buildHomeScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Page')),
-      body: Center(
+      appBar: AppBar(
+        title: const Text('Home Page'), 
+      ),
+      body: SingleChildScrollView(
         child:
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [ 
+           Image.asset('lib/pictures/logo.png'),
+           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), child: Text('Welcome, Jane Doe! \n Today\'s goal:', style: TextStyle(fontSize: 30,color: Color(0xFF66101F)), textAlign: TextAlign.center,)),
            SfRadialGauge(axes: <RadialAxis>[
                       RadialAxis(
                         minimum: 0,
@@ -56,7 +60,7 @@ class HomePage extends StatelessWidget {
                         axisLineStyle: AxisLineStyle(
                           thickness: 0.2,
                           cornerStyle: CornerStyle.bothCurve,
-                          color: Color.fromARGB(30, 0, 169, 181),
+                          color: Color(0xFFDE7C5A),
                           thicknessUnit: GaugeSizeUnit.factor,
                         ),
                         pointers: <GaugePointer>[
@@ -65,6 +69,7 @@ class HomePage extends StatelessWidget {
                           cornerStyle: CornerStyle.bothCurve,
                           width: 0.2,
                           sizeUnit: GaugeSizeUnit.factor,
+                          color: Color(0xFF66101F),
                           )
                           ],
                         annotations: <GaugeAnnotation>[
@@ -73,7 +78,7 @@ class HomePage extends StatelessWidget {
                           angle: 90,
                           widget: Text(
                           ' 8056 / 10000', // this should become amount stepped today / goal
-                          style: TextStyle(fontSize: 30),
+                          style: TextStyle(fontSize: 30, color: Color(0xFF66101F),),
                           ))
                           ],
                       )
