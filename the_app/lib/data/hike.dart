@@ -17,7 +17,7 @@ class Hike {
 }
 
 final List<Hike> hikelist = [
-  Hike(name: "Sentiero del Monte Cecilia", steps: 7605, distance: 5.85, duration: "1h45", url: "https://www.komoot.com/smarttour/e1014732379", traveltime: "TBD"),
+  Hike(name: "Sentiero del Monte Cecilia", steps: 7605, distance: 5.85, duration: "1h45", url: "https://www.komoot.com/smarttour/e1014732379", traveltime: "TBD"), // used 1300 steps/km
   Hike(name: "Sentiero della Villa Draghi", steps: 6617, distance: 5.09, duration: "1h40", url: "https://www.komoot.com/smarttour/e1308461374", traveltime: "TBD"),
   Hike(name: "Sentiero del Monte Cinto", steps: 7800, distance: 6.00, duration: "1h56", url: "https://www.komoot.com/smarttour/e1014187883", traveltime: "TBD"),
   Hike(name: "Sentiero del Monte Lozzo", steps: 10088, distance: 7.76, duration: "2h26", url: "https://www.komoot.com/smarttour/e1014176760", traveltime: "TBD"),
