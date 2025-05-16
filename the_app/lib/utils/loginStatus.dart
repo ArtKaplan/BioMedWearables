@@ -19,3 +19,12 @@ Future<LoginStatus> checkLoginStatus() async {
 
   return LoginStatus.loggedIn;
 }
+
+Future<void> logOutInfo() async {
+  final sp = await SharedPreferences.getInstance();
+  await sp.setBool('login_status', false);
+  await sp.remove('username');
+  await sp.remove('password');
+  await sp.remove('access');
+  await sp.remove('refresh');
+}

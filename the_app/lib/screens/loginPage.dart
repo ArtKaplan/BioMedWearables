@@ -77,6 +77,13 @@ class _LoginPageState extends State<LoginPage> {
     return response.statusCode == 200;
   }
 
+  // adds the username and password to shared preferences
+  Future<void> _setUsernameAndPassord(username, password) async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.setString('username', username);
+    await sp.setString('password', password);
+  }
+
   // pings the server
   Future<bool> _isServerOnline() async {
     final url = Impact.baseURL + Impact.pingEndpoint;
