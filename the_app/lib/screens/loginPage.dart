@@ -36,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       if (await _isServerOnline()) {
         if (await _isCredentialsCorrect(username, password)) {
+          _setUsernameAndPassord(username, password);
           if (!mounted) return;
           await _setLoggedIn();
           if (!mounted) return;

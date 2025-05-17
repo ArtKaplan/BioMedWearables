@@ -3,4 +3,5 @@ class Impact {
   static const pingEndpoint = '/gate/v1/ping/';
   static const tokenEndpoint = '/gate/v1/token/';
   static const refreshEndpoint = '/gate/v1/refresh/';
+  static String stepsEndpoint = 'data/v1/steps/patients/';
 }
