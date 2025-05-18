@@ -5,6 +5,8 @@ import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:provider/provider.dart';
+import 'package:the_app/provider/settings_provider.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -50,7 +52,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [ 
            Image.asset('lib/pictures/logo.png'),
-           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), child: Text('Welcome, Jane Doe! \n Today\'s goal:', style: TextStyle(fontSize: 30,color: Color(0xFF66101F)), textAlign: TextAlign.center,)),
+           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), child: Text('Welcome ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', style: TextStyle(fontSize: 30,color: Color(0xFF66101F)), textAlign: TextAlign.center,)),
            SfRadialGauge(axes: <RadialAxis>[
                       RadialAxis(
                         minimum: 0,
