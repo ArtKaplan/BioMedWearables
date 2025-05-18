@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/logoutButton.dart';
@@ -11,7 +10,7 @@ import 'package:the_app/screens/achievementsPage.dart';
 
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +96,6 @@ class ProfilePage extends StatelessWidget {
                       ]), 
                 ),  
             ],),
-
-            HomeButton(),
-            
-            LogoutButton(),
           ],
         ),
         
@@ -112,62 +107,30 @@ class ProfilePage extends StatelessWidget {
           Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              icon:
-              Icon(Icons.home),
-              tooltip: 'Home',
-              color:  const Color(0xFFFFF1D7),
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HomePage()),
-                );
-              },
-            ),
-            IconButton(
-              icon:
-              Icon(Icons.analytics),
-              tooltip: 'Statistics',
-              color:  const Color(0xFFDE7C5A),
-              onPressed: (){
-              },
-            ),
-            IconButton(
-              icon:
-              Icon(Icons.hiking),
-              tooltip: 'Hikes',
-              color:  const Color(0xFFFFF1D7),
-              onPressed: (){
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const HikesPage()),
-                    );
-              },
-            ),
-            IconButton(
-              icon:
-              Icon(Icons.emoji_events_rounded),
-              tooltip: 'Achievements',
-              color:  const Color(0xFFFFF1D7),
-              onPressed: (){
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const AchievementsPage()),
-                    );
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.settings),
-              tooltip: 'Settings',
-              color:  const Color(0xFFFFF1D7),
-              onPressed: (){Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const SettingsPage()),
-                    );},
-            )
+            _buildNavIcon(context, Icons.home, 'Home', const HomePage(), false),
+            _buildNavIcon(context, Icons.analytics, 'Statistics', const ProfilePage(), true),
+            _buildNavIcon(context, Icons.hiking, 'Hikes', const HikesPage(), false),
+            _buildNavIcon(context, Icons.emoji_events_rounded, 'Achievements', const AchievementsPage(), false),
+            _buildNavIcon(context, Icons.settings, 'Settings', const SettingsPage(), false),
           ],
         ),
       ),
     );
   } //build
 } //ProfilePage
+
+Widget _buildNavIcon(BuildContext context, IconData icon, String tooltip, Widget page, bool isSelected) {
+    return IconButton(
+      icon: Icon(icon),
+      tooltip: tooltip,
+      color: isSelected ? const Color(0xFFDE7C5A) : const Color(0xFFFFF1D7),
+      onPressed: () {
+        if (!isSelected) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => page),
+          );
+        }
+      },
+    );
+  }
