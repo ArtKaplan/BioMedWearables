@@ -3,6 +3,7 @@ import 'package:the_app/screens/achievementsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/screens/profilePage.dart';
+import 'package:the_app/screens/settingsPage.dart';
 
 class BottomNavigBar extends StatelessWidget {
   const BottomNavigBar({super.key});
@@ -68,8 +69,12 @@ class BottomNavigBar extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.settings),
           tooltip: 'Settings',
-          color:  const Color(0xFFDE7C5A),
+          color: Theme.of(context).textTheme.labelLarge?.color, // const Color(0xFFFFF1D7),
           onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SettingsPage()),
+            );
           },
         )
       ],

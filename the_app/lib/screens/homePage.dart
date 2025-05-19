@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:the_app/screens/profilePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
-import 'package:the_app/screens/achievementsPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
