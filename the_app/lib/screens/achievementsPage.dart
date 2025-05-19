@@ -6,7 +6,7 @@ import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/screens/profilePage.dart';
 
 class AchievementsPage extends StatelessWidget {
-  const AchievementsPage({Key? key}) : super(key: key);
+  const AchievementsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
