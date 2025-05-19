@@ -10,7 +10,6 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = Provider.of<SettingsProvider>(context);//access to Settingsprovider
-    TimeOfDay _notificationTime = const TimeOfDay(hour: 8, minute: 0);
     return Scaffold(
       appBar: AppBar(title: Text('Settings'), actions: [
           IconButton(
@@ -84,8 +83,8 @@ class SettingsPage extends StatelessWidget {
                   title: Text('Notification'),
                   tiles: <SettingsTile>[
                     SettingsTile.switchTile(
-                      title: Text('Accept Push-Notifcation'),
-                      leading: Icon(Icons.dark_mode),
+                      title: Text('Push-Notifcation'),
+                      leading: Icon(Icons.notification_add),
                       initialValue: settings.pushNotifications,
                       onToggle: (value) => settings.setPushNotifications(value),
                     ),

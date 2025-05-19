@@ -52,7 +52,10 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [ 
            Image.asset('lib/pictures/logo.png'),
-           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), child: Text('Welcome ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', style: TextStyle(fontSize: 30,color: Color(0xFF66101F)), textAlign: TextAlign.center,)),
+           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), 
+            child: Text('Welcome ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', 
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30), 
+              textAlign: TextAlign.center,)),
            SfRadialGauge(axes: <RadialAxis>[
                       RadialAxis(
                         minimum: 0,
@@ -71,7 +74,7 @@ class HomePage extends StatelessWidget {
                           cornerStyle: CornerStyle.bothCurve,
                           width: 0.2,
                           sizeUnit: GaugeSizeUnit.factor,
-                          color: Color(0xFF66101F),
+                          color: Theme.of(context).appBarTheme.titleTextStyle?.color, //Color(0xFF66101F),
                           )
                           ],
                         annotations: <GaugeAnnotation>[
@@ -80,7 +83,7 @@ class HomePage extends StatelessWidget {
                           angle: 90,
                           widget: Text(
                           ' 8056 / 10000', // this should become amount stepped today / goal
-                          style: TextStyle(fontSize: 30, color: Color(0xFF66101F),),
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30),
                           ))
                           ],
                       )
