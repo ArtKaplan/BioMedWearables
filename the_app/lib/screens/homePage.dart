@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:the_app/screens/profilePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
+import 'package:the_app/screens/achievementsPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
+import 'package:the_app/widgets/bottomNavigBar.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -43,17 +45,17 @@ class HomePage extends StatelessWidget {
 
   Widget _buildHomeScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'), 
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Home Page'), 
+      // ),
       body: SingleChildScrollView(
         child:
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [ 
-           Image.asset('lib/pictures/logo.png'),
+           Container(padding: EdgeInsets.fromLTRB(30, 50, 30, 15), child: Image.asset('lib/pictures/logo.png')),
            Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), 
-            child: Text('Welcome ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', 
+            child: Text('Welcome, ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', 
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30), 
               textAlign: TextAlign.center,)),
            SfRadialGauge(axes: <RadialAxis>[
@@ -126,6 +128,8 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+
+      bottomNavigationBar: BottomNavigBar(),
     );
   }
 }
