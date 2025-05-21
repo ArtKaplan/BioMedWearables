@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/homeButton.dart';
 
 class HikesPage extends StatelessWidget {
@@ -15,6 +16,7 @@ class HikesPage extends StatelessWidget {
           ],
         ),
       ),
+    bottomNavigationBar: BottomNavigBar(),
     );
   } //build
 } //HikePage

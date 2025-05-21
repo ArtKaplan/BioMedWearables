@@ -9,12 +9,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  provider: ^6.1.5
   http:
   shared_preferences: ^2.5.3
   syncfusion_flutter_gauges: ^29.1.41
   fl_chart: ^0.71.0
   google_fonts: ^6.2.1
   jwt_decoder: ^2.0.1
+  settings_ui:
+  numberpicker: 
 
 dev_dependencies:
   flutter_test:

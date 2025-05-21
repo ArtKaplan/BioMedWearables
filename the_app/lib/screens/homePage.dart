@@ -5,6 +5,9 @@ import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:provider/provider.dart';
+import 'package:the_app/provider/settings_provider.dart';
+import 'package:the_app/widgets/bottomNavigBar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -44,60 +47,50 @@ class HomePage extends StatelessWidget {
 
   Widget _buildHomeScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Page')),
+      // appBar: AppBar(
+      //   title: const Text('Home Page'), 
+      // ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('lib/pictures/logo.png'),
-            Container(
-              padding: EdgeInsets.fromLTRB(30, 30, 30, 50),
-              child: Text(
-                'Welcome, Jane Doe! \n Today\'s goal:',
-                style: TextStyle(fontSize: 30, color: Color(0xFF66101F)),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SfRadialGauge(
-              axes: <RadialAxis>[
-                RadialAxis(
-                  minimum: 0,
-                  maximum:
-                      10000, // this should become the provider of the step goal
-                  showLabels: false,
-                  showTicks: false,
-                  axisLineStyle: AxisLineStyle(
-                    thickness: 0.2,
-                    cornerStyle: CornerStyle.bothCurve,
-                    color: Color(0xFFDE7C5A),
-                    thicknessUnit: GaugeSizeUnit.factor,
-                  ),
-                  pointers: <GaugePointer>[
-                    RangePointer(
-                      value:
-                          8056, // this should become the provider of the amount stepped today
-                      cornerStyle: CornerStyle.bothCurve,
-                      width: 0.2,
-                      sizeUnit: GaugeSizeUnit.factor,
-                      color: Color(0xFF66101F),
-                    ),
-                  ],
-                  annotations: <GaugeAnnotation>[
-                    GaugeAnnotation(
-                      positionFactor: 0,
-                      angle: 90,
-                      widget: Text(
-                        ' 8056 / 10000', // this should become amount stepped today / goal
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Color(0xFF66101F),
+          children: [ 
+           Container(padding: EdgeInsets.fromLTRB(30, 50, 30, 15), child: Image.asset('lib/pictures/logo.png')),
+           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), 
+            child: Text('Welcome, ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', 
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30), 
+              textAlign: TextAlign.center,)),
+           SfRadialGauge(axes: <RadialAxis>[
+                      RadialAxis(
+                        minimum: 0,
+                        maximum: 10000, // this should become the provider of the step goal
+                        showLabels: false,
+                        showTicks: false,
+                        axisLineStyle: AxisLineStyle(
+                          thickness: 0.2,
+                          cornerStyle: CornerStyle.bothCurve,
+                          color: Color(0xFFDE7C5A),
+                          thicknessUnit: GaugeSizeUnit.factor,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                        pointers: <GaugePointer>[
+                          RangePointer(
+                          value: 8056, // this should become the provider of the amount stepped today
+                          cornerStyle: CornerStyle.bothCurve,
+                          width: 0.2,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          color: Theme.of(context).appBarTheme.titleTextStyle?.color, //Color(0xFF66101F),
+                          )
+                          ],
+                        annotations: <GaugeAnnotation>[
+                          GaugeAnnotation(
+                          positionFactor: 0,
+                          angle: 90,
+                          widget: Text(
+                          ' 8056 / 10000', // this should become amount stepped today / goal
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30),
+                          ))
+                          ],
+                      )
+                    ]),   
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -135,6 +128,8 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+
+      bottomNavigationBar: BottomNavigBar(),
     );
   }
 }

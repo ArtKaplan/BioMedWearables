@@ -1,5 +1,5 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -7,7 +7,7 @@ import 'package:the_app/widgets/barChart.dart';
 
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +101,7 @@ class ProfilePage extends StatelessWidget {
         ),
         
       ),
+      bottomNavigationBar:BottomNavigBar(),
     );
   } //build
 } //ProfilePage
