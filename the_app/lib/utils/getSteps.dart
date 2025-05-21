@@ -35,7 +35,7 @@ Future<List<Steps>?> requestData(day) async {
       Impact.baseURL +
       Impact.stepsEndpoint +
       Impact.patientUsername +
-      '/day/$day/'; // TODO which one do we use, how do we get it
+      '/day/$day/';
   final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
 
   //Get the response
