@@ -1,3 +1,11 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'loginStatus.dart';
+import 'steps.dart';
+
 class Impact {
   static const baseURL = 'http://impact.dei.unipd.it/bwthw';
   static const pingEndpoint = '/gate/v1/ping/';
@@ -5,4 +13,82 @@ class Impact {
   static const refreshEndpoint = '/gate/v1/refresh/';
   static String stepsEndpoint = 'data/v1/steps/patients/';
   static const patientUsername = 'Jpefaq6m58';
+
+  // day must be a string 'YYYY-MM-DD'
+  static Future<int?> totalStepsDuringDay(String day) async {
+    final stepsList = await stepsDuringDay(day);
+
+    if (stepsList == null) {
+      return null;
+    }
+
+    int total = 0;
+    for (var step in stepsList) {
+      total += step.value;
+    }
+
+    return total;
+  }
+
+
+  // day must be a string 'YYYY-MM-DD'
+  static Future<List<Steps>?> stepsDuringDay(day) async {
+    //Initialize the result
+    List<Steps>? result;
+
+    var access = _getAccess(); // get the access token
+
+    //Create the (representative) request
+    final url =
+        Impact.baseURL +
+        Impact.stepsEndpoint +
+        Impact.patientUsername +
+        '/day/$day/';
+    final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
+
+    //Get the response
+    final response = await http.get(Uri.parse(url), headers: headers);
+
+    //if OK parse the response, otherwise return null
+    if (response.statusCode == 200) {
+      final decodedResponse = jsonDecode(response.body);
+      result = [];
+      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+        result.add(
+          Steps.fromJson(
+            decodedResponse['data']['date'],
+            decodedResponse['data']['data'][i],
+          ),
+        );
+      } //for
+    } //if
+    else {
+      result = null;
+    }
+
+    return result;
+  }
 }
+
+
+  // updates the tokens if expired
+  _getAccess() async {
+    final sp = await SharedPreferences.getInstance();
+    var access = sp.getString('access');
+    var refresh = sp.getString('refresh');
+    if (access == null || refresh == null) {
+      // shouldn't happen (if not logged in)
+      return null;
+    }
+
+    if (JwtDecoder.isExpired(access)) {
+      if (JwtDecoder.isExpired(refresh)) {
+        getTokenPair();
+      } else {
+        await refreshTokens();
+      }
+      access = sp.getString('access'); // get the access token
+    } // if
+
+    return access;
+  } // _getAccess

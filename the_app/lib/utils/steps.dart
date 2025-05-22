@@ -13,5 +13,5 @@ class Steps {
   @override
   String toString() {
     return 'Steps(time: $time, value: $value)';
-  } //toString
-}//Steps
+  }
+}
