@@ -302,3 +302,20 @@ class SettingsPage extends StatelessWidget {
     );
   } //build
 } //SettingPage
+
+Widget _buildNavIcon(BuildContext context, IconData icon, String tooltip, Widget page, bool isSelected) {
+    return IconButton(
+      icon: Icon(icon),
+      tooltip: tooltip,
+      color: isSelected ? const Color(0xFFDE7C5A) : const Color(0xFFFFF1D7),
+      onPressed: () {
+        if (!isSelected) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => page),
+          );
+        }
+      },
+    );
+  }
+

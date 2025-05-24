@@ -4,7 +4,10 @@ import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:the_app/widgets/barChart.dart';
-
+import 'package:the_app/screens/homePage.dart';
+import 'package:the_app/screens/settingsPage.dart';
+import 'package:the_app/screens/hikesPage.dart';
+import 'package:the_app/screens/achievementsPage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -93,10 +96,6 @@ class ProfilePage extends StatelessWidget {
                       ]), 
                 ),  
             ],),
-
-            HomeButton(),
-            
-            LogoutButton(),
           ],
         ),
         
@@ -105,3 +104,19 @@ class ProfilePage extends StatelessWidget {
     );
   } //build
 } //ProfilePage
+
+Widget _buildNavIcon(BuildContext context, IconData icon, String tooltip, Widget page, bool isSelected) {
+    return IconButton(
+      icon: Icon(icon),
+      tooltip: tooltip,
+      color: isSelected ? const Color(0xFFDE7C5A) : const Color(0xFFFFF1D7),
+      onPressed: () {
+        if (!isSelected) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => page),
+          );
+        }
+      },
+    );
+  }

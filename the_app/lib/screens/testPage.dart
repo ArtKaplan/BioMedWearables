@@ -6,7 +6,7 @@ import 'package:the_app/widgets/testExpiracyDateButton.dart';
 import 'package:the_app/widgets/loginStatusButton.dart';
 
 class TestPage extends StatelessWidget {
-  const TestPage({Key? key}) : super(key: key);
+  const TestPage({super.key});
 
   @override
   Widget build(BuildContext context) {

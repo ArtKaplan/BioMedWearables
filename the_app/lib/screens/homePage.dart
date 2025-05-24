@@ -89,41 +89,6 @@ class HomePage extends StatelessWidget {
                           ],
                       )
                     ]),   
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                ElevatedButton(
-                  child: const Text('To the profile'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const ProfilePage()),
-                    );
-                  },
-                ),
-
-                ElevatedButton(
-                  child: const Text('To the hikes'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const HikesPage()),
-                    );
-                  },
-                ),
-
-                ElevatedButton(
-                  child: const Text('To the settings'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const SettingsPage()),
-                    );
-                  },
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -132,4 +97,6 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
 
