@@ -36,8 +36,8 @@ class _FavouritehikespageState extends State<FavouriteHikesPage>{
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
-              child: Text('How much time do you have?', style: TextStyle(fontSize: 25, color: Color(0xFF66101F)))
+              padding: const EdgeInsets.fromLTRB(30, 70, 15, 15),
+              child: Text('Ready to (re)discover your favourite hikes?', style: TextStyle(fontSize: 25, color: Color(0xFF66101F)))
             ),
             Expanded(child: ListView.builder(
               itemCount: filterHikes.length,

@@ -25,15 +25,6 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              Column(children: [
-                Text("20", style: TextStyle(fontSize: 80)), // this 20 needs to be a streak amount
-                Text("weeks of walking", style: TextStyle(fontSize: 20)),
-              ],),
-              Icon(Icons.local_fire_department, color: Colors.orange, size: 150.0,),
-            ],),
             BarChartSample3(), // must update based on the info of the past 7 days
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
