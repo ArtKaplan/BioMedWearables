@@ -13,13 +13,17 @@ class AchievementsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Achievements Page')),
+      //appBar: AppBar(title: Text('Achievements Page')),
       body: Column(
         children: [    
           Container(
-            padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
-            child: Text('Keep it up!', style: TextStyle(fontSize: 25, color: Color(0xFF66101F)))
-          ),        
+              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+              child: Text(
+                'Keep it up!',
+                style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),   
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

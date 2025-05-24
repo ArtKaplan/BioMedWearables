@@ -15,16 +15,23 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile Page'), actions: [
-          IconButton(
-            icon: Image.asset('lib/pictures/logo simple.png'),
-            onPressed: (){Navigator.pop(context);},
-          ),
-        ],),
+      //appBar: AppBar(title: Text('Profile Page'), actions: [
+      //    IconButton(
+      //      icon: Image.asset('lib/pictures/logo simple.png'),
+      //      onPressed: (){Navigator.pop(context);},
+      //    ),
+      //  ],),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+              child: Text(
+                'Dive into your stats',
+                style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),
             BarChartSample3(), // must update based on the info of the past 7 days
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
