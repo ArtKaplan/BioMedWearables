@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -7,7 +8,6 @@ import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/screens/achievementsPage.dart';
-
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -100,21 +100,7 @@ class ProfilePage extends StatelessWidget {
         ),
         
       ),
-      bottomNavigationBar:Container(
-          color: Color(0xFF66101F),
-          padding:EdgeInsets.fromLTRB(30, 10, 30, 30) ,
-          child:
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildNavIcon(context, Icons.home, 'Home', const HomePage(), false),
-            _buildNavIcon(context, Icons.analytics, 'Statistics', const ProfilePage(), true),
-            _buildNavIcon(context, Icons.hiking, 'Hikes', const HikesPage(), false),
-            _buildNavIcon(context, Icons.emoji_events_rounded, 'Achievements', const AchievementsPage(), false),
-            _buildNavIcon(context, Icons.settings, 'Settings', const SettingsPage(), false),
-          ],
-        ),
-      ),
+      bottomNavigationBar:BottomNavigBar(),
     );
   } //build
 } //ProfilePage

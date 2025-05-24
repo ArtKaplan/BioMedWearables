@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:the_app/screens/profilePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
-import 'package:the_app/screens/achievementsPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:provider/provider.dart';
+import 'package:the_app/provider/settings_provider.dart';
+import 'package:the_app/widgets/bottomNavigBar.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -51,7 +53,10 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [ 
            Container(padding: EdgeInsets.fromLTRB(30, 50, 30, 15), child: Image.asset('lib/pictures/logo.png')),
-           Container(padding: EdgeInsets.fromLTRB(30, 15, 30, 30), child: Text('Welcome, Jane Doe! \n Today\'s goal:', style: TextStyle(fontSize: 30,color:Color(0xFF66101F)), textAlign: TextAlign.center,)),
+           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), 
+            child: Text('Welcome, ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', 
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30), 
+              textAlign: TextAlign.center,)),
            SfRadialGauge(axes: <RadialAxis>[
                       RadialAxis(
                         minimum: 0,
@@ -69,8 +74,8 @@ class HomePage extends StatelessWidget {
                           value: 8056, // this should become the provider of the amount stepped today
                           cornerStyle: CornerStyle.bothCurve,
                           width: 0.2,
-                          sizeUnit: GaugeSizeUnit.factor, 
-                          color: Color(0xFF66101F),
+                          sizeUnit: GaugeSizeUnit.factor,
+                          color: Theme.of(context).appBarTheme.titleTextStyle?.color, //Color(0xFF66101F),
                           )
                           ],
                         annotations: <GaugeAnnotation>[
@@ -79,7 +84,7 @@ class HomePage extends StatelessWidget {
                           angle: 90,
                           widget: Text(
                           ' 8056 / 10000', // this should become amount stepped today / goal
-                          style: TextStyle(fontSize: 30, color: Color(0xFF66101F),),
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30),
                           ))
                           ],
                       )
@@ -87,22 +92,8 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar:
-        Container(
-          color: Color(0xFF66101F),
-          padding:EdgeInsets.fromLTRB(30, 10, 30, 30) ,
-          child:
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildNavIcon(context, Icons.home, 'Home', const HomePage(), true),
-            _buildNavIcon(context, Icons.analytics, 'Statistics', const ProfilePage(), false),
-            _buildNavIcon(context, Icons.hiking, 'Hikes', const HikesPage(), false),
-            _buildNavIcon(context, Icons.emoji_events_rounded, 'Achievements', const AchievementsPage(), false),
-            _buildNavIcon(context, Icons.settings, 'Settings', const SettingsPage(), false),
-          ],
-        ),
-      ),  
+
+      bottomNavigationBar: BottomNavigBar(),
     );
   }
 }
