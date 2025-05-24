@@ -15,25 +15,23 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile Page'), actions: [
-          IconButton(
-            icon: Image.asset('lib/pictures/logo simple.png'),
-            onPressed: (){Navigator.pop(context);},
-          ),
-        ],),
+      //appBar: AppBar(title: Text('Profile Page'), actions: [
+      //    IconButton(
+      //      icon: Image.asset('lib/pictures/logo simple.png'),
+      //      onPressed: (){Navigator.pop(context);},
+      //    ),
+      //  ],),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              Column(children: [
-                Text("20", style: TextStyle(fontSize: 80)), // this 20 needs to be a streak amount
-                Text("weeks of walking", style: TextStyle(fontSize: 20)),
-              ],),
-              Icon(Icons.local_fire_department, color: Colors.orange, size: 150.0,),
-            ],),
+            Container(
+              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+              child: Text(
+                'Dive into your stats',
+                style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),
             BarChartSample3(), // must update based on the info of the past 7 days
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +98,7 @@ class ProfilePage extends StatelessWidget {
         ),
         
       ),
-      bottomNavigationBar:BottomNavigBar(),
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.profile),
     );
   } //build
 } //ProfilePage

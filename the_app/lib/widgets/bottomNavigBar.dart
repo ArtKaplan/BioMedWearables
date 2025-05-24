@@ -5,11 +5,21 @@ import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/screens/profilePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 
+enum CurrentPage { home, profile, hikes, achievements, settings}
+
 class BottomNavigBar extends StatelessWidget {
-  const BottomNavigBar({super.key});
+  final CurrentPage currentPage;
+  const BottomNavigBar({super.key, required this.currentPage});
 
   @override
   Widget build(BuildContext context) {
+    Color getIconColor(CurrentPage page) {
+      if(currentPage == page){
+          return Theme.of(context).textTheme.labelMedium?.color ?? Colors.white;
+      } else {
+        return Theme.of(context).textTheme.labelLarge?.color ?? Colors.white;
+      }
+    }
     return  Container(
 
       color: Theme.of(context).appBarTheme.titleTextStyle?.color,//Color(0xFF66101F),
@@ -22,7 +32,7 @@ class BottomNavigBar extends StatelessWidget {
           icon:
           Icon(Icons.home),
           tooltip: 'Home',
-          color: Theme.of(context).textTheme.labelLarge?.color, //const Color(0xFFFFF1D7),
+          color: getIconColor(CurrentPage.home), //const Color(0xFFFFF1D7),
           onPressed: (){
             Navigator.push(
               context,
@@ -34,7 +44,7 @@ class BottomNavigBar extends StatelessWidget {
           icon:
           Icon(Icons.analytics),
           tooltip: 'Statistics',
-          color:  Theme.of(context).textTheme.labelLarge?.color, //const Color(0xFFFFF1D7),
+          color:  getIconColor(CurrentPage.profile),
           onPressed: (){
             Navigator.push(
                   context,
@@ -46,7 +56,7 @@ class BottomNavigBar extends StatelessWidget {
           icon:
           Icon(Icons.hiking),
           tooltip: 'Hikes',
-          color:  Theme.of(context).textTheme.labelLarge?.color, //const Color(0xFFFFF1D7),
+          color: getIconColor(CurrentPage.hikes),
           onPressed: (){
             Navigator.push(
                   context,
@@ -58,7 +68,7 @@ class BottomNavigBar extends StatelessWidget {
           icon:
           Icon(Icons.emoji_events_rounded),
           tooltip: 'Achievements',
-          color: Theme.of(context).textTheme.labelLarge?.color, // const Color(0xFFFFF1D7),
+          color: getIconColor(CurrentPage.achievements),
           onPressed: (){
             Navigator.push(
                   context,
@@ -69,7 +79,7 @@ class BottomNavigBar extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.settings),
           tooltip: 'Settings',
-          color: Theme.of(context).textTheme.labelLarge?.color, // const Color(0xFFFFF1D7),
+          color:getIconColor(CurrentPage.settings),
           onPressed: (){
             Navigator.push(
               context,

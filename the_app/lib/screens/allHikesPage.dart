@@ -40,6 +40,13 @@ class _AllhikespageState extends State<Allhikespage>{
     final filterHikes = hikelist.where((hike){
       return selectedCategories.isEmpty || selectedCategories.contains(hike.type);
     }).toList();
+    Icon getIcon(Hike hike){
+      if(hike.favourite == true){
+          return Icon(Icons.favorite);
+      } else {
+        return Icon(Icons.favorite_border);
+      }
+    };
     return Scaffold(
       body: Center(
         child: Column(
@@ -90,6 +97,15 @@ class _AllhikespageState extends State<Allhikespage>{
                       onTap: () async{
                         await launchUrl(Uri.parse(hike.url));
                       },
+                      trailing: IconButton(
+                        icon: getIcon(hike),
+                        color: Theme.of(context).textTheme.titleLarge?.color,
+                        onPressed: () => {
+                          setState(() {
+                            hike.favourite = !hike.favourite;
+                          })
+                        },
+                      ),
                     ),
                   ),
                 );
@@ -98,7 +114,7 @@ class _AllhikespageState extends State<Allhikespage>{
           ],
         )
       ),
-      bottomNavigationBar:BottomNavigBar()
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.hikes)
     );
   } //build
 } //SettingPage

@@ -17,7 +17,7 @@ class Recommendhikepage extends StatelessWidget {
       body: Center(
         child: Text('recommended hike'),
       ),
-      bottomNavigationBar:BottomNavigBar()
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.hikes)
     );
   } //build
 } //SettingPage

@@ -23,6 +23,7 @@ class AppTheme {
       bodyMedium: TextStyle(fontSize: 14, color: Colors.black87),
 
       labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFFFFF1D7)), // buttons
+      labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFFDE7C5A)), // buttons
       labelSmall: TextStyle(fontSize: 12, color: Color(0xFF7A7A7A)), //for helptexts
     ),
   );

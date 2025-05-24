@@ -22,8 +22,8 @@ class Hike {
 }
 
 final List<Hike> hikelist = [
-  Hike(name: "Monte Ricco e Monte Castello", steps: 4914, distance: 3.78, duration: "1h45", url: "https://www.komoot.com/smarttour/11885115", traveltime: "0h20", favourite: false, type: 'short'),// take train to Monselice
-  Hike(name: "Sentiero del Monte Cecilia", steps: 7605, distance: 5.85, duration: "1h45", url: "https://www.komoot.com/smarttour/e1014732379", traveltime: "1h40", favourite: false, type: 'middle'), // take the bus to Baone
+  Hike(name: "Monte Ricco e Monte Castello", steps: 4914, distance: 3.78, duration: "1h45", url: "https://www.komoot.com/smarttour/11885115", traveltime: "0h20", favourite: true, type: 'short'),// take train to Monselice
+  Hike(name: "Sentiero del Monte Cecilia", steps: 7605, distance: 5.85, duration: "1h45", url: "https://www.komoot.com/smarttour/e1014732379", traveltime: "1h40", favourite: true, type: 'middle'), // take the bus to Baone
   Hike(name: "Sentiero della Villa Draghi", steps: 6617, distance: 5.09, duration: "1h40", url: "https://www.komoot.com/smarttour/e1308461374", traveltime: "0h40", favourite: false, type: 'short'), // take the train to Terme Euganee-Abano-Montegrotto and walk 2km
   Hike(name: "Sentiero del Monte Cinto", steps: 7800, distance: 6.00, duration: "1h56", url: "https://www.komoot.com/smarttour/e1014187883", traveltime: "1h30", favourite: false, type: 'middle'), // take bus to Cinto Euganeo R.
   Hike(name: "Sentiero del Monte Lozzo", steps: 10088, distance: 7.76, duration: "2h26", url: "https://www.komoot.com/smarttour/e1014176760", traveltime: "1h30", favourite: false, type: 'middle'),// take bus to Lozzo Chiesa
