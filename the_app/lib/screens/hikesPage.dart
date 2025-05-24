@@ -63,7 +63,7 @@ class HikesPage extends StatelessWidget {
           ],
         ),
       ),
-    bottomNavigationBar: BottomNavigBar(),
+    bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.hikes),
     );
   }
 

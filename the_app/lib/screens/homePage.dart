@@ -93,7 +93,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
 
-      bottomNavigationBar: BottomNavigBar(),
+      bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.home),
     );
   }
 }

@@ -17,7 +17,7 @@ class AchievementsPage extends StatelessWidget {
       body: Center(
         child: Text('Achievements'),
       ),
-      bottomNavigationBar:BottomNavigBar()
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.achievements)
     );
   } //build
 } //HikePage

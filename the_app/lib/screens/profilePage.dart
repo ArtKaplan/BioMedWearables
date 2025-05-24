@@ -100,7 +100,7 @@ class ProfilePage extends StatelessWidget {
         ),
         
       ),
-      bottomNavigationBar:BottomNavigBar(),
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.profile),
     );
   } //build
 } //ProfilePage
