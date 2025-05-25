@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 
 
 class StepsProvider extends ChangeNotifier {
+
+  int get todayTotalSteps => _todaySteps.fold(0, (sum, s) => sum + s.value);
+  
   List<Steps> _todaySteps = [];
   List<Steps> get todaySteps => _todaySteps;
 

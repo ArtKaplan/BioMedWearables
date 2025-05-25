@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:the_app/provider/data_provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
+import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/screens/loginPage.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:the_app/screens/steps_test_page.dart';
@@ -46,8 +47,8 @@ class MyApp extends StatelessWidget {
 
               switch (snapshot.data) {
                 case LoginStatus.loggedIn:
-                  return StepsTestPage();//TODO
-                //return  HomePage();
+                  //return StepsTestPage();//TODO
+                  return  HomePage();
                 case LoginStatus.expired:
                   return SessionExpiredPage();
                 default:
