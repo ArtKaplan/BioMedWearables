@@ -4,7 +4,10 @@ import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:the_app/widgets/barChart.dart';
-
+import 'package:the_app/screens/homePage.dart';
+import 'package:the_app/screens/settingsPage.dart';
+import 'package:the_app/screens/hikesPage.dart';
+import 'package:the_app/screens/achievementsPage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -12,25 +15,23 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile Page'), actions: [
-          IconButton(
-            icon: Image.asset('lib/pictures/logo simple.png'),
-            onPressed: (){Navigator.pop(context);},
-          ),
-        ],),
+      //appBar: AppBar(title: Text('Profile Page'), actions: [
+      //    IconButton(
+      //      icon: Image.asset('lib/pictures/logo simple.png'),
+      //      onPressed: (){Navigator.pop(context);},
+      //    ),
+      //  ],),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              Column(children: [
-                Text("20", style: TextStyle(fontSize: 80)), // this 20 needs to be a streak amount
-                Text("weeks of walking", style: TextStyle(fontSize: 20)),
-              ],),
-              Icon(Icons.local_fire_department, color: Colors.orange, size: 150.0,),
-            ],),
+            Container(
+              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+              child: Text(
+                'Dive into your stats',
+                style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),
             BarChartSample3(), // must update based on the info of the past 7 days
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -93,15 +94,27 @@ class ProfilePage extends StatelessWidget {
                       ]), 
                 ),  
             ],),
-
-            HomeButton(),
-            
-            LogoutButton(),
           ],
         ),
         
       ),
-      bottomNavigationBar:BottomNavigBar(),
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.profile),
     );
   } //build
 } //ProfilePage
+
+Widget _buildNavIcon(BuildContext context, IconData icon, String tooltip, Widget page, bool isSelected) {
+    return IconButton(
+      icon: Icon(icon),
+      tooltip: tooltip,
+      color: isSelected ? const Color(0xFFDE7C5A) : const Color(0xFFFFF1D7),
+      onPressed: () {
+        if (!isSelected) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => page),
+          );
+        }
+      },
+    );
+  }

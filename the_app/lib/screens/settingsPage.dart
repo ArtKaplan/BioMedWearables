@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
-import 'package:settings_ui/settings_ui.dart';
+import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/logoutButton.dart';
 
@@ -21,6 +21,7 @@ class SettingsPage extends StatelessWidget {
         ],),
       body: 
         SettingsList(
+          lightTheme: SettingsThemeData(settingsListBackground: Theme.of(context).textTheme.labelLarge?.color, titleTextColor: Theme.of(context).textTheme.titleLarge?.color),
           sections: [
 
             /*+++++++++++++++++++++++++++++++++++++++++
@@ -74,6 +75,7 @@ class SettingsPage extends StatelessWidget {
                   leading: Icon(Icons.dark_mode),
                   onToggle: (value) => settings.setDarkMode(value),
                   initialValue: settings.darkMode,
+                  activeSwitchColor:Theme.of(context).textTheme.titleLarge?.color ,
                 ),
               ],
             ),
@@ -87,6 +89,7 @@ class SettingsPage extends StatelessWidget {
                   leading: Icon(Icons.notification_add),
                   initialValue: settings.pushNotifications,
                   onToggle: (value) => settings.setPushNotifications(value),
+                  activeSwitchColor: Theme.of(context).textTheme.titleLarge?.color,
                 ),
                 SettingsTile(title: Text('Time Push-Notifications'),
                   value: Text('Choose Notification Time'),
@@ -298,7 +301,8 @@ class SettingsPage extends StatelessWidget {
         //LogoutButton(), // TODO: change design or integrate elsewhere
 
       
-      bottomNavigationBar: BottomNavigBar(),
+      bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.settings),
     );
   } //build
 } //SettingPage
+
