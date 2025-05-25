@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:the_app/utils/impact.dart';
 
-// button to change loggin status and go back to login page
-
+// Button to ping the server and display its status
 class PingButton extends StatelessWidget {
   const PingButton({super.key});
 
@@ -20,9 +19,11 @@ class PingButton extends StatelessWidget {
 _pingServer(BuildContext context) async {
   final url = Impact.baseURL + Impact.pingEndpoint;
   final uri = Uri.parse(url);
-  final scaffoldMessenger = ScaffoldMessenger.of(context); // get the context before any await
+  final scaffoldMessenger = ScaffoldMessenger.of(
+    context,
+  ); // capture context before await
   final response = await http.get(uri);
-  
+
   String message;
   if (response.statusCode == 200) {
     message = 'Server is up';
@@ -30,7 +31,9 @@ _pingServer(BuildContext context) async {
     message = 'There is a problem : ${response.statusCode}';
   }
 
-  scaffoldMessenger.showSnackBar(
-    SnackBar(content: Text(message), duration: const Duration(seconds: 3)),
-  );
+  scaffoldMessenger // the .. is used to call methods on the same object without callaing it each time
+    ..removeCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(content: Text(message), duration: const Duration(seconds: 3)),
+    );
 }

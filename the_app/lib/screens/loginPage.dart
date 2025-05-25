@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/screens/homePage.dart';
+import 'package:the_app/screens/steps_test_page.dart';
 import 'package:the_app/utils/impact.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,12 +39,15 @@ class _LoginPageState extends State<LoginPage> {
     try {
       if (await _isServerOnline()) {
         if (await _isCredentialsCorrect(username, password)) {
+          _setUsernameAndPassord(username, password);
           if (!mounted) return;
           await _setLoggedIn();
           if (!mounted) return;
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const HomePage()),
+            //MaterialPageRoute(builder: (_) => const StepsTestPage()),//TODO 
+            
             (route) => false,
           );
         } else {
@@ -68,13 +74,36 @@ class _LoginPageState extends State<LoginPage> {
     ).showSnackBar(SnackBar(content: Text(message)));
   }
 
-  //check with the server if the credentials are corrects
+  //check with the server if the credentials are corrects and saves token
   Future<bool> _isCredentialsCorrect(String username, String password) async {
     final url = Impact.baseURL + Impact.tokenEndpoint;
     final uri = Uri.parse(url);
     final body = {'username': username, 'password': password};
+
     final response = await http.post(uri, body: body);
-    return response.statusCode == 200;
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final accessToken = json['access'];
+      final refreshToken = json['refresh'];
+
+      final sp = await SharedPreferences.getInstance();
+      await sp.setString('access', accessToken);
+      await sp.setString('refresh', refreshToken);
+
+      print('Tokens saved');
+      return true;
+    }
+
+    print('Token request failed: ${response.statusCode} - ${response.body}');
+    return false;
+  }
+
+
+  // adds the username and password to shared preferences
+  Future<void> _setUsernameAndPassord(username, password) async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.setString('username', username);
+    await sp.setString('password', password);
   }
 
   // pings the server

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/provider/stepsProvider.dart';
 import 'package:the_app/screens/profilePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
@@ -9,16 +10,31 @@ import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 
-
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-  Future<LoginStatus> _checkStatus() => checkLoginStatus();
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Future<LoginStatus>? _loginStatusFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loginStatusFuture = checkLoginStatus();
+
+    // Update steps when the page loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<StepsProvider>().updateTodaySteps();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<LoginStatus>(
-      future: _checkStatus(),
+      future: _loginStatusFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Scaffold(
@@ -27,6 +43,8 @@ class HomePage extends StatelessWidget {
         }
 
         if (snapshot.data == LoginStatus.expired) {
+          logOutInfo();
+
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushAndRemoveUntil(
               context,
@@ -34,69 +52,89 @@ class HomePage extends StatelessWidget {
               (route) => false,
             );
           });
-          return const SizedBox();// empty placeholder
+          return const SizedBox(); // empty placeholder
         }
 
-        return _buildHomeScreen(context);// the normal homescreen, when logged in
+        return _buildHomeScreen(context);
       },
     );
   }
 
   Widget _buildHomeScreen(BuildContext context) {
+
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Home Page'), 
-      // ),
       body: SingleChildScrollView(
-        child:
-        Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [ 
-           Container(padding: EdgeInsets.fromLTRB(30, 50, 30, 15), child: Image.asset('lib/pictures/logo.png')),
-           Container(padding: EdgeInsets.fromLTRB(30, 30, 30, 50), 
-            child: Text('Welcome, ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:', 
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30), 
-              textAlign: TextAlign.center,)),
-           SfRadialGauge(axes: <RadialAxis>[
-                      RadialAxis(
-                        minimum: 0,
-                        maximum: 10000, // this should become the provider of the step goal
-                        showLabels: false,
-                        showTicks: false,
-                        axisLineStyle: AxisLineStyle(
-                          thickness: 0.2,
-                          cornerStyle: CornerStyle.bothCurve,
-                          color: Color(0xFFDE7C5A),
-                          thicknessUnit: GaugeSizeUnit.factor,
-                        ),
-                        pointers: <GaugePointer>[
-                          RangePointer(
-                          value: 8056, // this should become the provider of the amount stepped today
-                          cornerStyle: CornerStyle.bothCurve,
-                          width: 0.2,
-                          sizeUnit: GaugeSizeUnit.factor,
-                          color: Theme.of(context).appBarTheme.titleTextStyle?.color, //Color(0xFF66101F),
-                          )
-                          ],
-                        annotations: <GaugeAnnotation>[
-                          GaugeAnnotation(
-                          positionFactor: 0,
-                          angle: 90,
-                          widget: Text(
-                          ' 8056 / 10000', // this should become amount stepped today / goal
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 30),
-                          ))
-                          ],
-                      )
-                    ]),   
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(30, 50, 30, 15),
+              child: Image.asset('lib/pictures/logo.png'),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(30, 30, 30, 50),
+              child: Text(
+                'Welcome, ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:',
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineSmall?.copyWith(fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
+                  minimum: 0,
+                  maximum:
+                      10000, // this should become the provider of the step goal
+                  showLabels: false,
+                  showTicks: false,
+                  axisLineStyle: AxisLineStyle(
+                    thickness: 0.2,
+                    cornerStyle: CornerStyle.bothCurve,
+                    color: Color(0xFFDE7C5A),
+                    thicknessUnit: GaugeSizeUnit.factor,
+                  ),
+                  pointers: <GaugePointer>[
+                    RangePointer(
+                      value:
+                          context
+                              .watch<StepsProvider>()
+                              .todayTotalSteps
+                              .toDouble(), // amount of steps done today
+                      cornerStyle: CornerStyle.bothCurve,
+                      width: 0.2,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      color:
+                          Theme.of(context)
+                              .appBarTheme
+                              .titleTextStyle
+                              ?.color, //Color(0xFF66101F),
+                    ),
+                  ],
+                  annotations: <GaugeAnnotation>[
+                    GaugeAnnotation(
+                      positionFactor: 0,
+                      angle: 90,
+                      widget: Text(
+                        context
+                                .watch<StepsProvider>()
+                                .todayTotalSteps
+                                .toString() +
+                            ' / 10000', // this should become amount stepped today / goal //to get today's steps : context.watch<StepsProvider>().todayTotalSteps.toDouble()
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall?.copyWith(fontSize: 30),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
-
       bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.home),
     );
   }
 }
-
-
-
