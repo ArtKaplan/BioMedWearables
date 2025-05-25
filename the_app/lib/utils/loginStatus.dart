@@ -41,9 +41,8 @@ Future<void> getTokenPair() async {
   if (username == null || password == null) {
     return;
   } else {
-
     final url = Impact.baseURL + Impact.tokenEndpoint;
-    final body = {'username': username, 'password': password};
+    final body = {"username": username, "password": password};
 
     final response = await http.post(Uri.parse(url), body: body);
 
@@ -51,6 +50,7 @@ Future<void> getTokenPair() async {
       final decodedResponse = jsonDecode(response.body);
       sp.setString('access', decodedResponse['access']);
       sp.setString('refresh', decodedResponse['refresh']);
+      print('Tokens saved');
     }
   }
 }
@@ -68,5 +68,6 @@ Future<void> refreshTokens() async {
     final sp = await SharedPreferences.getInstance();
     sp.setString('access', decodedResponse['access']);
     sp.setString('refresh', decodedResponse['refresh']);
+    print('token refreshed');
   }
 }
