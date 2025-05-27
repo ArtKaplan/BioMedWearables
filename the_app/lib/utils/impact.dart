@@ -7,7 +7,7 @@ import 'loginStatus.dart';
 import 'steps.dart';
 
 class Impact {
-  static const baseURL = 'http://impact.dei.unipd.it/bwthw/';
+  static const baseURL = 'https://impact.dei.unipd.it/bwthw/';
   static const pingEndpoint = '/gate/v1/ping/';
   static const tokenEndpoint = '/gate/v1/token/';
   static const refreshEndpoint = '/gate/v1/refresh/';
@@ -30,6 +30,8 @@ class Impact {
     return total;
   }
 
+
+/*
    //to debug when impact (my code) doesn't work
   static Future<List<Steps>> stepsDuringDay(String date) async {
     await Future.delayed(Duration(milliseconds: 100)); // Simulate delay
@@ -63,9 +65,9 @@ class Impact {
       ),
     ];
   } 
+*/
 
 
-/*
   // day must be a string 'YYYY-MM-DD'
   static Future<List<Steps>?> stepsDuringDay(day) async {
     //Initialize the result
@@ -102,7 +104,7 @@ class Impact {
 
     return result;
   } //StepsDuringDay
-  */
+  
 
   static Future<void> printPatientsList() async {
     var access = await _getAccess();
