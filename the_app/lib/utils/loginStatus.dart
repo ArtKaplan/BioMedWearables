@@ -69,5 +69,9 @@ Future<void> refreshTokens() async {
     sp.setString('access', decodedResponse['access']);
     sp.setString('refresh', decodedResponse['refresh']);
     print('token refreshed');
+  } else {
+    print(
+        'refreshTokens() : Failed to refresh token patients: ${response.statusCode}',
+      );
   }
 }
