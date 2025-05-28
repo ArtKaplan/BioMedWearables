@@ -79,7 +79,7 @@ class Impact {
     final url = Impact.baseURL + Impact.stepsEndpoint + Impact.patientUsername + '/day/$day/';
     final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
 
-    print(url); //TODO
+    print("stepsDuringDay url ="+url);
 
     //Get the response
     final response = await http.get(Uri.parse(url), headers: headers);
@@ -156,10 +156,10 @@ _getAccess() async {
     if (JwtDecoder.isExpired(refresh)) {
       print('_getAccesss : refresh is expired');
       await getTokenPair();
-      access = sp.getString('access'); //debug TODO
-      refresh = sp.getString('refresh'); //debug TODO
-      print('New access: $access');
-      print('New refresh: $refresh');
+      access = sp.getString('access'); //debug
+      refresh = sp.getString('refresh'); //debug 
+      print('New access: $access'); // debug
+      print('New refresh: $refresh'); // debug
     } else {
       await refreshTokens();
     }

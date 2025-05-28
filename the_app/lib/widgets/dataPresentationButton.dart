@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 
-// Button to load data for the èresentation
+// Button to load data for the presentation
 class PresentationButton extends StatelessWidget {
   const PresentationButton({super.key});
 

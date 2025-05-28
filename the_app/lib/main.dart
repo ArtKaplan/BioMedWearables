@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
 
               switch (snapshot.data) {
                 case LoginStatus.loggedIn:
-                  //return StepsTestPage();//TODO
+                  //return StepsTestPage();//debug
                   return  HomePage();
                 case LoginStatus.expired:
                   return SessionExpiredPage();
