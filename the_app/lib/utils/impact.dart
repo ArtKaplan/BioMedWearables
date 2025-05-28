@@ -11,15 +11,15 @@ class Impact {
   static const pingEndpoint = '/gate/v1/ping/';
   static const tokenEndpoint = '/gate/v1/token/';
   static const refreshEndpoint = '/gate/v1/refresh/';
-  static String stepsEndpoint = 'data/v1/steps/patients/';
+  static const stepsEndpoint = 'data/v1/steps/patients/';
   static const patientUsername = 'Jpefaq6m58';
 
   // day must be a string 'YYYY-MM-DD'
   static Future<int?> totalStepsDuringDay(String day) async {
     final stepsList = await stepsDuringDay(day);
 
-    if (stepsList == null) {
-      return null;
+    if (stepsList == null || stepsList.isEmpty) {
+      return 0;
     }
 
     int total = 0;
@@ -88,6 +88,9 @@ class Impact {
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
       result = [];
+
+      if (decodedResponse["data"].isEmpty) return [];
+
       for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
         result.add(
           Steps.fromJson(
