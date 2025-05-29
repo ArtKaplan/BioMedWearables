@@ -13,7 +13,7 @@ class PresentationButton extends StatelessWidget {
         await Provider.of<StepsProvider>(
           context,
           listen: false,
-        ).fillDataPresentation();
+        ).load2MonthData();
       },
       icon: Icon(Icons.bar_chart),
       label: Text('Load 2 Months of Data'),

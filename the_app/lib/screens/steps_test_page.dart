@@ -35,7 +35,7 @@ class StepsTestPage extends StatelessWidget {
                         icon: const Icon(Icons.bar_chart),
                         label: const Text("Load 2 Months"),
                         onPressed: () async {
-                          await provider.fillDataPresentation();
+                          await provider.load2MonthData();
                         },
                       ),
                     ),
@@ -57,13 +57,12 @@ class StepsTestPage extends StatelessWidget {
                 ),
                 Expanded(
                   child:
-                      provider.todaySteps == null ||
-                              provider.todaySteps!.isEmpty
+                      provider.todaySteps.isEmpty
                           ? const Center(child: Text("No steps for today"))
                           : ListView.builder(
-                            itemCount: provider.todaySteps!.length,
+                            itemCount: provider.todaySteps.length,
                             itemBuilder: (context, index) {
-                              final step = provider.todaySteps![index];
+                              final step = provider.todaySteps[index];
                               return ListTile(
                                 title: Text(
                                   '${step.time.hour}:${step.time.minute.toString().padLeft(2, '0')}',

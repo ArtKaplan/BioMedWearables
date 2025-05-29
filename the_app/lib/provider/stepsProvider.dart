@@ -25,7 +25,7 @@ class StepsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fillDataPresentation() async {
+  Future<void> load2MonthData() async {
     _stepsEachdays = [];
 
     final DateTime today = DateTime.now();
