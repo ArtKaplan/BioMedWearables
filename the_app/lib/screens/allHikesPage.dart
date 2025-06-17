@@ -9,6 +9,8 @@ import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/data/hike.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
+import 'package:the_app/screens/thisHikePage.dart';
+
 
 
 
@@ -53,7 +55,7 @@ class _AllhikespageState extends State<Allhikespage>{
           children: [
             Container(
               padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
-              child: Text('How much time do you have?', style: TextStyle(fontSize: 25, color: Color(0xFF66101F)))
+              child: Column( children: [Text('How much time do you have?', style: TextStyle(fontSize: 25, color: Color(0xFF66101F))), Text('Travel time included', style: TextStyle(fontSize: 20, color: Color(0xFF66101F), fontStyle: FontStyle.italic))])
             ),
             Container(
               padding: const EdgeInsets.all(8.0),
@@ -94,8 +96,11 @@ class _AllhikespageState extends State<Allhikespage>{
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text(hike.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                       subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: '+hike.steps.toInt().toString()+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Colors.white, fontStyle: FontStyle.italic),),
-                      onTap: () async{
-                        await launchUrl(Uri.parse(hike.url));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => Thishikepage(hike: hike)),
+                          ).then((result){setState((){});});
                       },
                       trailing: IconButton(
                         icon: getIcon(hike),
