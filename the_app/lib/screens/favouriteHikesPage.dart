@@ -52,8 +52,11 @@ class _FavouritehikespageState extends State<FavouriteHikesPage>{
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text(hike.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                       subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: '+hike.steps.toInt().toString()+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Colors.white, fontStyle: FontStyle.italic),),
-                      onTap: () async{
-                        await launchUrl(Uri.parse(hike.url));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => Thishikepage(hike: hike)),
+                          ).then((result){setState((){});});
                       },
                       trailing: IconButton(
                         icon: getIcon(hike),
