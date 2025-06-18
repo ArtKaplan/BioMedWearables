@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/provider/stepsProvider.dart';
-import 'package:the_app/screens/profilePage.dart';
-import 'package:the_app/screens/settingsPage.dart';
-import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
+import 'package:the_app/screens/recommendHikePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -131,6 +129,23 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+          Card(
+            elevation: 8.0,
+            margin: const EdgeInsets.all(50.0),
+            child: Container(
+              decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                title: Text('Get hiking!', style: const TextStyle(color: Colors.white, fontSize:50),textAlign: TextAlign.center,),
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => Recommendhikepage()),
+                    );
+                },
+              ),
+            ),
+          ),
           ],
         ),
       ),

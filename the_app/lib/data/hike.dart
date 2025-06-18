@@ -39,3 +39,12 @@ final List<Hike> hikelist = [
   Hike(name: "Padova canals", steps: 48980, distance: 14.6, duration: "4h45", url: "https://www.komoot.com/tour/2224142945", traveltime: "0h0", favourite: false, type: "middle", route: "Walk to the nearest point from your home or walk 10 minutes from Padova Station", maps: "https://maps.app.goo.gl/wgy9PQwA17FU7wVv5"),
   Hike(name: "Il Casoni della Fogolana", steps: 21970, distance: 16.9, duration: "4h15", url: "https://www.komoot.com/smarttour/11894189", traveltime: "0h50", favourite: false, type: "long", route: "Take the train to Venezia Mestre and take the bus 80 (Arriva Veneto) to stop Santa Margherita, Strada Romea", maps:"https://maps.app.goo.gl/ckVnfArFeLKm7tUW8"),
 ];
+
+List<String> hike_names(){
+  List<String> list_of_names = [];
+  for(var k = 1; k<hikelist.length; k++){
+    list_of_names.add(hikelist[k].name);
+  }
+  print(list_of_names);
+  return list_of_names;
+}
