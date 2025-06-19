@@ -49,17 +49,25 @@ class StepsProvider extends ChangeNotifier {
     }
   }*/
 
-  
+
+  int? _cachedTodayTotal;
+
   Future<int> getTodayTotalSteps() async {
     final sp = await SharedPreferences.getInstance();
-
     if (sp.getBool("presentation_mode") ?? false) {
-      return _presentation_todaySteps.fold<int>(0, (sum, s) => sum + s.value);
+      _cachedTodayTotal = _presentation_todaySteps.fold(
+        0,
+        (sum, s) => sum! + s.value,
+      );
     } else {
-      await updateTodaySteps();
-      return _todaySteps.fold<int>(0, (sum, s) => sum + s.value); // start at 0 accumulate in sum for each s in _todaySteps using the function after =>
+      if (_todaySteps.isEmpty) {
+        await updateTodaySteps(); // this sets _todaySteps
+      }
+      _cachedTodayTotal = _todaySteps.fold(0, (sum, s) => sum! + s.value);
     }
+    return _cachedTodayTotal!;
   }
+
 
 
   // add steps done at a specific time during the day for today
@@ -89,17 +97,17 @@ class StepsProvider extends ChangeNotifier {
   //update the number of steps done today (= yesterday because data for today not available on the server)
   Future<void> updateTodaySteps() async {
     final DateTime today = DateTime.now();
-    final DateTime yesterday = today.subtract(
-      Duration(days: 1),
-    ); // use yesterday because data only available the day after
+    final DateTime yesterday = today.subtract(Duration(days: 1));
     final String dayStr = DateFormat('yyyy-MM-dd').format(yesterday);
 
     final steps = await Impact.stepsDuringDay(dayStr);
     _todaySteps = steps ?? [];
 
+    _cachedTodayTotal = null; // Clear the cache
     print("updateTodaySteps called, got ${_todaySteps.length} items");
     notifyListeners();
   }
+
 
   // load the previous two month of data from the server
   Future<void> load2MonthData() async {
