@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 import 'package:the_app/utils/impact.dart';
 import 'package:the_app/widgets/logoutButton.dart';
-
+/*
 class StepsTestPage extends StatelessWidget {
   const StepsTestPage({super.key});
 
@@ -57,12 +57,12 @@ class StepsTestPage extends StatelessWidget {
                 ),
                 Expanded(
                   child:
-                      provider.todaySteps.isEmpty
+                      provider.getTodaySteps().isEmpty
                           ? const Center(child: Text("No steps for today"))
                           : ListView.builder(
-                            itemCount: provider.todaySteps.length,
+                            itemCount: provider.getTodaySteps().length,
                             itemBuilder: (context, index) {
-                              final step = provider.todaySteps[index];
+                              final step = provider.getTodaySteps()[index];
                               return ListTile(
                                 title: Text(
                                   '${step.time.hour}:${step.time.minute.toString().padLeft(2, '0')}',
@@ -79,12 +79,12 @@ class StepsTestPage extends StatelessWidget {
                 ),
                 Expanded(
                   child:
-                      provider.stepsEachDay.isEmpty
+                      provider.getStepsEachDay().isEmpty
                           ? const Center(child: Text("No steps loaded"))
                           : ListView.builder(
-                            itemCount: provider.stepsEachDay.length,
+                            itemCount: provider.getStepsEachDay().length,
                             itemBuilder: (context, index) {
-                              final dayStep = provider.stepsEachDay[index];
+                              final dayStep = provider.getStepsEachDay()[index];
                               return ListTile(
                                 title: Text(
                                   '${dayStep.day.toLocal()}'.split(' ')[0],
@@ -104,3 +104,4 @@ class StepsTestPage extends StatelessWidget {
     );
   }
 }
+*/

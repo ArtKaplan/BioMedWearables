@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
             (route) => false,
           );
         } else {
-          if (!mounted) return;
+          if (!mounted) return; //mounted = is part of a tree
           _showMessage('Wrong credentials');
         }
       } else {
