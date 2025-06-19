@@ -31,4 +31,7 @@ flutter:
   uses-material-design: true
   assets:
   - lib/pictures/
+  - lib/pictures/awards/
+  - lib/utils/awards.json
+  - lib/utils/
 

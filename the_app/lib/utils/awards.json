@@ -1,0 +1,98 @@
+[
+    {
+        "id": "hike_1",
+        "title": "Rookie",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_hike_1.png",
+        "condition": "Complete your first hike!",
+        "isUnlocked": true
+    },
+    {
+        "id": "hike_5",
+        "title": "Amateur",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_hike_5.png",
+        "condition": "Complete five hikes!",
+        "isUnlocked": true
+    },
+    {
+        "id": "hike_10",
+        "title": "Profi",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_hike_10.png",
+        "condition": "Complete ten hikes!",
+        "isUnlocked": false
+    },
+    {
+        "id": "hike_15",
+        "title": "Expert",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_hike_15.png",
+        "condition": "Complete ten hikes!",
+        "isUnlocked": false
+    },
+    {
+        "id": "hike_all",
+        "title": "Monster",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_hike_all.png",
+        "condition": "Complete every hikes!",
+        "isUnlocked": false
+    },
+    {
+        "id": "samehike_3",
+        "title": "Third time's the charme",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_sameHike_3.png",
+        "condition": "Complete one hike three times!",
+        "isUnlocked": true
+    },
+        {
+        "id": "samehike_5",
+        "title": "No wait, five time's the real charme",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_sameHike_5.png",
+        "condition": "Complete one hike five times!",
+        "isUnlocked": false
+    },
+        {
+        "id": "samehike_10",
+        "title": "Sue me, I have a favorite!",
+        "category": "Hiking",
+        "imagePath": "lib/pictures/awards/badge_sameHike_10.png",
+        "condition": "Complete one hike ten times!",
+        "isUnlocked": false
+    },
+    {
+        "id": "steps_20k",
+        "title": "20.000 Schritte",
+        "category": "Steps",
+        "imagePath": "lib/pictures/awards/badge_steps_20k.png",
+        "condition": "Complete 20k steps in a day!",
+        "isUnlocked": true
+    },
+    {
+        "id": "steps_30k",
+        "title": "30.000 Schritte",
+        "category": "Steps",
+        "imagePath": "lib/pictures/awards/badge_steps_30k.png",
+        "condition": "Complete 30k steps in a day!",
+        "isUnlocked": true
+    },
+    {
+        "id": "steps_40k",
+        "title": "40.000 Schritte",
+        "category": "Steps",
+        "imagePath": "lib/pictures/awards/badge_steps_40k.png",
+        "condition": "Complete 40k steps in a day!",
+        "isUnlocked": false
+    },
+    {
+        "id": "steps_50k",
+        "title": "50.000 Schritte",
+        "category": "Steps",
+        "imagePath": "lib/pictures/awards/badge_steps_50k.png",
+        "condition": "Complete 50k steps in a day!",
+        "isUnlocked": false
+    }
+]

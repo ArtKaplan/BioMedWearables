@@ -22,18 +22,24 @@ class SettingsProvider extends ChangeNotifier{
   int? get age => _age;
 
   int? _height; //default avg male [cm]
-  int? get heigth => _height;
+  int? get height => _height;
 
   double? _weight; //default avg male [kg]
   double? get weight => _weight;
 
+  bool _stepLength_personalized = false;
+  bool get stepLength_personalized => _stepLength_personalized;
+
   //Schrittlänge (cm) ≈ Körpergröße (cm) × 0.415
-  int? _stepLength; //default avg male = 73 [cm] 
+  int? _stepLength; 
   int? get stepLength => _stepLength;
 
-  // restingHeartRate_basic = 210 - age
-  int? _restingHeartRate;
-  int? get restingHeartRate => _restingHeartRate;
+  bool _maxHeartRate_personalized = false;
+  bool get maxHeartRate_personalized => _maxHeartRate_personalized;
+
+  // maxHeartRate_Taneka =  208 - (0.7 * age) //TANEKA-formula
+  int? _maxHeartRate;
+  int? get maxHeartRate => _maxHeartRate;
 
   void setName(String newName){
     _name = newName;
@@ -70,7 +76,9 @@ class SettingsProvider extends ChangeNotifier{
         (newBirthday.month == today.month && newBirthday.day > today.day)){
           newAge--;
       }
-      _restingHeartRate = 210 - newAge; //approximation --> put should be personisable as well
+      if(!maxHeartRate_personalized){
+      _maxHeartRate = (208 - (0.7 * newAge)).round(); //TANEKA-formula --> put should be personisable as well
+      }
     }
 
     _birthday = newBirthday;
@@ -79,15 +87,38 @@ class SettingsProvider extends ChangeNotifier{
   }
 
   void setHeight(int? height){
-    _height = heigth;
-    if(height != null){
-      _stepLength = (0.415 * (heigth ?? 0)).toInt();
-    }
+    _height = height;
+    setStepLength(null); //will get correct value assigned in setStepLength
     notifyListeners();
   }
 
   void setWeight(double? weight){
     _weight = weight;
+    notifyListeners();
+  }
+
+  void setMaxHeartRate_personalized(bool newValue){
+    _maxHeartRate_personalized = newValue;
+    notifyListeners();
+  }
+
+  void setMaxHeartRate(int? newValue){
+    _maxHeartRate = newValue;
+    notifyListeners();
+  }
+
+  void setStepLength_personalized(bool newValue){
+    _stepLength_personalized = newValue;
+    setStepLength(null);
+    notifyListeners();
+  }
+
+  void setStepLength(int? newValue){
+    if(stepLength_personalized){
+      _stepLength = newValue;
+    } else if(!stepLength_personalized && height != null){
+      _stepLength = (0.415 * (height ?? 0)).toInt();
+    } else{_stepLength = null;}
     notifyListeners();
   }
 

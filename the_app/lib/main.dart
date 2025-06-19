@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_app/provider/data_provider.dart';
+import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 import 'package:the_app/screens/homePage.dart';
@@ -14,7 +14,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DataProvider()),
+        ChangeNotifierProvider(create: (context) => AwardProvider()),
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
         ChangeNotifierProvider(create: (context) => StepsProvider()),
       ],
