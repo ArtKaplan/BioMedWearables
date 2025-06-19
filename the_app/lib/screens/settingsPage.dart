@@ -325,47 +325,6 @@ class SettingsPage extends StatelessWidget {
                     settings.setStepLength(newStepLength); // Provider-Update
                   }
                 },
-                
-                /*(context) {
-                  int wholeNumber = settings.stepLength ?? 72;
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    
-                    builder: (context) {
-                      return SafeArea(
-                        child: StatefulBuilder(
-                          builder: (context, setState) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    NumberPicker(
-                                      minValue: 40,
-                                      maxValue: 110,
-                                      value: wholeNumber,
-                                      onChanged: (value) => setState(() => wholeNumber = value),
-                                    ),
-                                    const Text(' cm'),
-                                  ],
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    final int newStepLength = wholeNumber;
-                                    settings.setStepLength(newStepLength);
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Save'),
-                            ),
-                            ],
-                          );
-                      },
-                    ),);
-                  },
-                );
-                },*/
               ),
             ],),
 
@@ -388,51 +347,24 @@ class SettingsPage extends StatelessWidget {
                   enabled: !settings.maxHeartRate_personalized,
                 ),
                SettingsTile(title: Text('Select Max Heart Rate'),
-                value: settings.height != null && settings.maxHeartRate_personalized
+                value: settings.maxHeartRate != null && settings.maxHeartRate_personalized
                   ? Text('${settings.maxHeartRate} bpm') 
                   : Text('Choose your Max Heart Rate') ,
                 leading: Icon(Icons.monitor_heart),
                 trailing: Icon(Icons.arrow_drop_down),
                 enabled: settings.maxHeartRate_personalized,
-                onPressed: (context) {
-                  int wholeNumber = settings.maxHeartRate ?? 191;
-                  showModalBottomSheet(
+                onPressed: (context) async {
+                  final newMHR = await showNumberPickerDialog(
                     context: context,
-                    isScrollControlled: true,
-                    
-                    builder: (context) {
-                      return SafeArea(
-                        child: StatefulBuilder(
-                          builder: (context, setState) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    NumberPicker(
-                                      minValue: 130,
-                                      maxValue: 240,
-                                      value: wholeNumber,
-                                      onChanged: (value) => setState(() => wholeNumber = value),
-                                    ),
-                                    const Text(' bpm'),
-                                  ],
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    final int newMHR = wholeNumber;
-                                    settings.setMaxHeartRate(newMHR);
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Save'),
-                            ),
-                            ],
-                          );
-                      },
-                    ),);
-                  },
-                );
+                    initialValue: settings.maxHeartRate ?? 191, //default value
+                    minValue: 130,
+                    maxValue: 240,
+                    unit: 'bpm',
+                  );
+                  
+                  if (newMHR != null) {
+                    settings.setMaxHeartRate(newMHR); // Provider-Update
+                  }
                 },
               ),
             ]),

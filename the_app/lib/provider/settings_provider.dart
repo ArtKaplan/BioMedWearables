@@ -77,7 +77,7 @@ class SettingsProvider extends ChangeNotifier{
           newAge--;
       }
       if(!maxHeartRate_personalized){
-      _maxHeartRate = (208 - (0.7 * newAge)).round(); //TANEKA-formula --> put should be personisable as well
+        setMaxHeartRate(null); //correct value assigned in function
       }
     }
 
@@ -99,11 +99,16 @@ class SettingsProvider extends ChangeNotifier{
 
   void setMaxHeartRate_personalized(bool newValue){
     _maxHeartRate_personalized = newValue;
+    setMaxHeartRate(null);
     notifyListeners();
   }
 
   void setMaxHeartRate(int? newValue){
-    _maxHeartRate = newValue;
+    if(_maxHeartRate_personalized){
+      _maxHeartRate = newValue;
+    } else if(!_maxHeartRate_personalized && age != null){
+      _maxHeartRate = (208 - (0.7 * age!)).round(); //TANEKA-formula --> put should be personizable as well
+    } else{_maxHeartRate = null;}
     notifyListeners();
   }
 
