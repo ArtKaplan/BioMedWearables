@@ -14,9 +14,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DataProvider()),
-        ChangeNotifierProvider(create: (context) => SettingsProvider()),
-        ChangeNotifierProvider(create: (context) => StepsProvider()),
+        ChangeNotifierProvider(create: (_) => DataProvider()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => StepsProvider()),
       ],
       child: const MyApp(),
     ),
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
 
               switch (snapshot.data) {
                 case LoginStatus.loggedIn:
-                  //return StepsTestPage();//TODO
+                  //return StepsTestPage();//debug
                   return  HomePage();
                 case LoginStatus.expired:
                   return SessionExpiredPage();

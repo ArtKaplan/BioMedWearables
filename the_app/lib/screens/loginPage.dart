@@ -46,12 +46,12 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const HomePage()),
-            //MaterialPageRoute(builder: (_) => const StepsTestPage()),//TODO 
+            //MaterialPageRoute(builder: (_) => const StepsTestPage()),//DEBUG 
             
             (route) => false,
           );
         } else {
-          if (!mounted) return;
+          if (!mounted) return; //mounted = is part of a tree
           _showMessage('Wrong credentials');
         }
       } else {

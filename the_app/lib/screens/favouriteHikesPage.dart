@@ -9,6 +9,8 @@ import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/data/hike.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
+import 'package:the_app/screens/thisHikePage.dart';
+
 
 
 
