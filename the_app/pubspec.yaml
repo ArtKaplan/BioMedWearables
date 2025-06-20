@@ -13,7 +13,6 @@ dependencies:
   http:
   shared_preferences: ^2.5.3
   syncfusion_flutter_gauges: ^29.1.41
-  fl_chart: ^0.71.0
   google_fonts: ^6.2.1
   jwt_decoder: ^2.0.1
   settings_ui:
@@ -21,6 +20,7 @@ dependencies:
   flutter_settings_ui: ^3.0.1
   numberpicker: 
   intl: ^0.20.2
+  fl_chart: ^1.0.0
 
 dev_dependencies:
   flutter_test:
