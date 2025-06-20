@@ -43,24 +43,6 @@ class StepsProvider extends ChangeNotifier {
         _stepsEachdays.add(DaySteps(day: currentDate, value: total));
       }
     }
-    /*
-    //ARTHUR
-    List<DaySteps> _allSteps = [];
-    List<DaySteps> get allSteps => _allSteps;
-
-    void updateSteps(List<DaySteps> newSteps) {
-      _allSteps = newSteps;
-      notifyListeners();
-    }
-
-    int getStepsForDay(DateTime targetDay) {
-      final matchingDay = _allSteps.firstWhere(
-        (steps) => _isSameDay(steps.day, targetDay),
-        orElse: () => DaySteps(day: targetDay, value: 0),
-      );
-      return matchingDay.value;
-    }
-*/
     notifyListeners();
   }
 }

@@ -5,7 +5,7 @@
         "category": "Hiking",
         "imagePath": "lib/pictures/awards/badge_hike_1.png",
         "condition": "Complete your first hike!",
-        "isUnlocked": true
+        "isUnlocked": false
     },
     {
         "id": "hike_5",
@@ -13,7 +13,7 @@
         "category": "Hiking",
         "imagePath": "lib/pictures/awards/badge_hike_5.png",
         "condition": "Complete five hikes!",
-        "isUnlocked": true
+        "isUnlocked": false
     },
     {
         "id": "hike_10",
@@ -45,7 +45,7 @@
         "category": "Hiking",
         "imagePath": "lib/pictures/awards/badge_sameHike_3.png",
         "condition": "Complete one hike three times!",
-        "isUnlocked": true
+        "isUnlocked": false
     },
         {
         "id": "samehike_5",
@@ -69,7 +69,7 @@
         "category": "Steps",
         "imagePath": "lib/pictures/awards/badge_steps_20k.png",
         "condition": "Complete 20k steps in a day!",
-        "isUnlocked": true
+        "isUnlocked": false
     },
     {
         "id": "steps_30k",
@@ -77,7 +77,7 @@
         "category": "Steps",
         "imagePath": "lib/pictures/awards/badge_steps_30k.png",
         "condition": "Complete 30k steps in a day!",
-        "isUnlocked": true
+        "isUnlocked": false
     },
     {
         "id": "steps_40k",

@@ -14,9 +14,10 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AwardProvider()),
-        ChangeNotifierProvider(create: (context) => SettingsProvider()),
         ChangeNotifierProvider(create: (context) => StepsProvider()),
+        //ChangeNotifierProvider(create: (context) => AwardProvider()),
+        ChangeNotifierProvider(create: (context) => AwardProvider(Provider.of<StepsProvider>(context, listen: false),)), //to use StepsProvider in AwardProvider without Widget
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
       child: const MyApp(),
     ),

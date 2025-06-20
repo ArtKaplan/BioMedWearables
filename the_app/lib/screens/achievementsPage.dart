@@ -94,7 +94,6 @@ class AchievementsPage extends StatelessWidget {
     );
   } //build
 
-  //ARTHUR TEST
   Widget _buildAwardsList(List<Award> awards) {
   return SizedBox(
     height: 200, // Feste Höhe für horizontal scroll
@@ -102,28 +101,24 @@ class AchievementsPage extends StatelessWidget {
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       scrollDirection: Axis.horizontal,
-      itemCount: awards.length,
-      itemBuilder: (context, index) {
-        try {
-          final award = awards[index];
+      itemCount: awards.isNotEmpty
+        ? awards.length
+        : 1,
+      itemBuilder: awards.isEmpty
+        ? (context, index){
+          try{
           return Container(
             width: 200,
             margin: EdgeInsets.symmetric(horizontal: 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-              Text(award.title, 
-                maxLines: 2, 
-                textAlign: TextAlign.center),
                Image.asset(
-                  award.imagePath,
+                  'lib/pictures/awards/noAwards.png',
                   width: 150,
                   height: 150,
-                  color: award.isUnlocked ? null : Colors.grey.withOpacity(0.9),
-                  colorBlendMode: BlendMode.saturation,
                ),
-              Text(award.condition, 
-                maxLines: 4, 
+              Text('No awards unlocked (YET)!', 
                 textAlign: TextAlign.center),
               ],
             ),
@@ -132,8 +127,38 @@ class AchievementsPage extends StatelessWidget {
           print('Error rendering award $index: $e');
           return ErrorWidget(e);
         }
-      },
-    ),
-  );
+        }
+        : (context, index) {
+          try {
+            final award = awards[index];
+            return Container(
+              width: 200,
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                Text(award.title, 
+                  maxLines: 2, 
+                  textAlign: TextAlign.center),
+                Image.asset(
+                    award.imagePath,
+                    width: 150,
+                    height: 150,
+                    color: award.isUnlocked ? null : Colors.grey.withOpacity(0.9),
+                    colorBlendMode: BlendMode.saturation,
+                ),
+                Text(award.condition, 
+                  maxLines: 4, 
+                  textAlign: TextAlign.center),
+                ],
+              ),
+            );
+          } catch (e) {
+            print('Error rendering award $index: $e');
+            return ErrorWidget(e);
+          }
+        },
+      ),
+    );
 }
 } //HikePage

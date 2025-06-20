@@ -1,11 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/services.dart';
 
-
 /// awards class to handle all listed awards from json file
-///
-
 class Award {
   //categories of awards.json file
   final String id;
@@ -37,6 +33,7 @@ class Award {
   }
 }
 
+
 class AwardRepo{
   Future<List<Award>> loadAwards() async{
     final String jsonString = await rootBundle.loadString('lib/utils/awards.json');
@@ -44,3 +41,4 @@ class AwardRepo{
     return jsonList.map((json) => Award.fromJson(json)).toList();
   }
 }
+
