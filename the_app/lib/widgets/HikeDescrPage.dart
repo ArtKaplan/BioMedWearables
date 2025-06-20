@@ -86,7 +86,9 @@ class Hikedescrpage extends StatelessWidget {
                       },
                     ),
                   ),
-          )
+          ),
+        Text('Your last times are: ${hike.times}'),
+        Text('Your last difficulties are: ${hike.difficulties}')
         ],
       ),
     );

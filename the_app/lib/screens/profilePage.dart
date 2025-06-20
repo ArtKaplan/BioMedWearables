@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'dart:async';
@@ -26,17 +24,116 @@ class _ProfilePageState extends State<ProfilePage>{
     t = Timer.periodic(Duration(milliseconds: 30), (timer) {
       setState(() {});
     });
-    print("INIT state CALLED");
   }
   String buttontitle = "Start stopwatch";
+  Color? buttoncolor = Color(0xFFDE7C5A);
   void handleStartStop() {
     if(stopwatch.isRunning) {
       stopwatch.stop();
       buttontitle = "Start stopwatch";
+      buttoncolor = Theme.of(context).textTheme.labelMedium?.color;
     }
     else {
       stopwatch.start();
       buttontitle = "Stop stopwatch";
+      buttoncolor = Theme.of(context).textTheme.titleLarge?.color;
+    }
+  }
+  int getIndex(){
+    for(var i=0;i<hikelist.length;i++){
+      if(hikelist[i].name==_chosenHike){
+        return i;
+      }
+    }
+    int i = 0;
+    return i;
+  }
+  double _currentValue = 0;
+  Future getDifficulty() async{
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setStateDialog){
+              return AlertDialog(
+                content: Column(mainAxisSize: MainAxisSize.min, children: [Text('How tired are you after the hike?'),
+                Slider(
+                  value: _currentValue,
+                  max: 10,
+                  divisions: 100,
+                  label: _currentValue.toStringAsFixed(1),
+                  onChanged: (double value) {
+                    setStateDialog(() {
+                      _currentValue = value;
+                    });
+                  },
+                )]),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      print(_currentValue);
+                      Navigator.of(context).pop(_currentValue);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+  }
+  void saveResult(){
+    if(stopwatch.isRunning){
+      showDialog( // taken from https://www.dhiwise.com/post/how-to-build-customizable-pop-ups-with-flutter-dialog
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('First stop the stopwatch'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      int index = getIndex();
+      double difficulty = 0;
+      bool change = false;
+      showDialog( // taken from https://www.dhiwise.com/post/how-to-build-customizable-pop-ups-with-flutter-dialog
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('Are you sure that you want to save your time of ${stopwatch.elapsed} to Hike "${hikelist[index].name}"?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Yes'),
+                onPressed: () async {
+                  setState((){
+                    hikelist[index].times.add(stopwatch.elapsed);
+                  });
+                  Navigator.of(context).pop();
+                  double difficulty = await getDifficulty();
+                  setState((){
+                    hikelist[index].difficulties.add(difficulty);
+                  });
+                },
+              ),
+              TextButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
   List<String> all_hikes = hike_names();
@@ -89,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage>{
             elevation: 8.0,
             margin: const EdgeInsets.all(50.0),
             child: Container(
-              decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
+              decoration: BoxDecoration(color: buttoncolor),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 title: Text(buttontitle, style: const TextStyle(color: Colors.white, fontSize:20),textAlign: TextAlign.center,),
@@ -123,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 title: Text("Save hike result", style: const TextStyle(color: Colors.white, fontSize:20),textAlign: TextAlign.center,),
                 onTap: (){
-                  handleStartStop();
+                  saveResult();
                 },
               ),
             ),
