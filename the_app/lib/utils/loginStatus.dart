@@ -68,6 +68,10 @@ Future<void> refreshTokens() async {
     final sp = await SharedPreferences.getInstance();
     sp.setString('access', decodedResponse['access']);
     sp.setString('refresh', decodedResponse['refresh']);
-    print('token refreshed');
+    print('token refreshed succesfully');
+  } else {
+    print(
+        'refreshTokens() : Failed to refresh token patients: ${response.statusCode}',
+      );
   }
 }
