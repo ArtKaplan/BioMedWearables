@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/HikeDescrPage.dart';
 import 'package:the_app/data/hike.dart';
-import 'package:the_app/screens/thisHikePage.dart';
-
 
 class Thishikepage extends StatefulWidget {
   final Hike hike;

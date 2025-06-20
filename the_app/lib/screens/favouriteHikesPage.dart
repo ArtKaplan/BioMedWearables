@@ -1,17 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:the_app/screens/homePage.dart';
-import 'package:the_app/screens/achievementsPage.dart';
-import 'package:the_app/screens/hikesPage.dart';
-import 'package:the_app/screens/profilePage.dart';
-import 'package:the_app/screens/settingsPage.dart';
 import 'package:the_app/data/hike.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/screens/thisHikePage.dart';
-
-
 
 
 class FavouriteHikesPage extends StatefulWidget {

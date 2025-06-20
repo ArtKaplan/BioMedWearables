@@ -13,12 +13,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = Provider.of<SettingsProvider>(context);//access to Settingsprovider
     return Scaffold(
-      appBar: AppBar(title: Text('Settings'), actions: [
-          IconButton(
-            icon: Image.asset('lib/pictures/logo simple.png'),
-            onPressed: (){Navigator.pop(context);},
-          ),
-        ],),
+      appBar: AppBar(title: Text('Settings') , automaticallyImplyLeading: false),
       body: 
         SettingsList(
           lightTheme: SettingsThemeData(settingsListBackground: Theme.of(context).textTheme.labelLarge?.color, titleTextColor: Theme.of(context).textTheme.titleLarge?.color),
