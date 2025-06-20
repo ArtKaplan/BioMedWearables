@@ -4,7 +4,6 @@ import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/screens/thisHikePage.dart';
 
 
-
 class FavouriteHikesPage extends StatefulWidget {
   FavouriteHikesPage({super.key});
 

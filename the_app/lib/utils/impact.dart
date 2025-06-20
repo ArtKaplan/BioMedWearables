@@ -7,19 +7,19 @@ import 'loginStatus.dart';
 import 'steps.dart';
 
 class Impact {
-  static const baseURL = 'http://impact.dei.unipd.it/bwthw/';
+  static const baseURL = 'https://impact.dei.unipd.it/bwthw/';
   static const pingEndpoint = '/gate/v1/ping/';
   static const tokenEndpoint = '/gate/v1/token/';
   static const refreshEndpoint = '/gate/v1/refresh/';
-  static String stepsEndpoint = 'data/v1/steps/patients/';
+  static const stepsEndpoint = 'data/v1/steps/patients/';
   static const patientUsername = 'Jpefaq6m58';
 
   // day must be a string 'YYYY-MM-DD'
   static Future<int?> totalStepsDuringDay(String day) async {
     final stepsList = await stepsDuringDay(day);
 
-    if (stepsList == null) {
-      return null;
+    if (stepsList == null || stepsList.isEmpty) {
+      return 0;
     }
 
     int total = 0;
@@ -30,6 +30,8 @@ class Impact {
     return total;
   }
 
+
+/*
    //to debug when impact (my code) doesn't work
   static Future<List<Steps>> stepsDuringDay(String date) async {
     await Future.delayed(Duration(milliseconds: 100)); // Simulate delay
@@ -63,9 +65,9 @@ class Impact {
       ),
     ];
   } 
+*/
 
 
-/*
   // day must be a string 'YYYY-MM-DD'
   static Future<List<Steps>?> stepsDuringDay(day) async {
     //Initialize the result
@@ -77,7 +79,7 @@ class Impact {
     final url = Impact.baseURL + Impact.stepsEndpoint + Impact.patientUsername + '/day/$day/';
     final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
 
-    print(url); //TODO
+    print("stepsDuringDay url ="+url);
 
     //Get the response
     final response = await http.get(Uri.parse(url), headers: headers);
@@ -86,6 +88,9 @@ class Impact {
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
       result = [];
+
+      if (decodedResponse["data"].isEmpty) return [];
+
       for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
         result.add(
           Steps.fromJson(
@@ -102,7 +107,7 @@ class Impact {
 
     return result;
   } //StepsDuringDay
-  */
+  
 
   static Future<void> printPatientsList() async {
     var access = await _getAccess();
@@ -151,10 +156,10 @@ _getAccess() async {
     if (JwtDecoder.isExpired(refresh)) {
       print('_getAccesss : refresh is expired');
       await getTokenPair();
-      access = sp.getString('access'); //debug TODO
-      refresh = sp.getString('refresh'); //debug TODO
-      print('New access: $access');
-      print('New refresh: $refresh');
+      access = sp.getString('access'); //debug
+      refresh = sp.getString('refresh'); //debug 
+      print('New access: $access'); // debug
+      print('New refresh: $refresh'); // debug
     } else {
       await refreshTokens();
     }

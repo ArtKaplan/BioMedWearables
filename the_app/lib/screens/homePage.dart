@@ -5,7 +5,9 @@ import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
+import 'package:the_app/widgets/presentationButtons.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
+import 'package:the_app/widgets/presentationPageButton.dart';
 import 'package:the_app/screens/recommendHikePage.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,6 +42,7 @@ class _HomePageState extends State<HomePage> {
           );
         }
 
+        // catch an expired session
         if (snapshot.data == LoginStatus.expired) {
           logOutInfo();
 
@@ -59,6 +62,173 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildHomeScreen(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 50, 30, 15),
+              child: Image.asset('lib/pictures/logo.png'),
+            ),
+            const PresentationPageButton(), // TODO (used for creating presentationpage, it's a mistake if still here and can be removed)
+
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 30, 30, 50),
+              child: Text(
+                'Welcome, ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:',
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineSmall?.copyWith(fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            Consumer<StepsProvider>(
+              builder: (context, stepsProvider, _) {
+                return FutureBuilder<int>(
+                  future: stepsProvider.getTodayTotalSteps(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    final double stepsDouble = snapshot.data!.toDouble(); // amount of steps done today
+
+                    return SfRadialGauge(
+                      axes: <RadialAxis>[
+                        RadialAxis(
+                          minimum: 0,
+                          maximum: 10000, // this should become the provider of the step goal
+                          showLabels: false,
+                          showTicks: false,
+                          axisLineStyle: AxisLineStyle(
+                            thickness: 0.2,
+                            cornerStyle: CornerStyle.bothCurve,
+                            color: const Color(0xFFDE7C5A),
+                            thicknessUnit: GaugeSizeUnit.factor,
+                          ),
+                          pointers: <GaugePointer>[
+                            RangePointer(
+                              value: stepsDouble,
+                              cornerStyle: CornerStyle.bothCurve,
+                              width: 0.2,
+                              sizeUnit: GaugeSizeUnit.factor,
+                              color:
+                                  Theme.of(
+                                    context,
+                                  ).appBarTheme.titleTextStyle?.color,
+                            ),
+                          ],
+                          annotations: <GaugeAnnotation>[
+                            GaugeAnnotation(
+                              positionFactor: 0,
+                              angle: 90,
+                              widget: Text(
+                                '${stepsDouble.toStringAsFixed(0)} / 10000', // this should become the provider of the step goal
+                                style: Theme.of(context).textTheme.headlineSmall
+                                    ?.copyWith(fontSize: 30),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: const BottomNavigBar(currentPage: CurrentPage.home),
+    );
+  }
+
+/*
+  Widget _buildHomeScreen(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 50, 30, 15),
+              child: Image.asset('lib/pictures/logo.png'),
+            ),
+            const PresentationPageButton(), // TODO (used for creating presentationpage, it's a mistake if still here and can be removed)
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 30, 30, 50),
+              child: Text(
+                'Welcome, ${Provider.of<SettingsProvider>(context).name}! \n Today\'s goal:',
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineSmall?.copyWith(fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            FutureBuilder<int>(
+              future: context.watch<StepsProvider>().getTodayTotalSteps(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+
+                final double stepsDouble = snapshot.data!.toDouble(); // amount of steps done today
+
+                return SfRadialGauge(
+                  axes: <RadialAxis>[
+                    RadialAxis(
+                      minimum: 0,
+                      maximum: 10000, // this should become the provider of the step goal
+                      showLabels: false,
+                      showTicks: false,
+                      axisLineStyle: AxisLineStyle(
+                        thickness: 0.2,
+                        cornerStyle: CornerStyle.bothCurve,
+                        color: const Color(0xFFDE7C5A),
+                        thicknessUnit: GaugeSizeUnit.factor,
+                      ),
+                      pointers: <GaugePointer>[
+                        RangePointer(
+                          value: stepsDouble,
+                          cornerStyle: CornerStyle.bothCurve,
+                          width: 0.2,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          color:
+                              Theme.of(
+                                context,
+                              ).appBarTheme.titleTextStyle?.color,
+                        ),
+                      ],
+                      annotations: <GaugeAnnotation>[
+                        GaugeAnnotation(
+                          positionFactor: 0,
+                          angle: 90,
+                          widget: Text(
+                            '${stepsDouble.toStringAsFixed(0)} / 10000', // this should become the provider of the step goal
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineSmall?.copyWith(fontSize: 30),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: const BottomNavigBar(currentPage: CurrentPage.home),
+    );
+  }*/
+
+  /*
+  Widget _buildHomeScreen(BuildContext context) {
+    int steps = await context.read<StepsProvider>().getTodayTotalSteps();
+    double stepsDouble = steps.toDouble();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -69,6 +239,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.fromLTRB(30, 50, 30, 15),
               child: Image.asset('lib/pictures/logo.png'),
             ),
+            PresentationPageButton(),// TODO (used for creating presentationpage, it's a mistake if still here and can be removed)
             Container(
               padding: EdgeInsets.fromLTRB(30, 30, 30, 50),
               child: Text(
@@ -98,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                       value:
                           context
                               .watch<StepsProvider>()
-                              .todayTotalSteps
+                              .getTodayTotalSteps()
                               .toDouble(), // amount of steps done today
                       cornerStyle: CornerStyle.bothCurve,
                       width: 0.2,
@@ -115,10 +286,7 @@ class _HomePageState extends State<HomePage> {
                       positionFactor: 0,
                       angle: 90,
                       widget: Text(
-                        context
-                                .watch<StepsProvider>()
-                                .todayTotalSteps
-                                .toString() +
+                        stepsDouble.toString() +
                             ' / 10000', // this should become amount stepped today / goal //to get today's steps : context.watch<StepsProvider>().todayTotalSteps.toDouble()
                         style: Theme.of(
                           context,
@@ -151,5 +319,5 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.home),
     );
-  }
+  }*/
 }
