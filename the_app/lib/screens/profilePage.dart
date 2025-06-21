@@ -149,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage>{
               padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
               child: Text(
                 'Time your Hike',
-                style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -157,12 +157,14 @@ class _ProfilePageState extends State<ProfilePage>{
               padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
               child: Text(
                 'Which hike are you walking?',
-                style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),
             DropdownButton<String>(
               value: _chosenHike,
+              dropdownColor: Theme.of(context).textTheme.labelLarge?.color,
+              style: TextStyle(color:Theme.of(context).textTheme.titleLarge?.color),
               items: all_hikes.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -189,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage>{
               decoration: BoxDecoration(color: buttoncolor),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text(buttontitle, style: const TextStyle(color: Colors.white, fontSize:20),textAlign: TextAlign.center,),
+                title: Text(buttontitle, style: const TextStyle(color: Color(0xFFFFF1D7),fontSize:20),textAlign: TextAlign.center,),
                 onTap: (){
                   handleStartStop();
                 },
@@ -204,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage>{
               decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text("Reset timer", style: const TextStyle(color: Colors.white, fontSize:20),textAlign: TextAlign.center,),
+                title: Text("Reset timer", style: const TextStyle(color: Color(0xFFFFF1D7), fontSize:20),textAlign: TextAlign.center,),
                 onTap: (){
                   stopwatch.reset();
                 },
@@ -218,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage>{
               decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text("Save hike result", style: const TextStyle(color: Colors.white, fontSize:20),textAlign: TextAlign.center,),
+                title: Text("Save hike result", style: const TextStyle(color: Color(0xFFFFF1D7), fontSize:20),textAlign: TextAlign.center,),
                 onTap: (){
                   saveResult();
                 },

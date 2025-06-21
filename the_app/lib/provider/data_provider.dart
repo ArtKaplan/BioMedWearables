@@ -8,7 +8,7 @@ class DataProvider extends ChangeNotifier{
   
   int step_count = 0; //to update step counter on homepage
   double step_length = 0.7; //avg step_length for a men ... in meters
-  int step_weeklyGoal = 0; //changeable in settings
+  int step_weeklyGoal = 10000; //changeable in settings
 
 
 

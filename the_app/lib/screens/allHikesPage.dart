@@ -60,8 +60,8 @@ class _AllhikespageState extends State<Allhikespage>{
                   selected: selectedCategories.contains(category),
                   backgroundColor: Color(0xFF66101F),
                   selectedColor: Color(0xFF66101F),
-                  checkmarkColor: Colors.white,
-                  labelStyle: TextStyle(color: Colors.white),
+                  checkmarkColor: Color(0xFFFFF1D7),
+                  labelStyle: TextStyle(color: Color(0xFFFFF1D7)),
                   onSelected: (selected) {
                     setState((){
                       if (selected){
@@ -86,8 +86,8 @@ class _AllhikespageState extends State<Allhikespage>{
                     decoration: BoxDecoration(color: const Color(0xFFDE7C5A)),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      title: Text(hike.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                      subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: '+hike.steps.toInt().toString()+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Colors.white, fontStyle: FontStyle.italic),),
+                      title: Text(hike.name, style: const TextStyle(color: Color(0xFFFFF1D7), fontWeight: FontWeight.bold),),
+                      subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: '+hike.steps.toInt().toString()+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
                       onTap: () {
                         Navigator.push(
                             context,
