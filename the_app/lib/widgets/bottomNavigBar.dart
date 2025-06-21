@@ -15,14 +15,14 @@ class BottomNavigBar extends StatelessWidget {
   Widget build(BuildContext context) {
     Color getIconColor(CurrentPage page) {
       if(currentPage == page){
-          return Theme.of(context).textTheme.labelMedium?.color ?? Colors.white;
+          return Color(0xFFDE7C5A);
       } else {
-        return Theme.of(context).textTheme.labelLarge?.color ?? Colors.white;
+        return Color(0xFFFFF1D7);
       }
     }
     return  Container(
 
-      color: Theme.of(context).appBarTheme.titleTextStyle?.color,//Color(0xFF66101F),
+      color: Color(0xFF66101F),//Color(0xFF66101F),
       padding:EdgeInsets.fromLTRB(30, 10, 30, 30) ,
       child:
       Row(
@@ -42,8 +42,8 @@ class BottomNavigBar extends StatelessWidget {
         ),
         IconButton(
           icon:
-          Icon(Icons.analytics),
-          tooltip: 'Statistics',
+          Icon(IconData(0xe662, fontFamily: 'MaterialIcons')),
+          tooltip: 'Stopwatch',
           color:  getIconColor(CurrentPage.profile),
           onPressed: (){
             Navigator.push(
