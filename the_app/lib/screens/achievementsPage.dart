@@ -16,13 +16,13 @@ class AchievementsPage extends StatelessWidget {
           Column(
           children: [    
             Container(
-                padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
-                child: Text(
-                  'Keep it up!',
-                  style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
-                  textAlign: TextAlign.center,
-                ),
-              ),   
+              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+              child: Text(
+                'Keep it up!',
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),   
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

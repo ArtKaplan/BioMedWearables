@@ -5,10 +5,8 @@ import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
-import 'package:the_app/widgets/presentationButtons.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/presentationPageButton.dart';
-import 'package:the_app/screens/recommendHikePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
