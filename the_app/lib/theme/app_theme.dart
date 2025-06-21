@@ -13,6 +13,13 @@ class AppTheme {
       color: const Color(0xFFFFF1D7),
       titleTextStyle: TextStyle(fontSize: 20, color: Color(0xFF66101F)),
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: Color(0xFFDE7C5A),
+        textStyle: const TextStyle(color: Color(0xFF66101F))
+        
+      )
+    ),
     textTheme: const TextTheme(
       displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.bold, color: Color(0xFF66101F)),
       headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF66101F)),
