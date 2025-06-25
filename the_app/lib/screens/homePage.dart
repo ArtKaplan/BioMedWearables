@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     // Update steps when the page loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<StepsProvider>().updateTodaySteps();
+      context.read<SettingsProvider>().init();
     });
   }
 

@@ -322,7 +322,7 @@ class SettingsPage extends StatelessWidget {
                   );
                   
                   if (newStepLength != null) {
-                    settings.setStepLength(newStepLength); // Provider-Update
+                    settings.setStepLength(newValue: newStepLength);
                   }
                 },
               ),
@@ -363,7 +363,7 @@ class SettingsPage extends StatelessWidget {
                   );
                   
                   if (newMHR != null) {
-                    settings.setMaxHeartRate(newMHR); // Provider-Update
+                    settings.setMaxHeartRate(newValue: newMHR); // Provider-Update
                   }
                 },
               ),

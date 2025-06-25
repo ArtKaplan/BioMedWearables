@@ -14,12 +14,13 @@ import 'package:the_app/theme/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); 
   // Initialisiere SharedPreferences und prüfe Login-Status
-  final prefs = await SharedPreferences.getInstance();
+  final sp = await SharedPreferences.getInstance();
   //final loginStatus = await checkLoginStatus();echo
-  final username = await getUsername();
-  print(username);
-  final settingsProvider = SettingsProvider(prefs);
+  final username = sp.getString('username');
+  print('main: username = $username');
+  final settingsProvider = SettingsProvider(sp);
   await settingsProvider.init();
+  
 
   runApp(
     MultiProvider(
@@ -28,7 +29,7 @@ void main() async {
         //ChangeNotifierProvider(create: (context) => AwardProvider()),
         ChangeNotifierProvider(create: (context) => AwardProvider(Provider.of<StepsProvider>(context, listen: false),)), //to use StepsProvider in AwardProvider without Widget
         //ChangeNotifierProvider(create: (context) => SettingsProvider(prefs)),//..init(username)),
-        ChangeNotifierProvider.value(value: settingsProvider),
+        ChangeNotifierProvider(create: (context) => SettingsProvider(sp)),
       ],
       child: const MyApp(),
     ),
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
     return Builder(
       builder: (context) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme:
               Provider.of<SettingsProvider>(context).darkMode
                 ? AppTheme.darkTheme
@@ -59,10 +61,6 @@ class MyApp extends StatelessWidget {
               
               switch (snapshot.data) {
                 case LoginStatus.loggedIn:     
-                  /*print('ZZZZZZZZZZZZZZZZZZZZ');            
-                  //return StepsTestPage();//debug
-                  Provider.of<SettingsProvider>(context, listen: false).init(getUsername().toString());
-                  print('YYYYYYYYYYYYYYYYYYYY');*/
                   return  HomePage();
                 case LoginStatus.expired:
                   return SessionExpiredPage();

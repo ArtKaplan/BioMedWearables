@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/utils/loginStatus.dart';
+import 'package:the_app/screens/homePage.dart';
+import 'package:the_app/screens/settingsPage.dart';
+import 'package:the_app/screens/loginPage.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  late SharedPreferences _prefs;
+  //late SharedPreferences _prefs;
+  final SharedPreferences _prefs;
   SettingsProvider(this._prefs);
+  //String get username => _prefs.getString('username') ?? 'default';
 
-  late String? _username;
+  String? _username;
   String? get username => _username;
 
   /// Init and get provider variables
@@ -55,17 +60,87 @@ class SettingsProvider extends ChangeNotifier {
   static const double doubleError = -1.0;
   static const String dateError = '0000-00-00';
 
- 
-  Future<void> init() async{
-    _prefs = await SharedPreferences.getInstance();
-    _username = _prefs.getString('username');
-    print('INIT: username = $_username');
-    await _loadSettings();
+  Future<void> init({String? user}) async{
+    _username = _prefs.getString('username') ?? 'default';
     print('INIT: username = $_username');
     notifyListeners();
+    await loadSettings();
+    print('INIT: name = $name');
   }
 
-  
+  Future<void> loadSettings() async{
+    if(username == null || username == 'default'){
+      //load default settings
+        _age = null;
+        _birthday = null;
+        _darkMode = false;
+        _height = null;
+        _language = 'English';
+        _maxHeartRate_personalized = false;
+        _maxHeartRate = null;
+        _name = 'Jane Doe';
+        _pushNotifications = true;
+        _sex = null;
+        _stepLength_personalized = false;
+        _stepLength = null;
+        _weight = null;
+        notifyListeners();
+    } else{
+      _age = _prefs.getInt(_key('age')) ?? null;
+      _darkMode = _prefs.getBool(_key('darkMode')) ?? false;
+      _height = _prefs.getInt(_key('height'));      
+      _language = _prefs.getString(_key('language')) ?? 'English';
+      _maxHeartRate= _prefs.getInt(_key('maxHeartRate'));
+      _maxHeartRate_personalized = _prefs.getBool(_key('maxHeartRate_personalized')) ?? false;
+      _name = _prefs.getString(_key('name')) ?? 'Jane Doe';
+      _pushNotifications = _prefs.getBool(_key('pushNotifications')) ?? true;
+      _sex = _prefs.getString(_key('sex'));
+      _stepLength = _prefs.getInt(_key('stepLength'));
+      _stepLength_personalized = _prefs.getBool(_key('stepLength_personalized')) ?? false;
+      _weight = _prefs.getDouble(_key('weight'));
+
+      final birthdayStr = _prefs.getString(_key('birthday'));
+      _birthday = await _getBirthday(birthdayStr);
+      
+      notifyListeners();
+    }
+  }
+
+  Future<DateTime?> _getBirthday(String? birthdayString) async{
+    print('birthdayString = $birthdayString');
+    if (birthdayString == null) return null;
+
+    final parts = birthdayString.split('-'); 
+    if (parts.length != 3) return null;
+
+    final year = int.tryParse(parts[0]);
+    final month = int.tryParse(parts[1]);
+    final day = int.tryParse(parts[2]);
+
+    if (year == null || month == null || day == null) return null;
+    print('birthday as DateTime = ${DateTime(year, month, day)}');
+    return DateTime(year, month, day);
+  }
+
+  String _key(String baseKey) {
+    if (username != null && username!.isNotEmpty){
+      print('_key: Key = ${username}_$baseKey');
+      return '${username}_$baseKey';
+    } else{
+      print('_key: Key = $baseKey');
+      return baseKey;
+    }
+  }
+
+  Future<void> setName(String newName) async {
+    _name = newName;
+    await _prefs.setString(_key('name'), newName);
+    //await _save('name', newName);
+    notifyListeners();
+    print('setName: username = $username, name = $name');
+  }
+
+  /*
   Future<void> _loadSettings() async {
     _name = _prefs.getString(_key('name')) ?? 'Jane Doe';
     _darkMode = _prefs.getBool(_key('darkMode')) ?? false;
@@ -100,18 +175,13 @@ class SettingsProvider extends ChangeNotifier {
     print('key = ${_key('name')} : value = $_name');
     notifyListeners();
   }
+  */
 
-  String _key(String baseKey) {
-    if (username != null && username!.isNotEmpty){
-      //print('Key = ${_prefs.getString('username')!}_$baseKey');
-      return '${username}_$baseKey';
-    } else{
-      print('Key = $baseKey');
-      return baseKey;
-    }
-  }
 
+
+/*
   Future<void> _save<T>(String key, T? value) async {
+  
     print('BEFORE: Key = ${_key(key)} : value = ${_prefs.get(key)}');
     // if null set ERROR value because sharedPref cannot handle null
     if (value == null) {
@@ -143,7 +213,36 @@ class SettingsProvider extends ChangeNotifier {
 
     print('AFTER: Key = ${_key(key)} : value = ${_prefs.get(key)}');
   } 
+  */
   
+
+  Future<void> setDarkMode(bool value) async {
+    _darkMode = value;
+    //await _save('darkMode', value);
+    notifyListeners();
+  }
+
+  Future<void> setLanguage(String newLanguage) async {
+    _language = newLanguage;
+    //await _prefs.setString('language', newLanguage);
+    //await _save('language', newLanguage);
+    notifyListeners();
+  }
+
+  Future<void> setPushNotifications(bool newValue) async {
+    _pushNotifications = newValue;
+    //await _prefs.setBool('pushNotifications', newValue);
+    //await _save('pushNotifications', _pushNotifications);
+    notifyListeners();
+  }
+
+  Future<void> setSex(String? newSex) async {
+    _sex = newSex;
+    //await _prefs.setString('sex', _sex!);
+    //await _save('sex', _sex);
+    notifyListeners();
+  }
+
   Future<void> _saveDateTime(String key, DateTime? newBirthday) async {
     //birthday has to be converted to string to be save in sharedPreference!
     final birthdayString = "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
@@ -156,60 +255,9 @@ class SettingsProvider extends ChangeNotifier {
     }
   }
 
-  Future<DateTime?> _getBirthday(String? birthdayString) async{
-    print('birthdayString = $birthdayString');
-    if (birthdayString == null) return null;
-
-    final parts = birthdayString.split('-'); 
-    if (parts.length != 3) return null;
-
-    final year = int.tryParse(parts[0]);
-    final month = int.tryParse(parts[1]);
-    final day = int.tryParse(parts[2]);
-
-    if (year == null || month == null || day == null) return null;
-    print('birthday as DateTime = ${DateTime(year, month, day)}');
-    return DateTime(year, month, day);
-  }
-
-  Future<void> setName(String newName) async {
-    _name = newName;
-    //await _prefs.setString(_key('name'), _name);
-    await _save('name', newName);
-    notifyListeners();
-  }
-
-  Future<void> setDarkMode(bool value) async {
-    _darkMode = value;
-    //await _prefs.setBool('darkMode', value);
-    await _save('darkMode', value);
-    notifyListeners();
-  }
-
-  Future<void> setLanguage(String newLanguage) async {
-    _language = newLanguage;
-    //await _prefs.setString('language', newLanguage);
-    await _save('language', newLanguage);
-    notifyListeners();
-  }
-
-  Future<void> setPushNotifications(bool newValue) async {
-    _pushNotifications = newValue;
-    //await _prefs.setBool('pushNotifications', newValue);
-    await _save('pushNotifications', _pushNotifications);
-    notifyListeners();
-  }
-
-  Future<void> setSex(String? newSex) async {
-    _sex = newSex;
-    //await _prefs.setString('sex', _sex!);
-    await _save('sex', _sex);
-    notifyListeners();
-  }
-
   Future<void> setBirthday(DateTime? newBirthday) async {
     DateTime today = DateTime.now();
-    int? newAge;
+    int newAge = 0;
 
     if (newBirthday != null) {
       newAge = today.year - newBirthday.year;
@@ -218,72 +266,87 @@ class SettingsProvider extends ChangeNotifier {
         newAge--;
       }
       if (!maxHeartRate_personalized) {
-        await setMaxHeartRate(null);
+        await setMaxHeartRate();
       }
     }
 
-    _birthday = newBirthday;
-    await _saveDateTime(_key('birthday'), _birthday);
-    
-    print('age = $newAge');
-    _age = newAge;
-    await _save<int>('age', newAge);
+    //birthday has to be converted to string to be save in sharedPreference!
+    final birthdayString = "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
+    if(username != null && username!.isNotEmpty){ 
+      try{
+        _birthday = newBirthday;
+        await _prefs.setString(_key('birthday'), birthdayString);
+        _age = newAge;
+        await _prefs.setInt(_key('age'), newAge);
+      } catch(e){
+        print('Birthday is not valid: $e');
+
+      }
+    }
+    //await _save<int>('age', newAge);
     notifyListeners();
   }
 
   Future<void> setHeight(int? newHeight) async {
     _height = newHeight;
-    //await _prefs.setInt(_key('height'), _height!);
-    await _save<int>('height', newHeight);
-    await setStepLength(null); // Schrittweite nach Höhe zurücksetzen
+    await _prefs.setInt(_key('height'), _height!);
+    //await _save<int>('height', newHeight);
+    await setStepLength();
     notifyListeners();
   }
 
   Future<void> setWeight(double? newWeight) async {
     _weight = newWeight;
-    //await _prefs.setDouble(_key('weight'), _weight!); TODO
-    await _save('weight', _weight);
+    await _prefs.setDouble(_key('weight'), _weight!);
+    //await _save('weight', _weight);
     notifyListeners();
   }
 
   Future<void> setMaxHeartRate_personalized(bool newValue) async {
     _maxHeartRate_personalized = newValue;
-    await _save('maxHeartRate_personalized', newValue);
-    await setMaxHeartRate(null);
+    //await _save('maxHeartRate_personalized', newValue);
+    await _prefs.setBool(_key('maxHeartRate_personalized'), newValue);
+    await setMaxHeartRate();
     notifyListeners();
   }
 
-  Future<void> setMaxHeartRate(int? newValue) async {
-    if (_maxHeartRate_personalized) {
+  Future<void> setMaxHeartRate({int? newValue}) async {
+    if (newValue != null && _maxHeartRate_personalized) {
       _maxHeartRate = newValue;
-      await _save<int>('maxHeartRate', newValue);
+      await _prefs.setInt(_key('maxHeartRate'), _maxHeartRate!);
+      //await _save<int>('maxHeartRate', newValue);
     } else if (!_maxHeartRate_personalized && age != null) {
       _maxHeartRate = (208 - (0.7 * age!)).round();
-      await _save<int>('maxHeartRate', _maxHeartRate);
+      await _prefs.setInt(_key('maxHeartRate'), _maxHeartRate!);
+      //await _save<int>('maxHeartRate', _maxHeartRate);
     } else {
       _maxHeartRate = null;
-      await _save<int>('maxHeartRate', null);
+      await _prefs.remove(_key('maxHeartRate')); //TODO: klappt?
+     // await _save<int>('maxHeartRate', null);
     }
     notifyListeners();
   }
 
   Future<void> setStepLength_personalized(bool newValue) async {
     _stepLength_personalized = newValue;
-    await _save('stepLength_personalized', newValue);
-    await setStepLength(null);
+    await _prefs.setBool('stepLength_personalized', newValue);
+    //await setStepLength(null);
     notifyListeners();
   }
 
-  Future<void> setStepLength(int? newValue) async {
-    if (stepLength_personalized) {
+  Future<void> setStepLength({int? newValue}) async {
+    if (newValue != 0 && stepLength_personalized) {
       _stepLength = newValue;
-      await _save<int>('stepLength', newValue);
+      await _prefs.setInt(_key('stepLength'), _stepLength!);
+      //await _save<int>('stepLength', newValue);
     } else if (!stepLength_personalized && height != null) {
       _stepLength = (0.415 * (height ?? 0)).toInt();
-      await _save<int>('stepLength', _stepLength);
+      await _prefs.setInt(_key('stepLength'), _stepLength!);
+      //await _save<int>('stepLength', _stepLength);
     } else {
       _stepLength = null;
-      await _save<int>('stepLength', null);
+      await _prefs.remove(_key('stepLength')); //TODO: klappt?
+      //await _save<int>('stepLength', null);
     }
     notifyListeners();
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/utils/impact.dart';
@@ -93,8 +94,6 @@ class _LoginPageState extends State<LoginPage> {
       await sp.setString('access', accessToken);
       await sp.setString('refresh', refreshToken);
 
-      //await Provider.of<SettingsProvider>(context, listen: false).init(username); //todo: Arthur
-
       print('Tokens saved');
       return true;
     }
@@ -103,12 +102,13 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-
   // adds the username and password to shared preferences
   Future<void> _setUsernameAndPassord(username, password) async {
     final sp = await SharedPreferences.getInstance();
     await sp.setString('username', username);
     await sp.setString('password', password);
+    final settings = SettingsProvider(sp);
+    await settings.init();
   }
 
   // pings the server
@@ -195,12 +195,11 @@ class _LoginPageState extends State<LoginPage> {
                           ? null
                           : () async {
                             await _setLoggedIn();
-                            final prefs = await SharedPreferences.getInstance();
-                            final settingsProvider = SettingsProvider(prefs);
-                            print('Debug Login: username = ${prefs.getString('username')}'); //TODO Arthur TEST
-                            await settingsProvider.init(); //TODO Arthur TEST
-                            print('Debug Login: init done'); //TODO Arthur TEST 
                             if (!mounted) return;
+                            final sp = await SharedPreferences.getInstance();
+                            await sp.setString('username', 'debug');
+                            final settings = SettingsProvider(sp);
+                            await settings.init();
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
