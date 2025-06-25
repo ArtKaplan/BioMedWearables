@@ -1,11 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_app/provider/settings_provider.dart';
 import 'impact.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 enum LoginStatus { loggedIn, loggedOut, expired }
 
-Future<LoginStatus> checkLoginStatus() async {
+Future<LoginStatus> checkLoginStatus({SettingsProvider? settingsProvider}) async {
+  final prefs = await SharedPreferences.getInstance();
+  final settingsProvider = SettingsProvider(prefs);
   final sp = await SharedPreferences.getInstance();
   final bool isLoggedIn = sp.getBool('login_status') ?? false;
   final String? lastLoginString = sp.getString('last_login');
@@ -20,6 +23,9 @@ Future<LoginStatus> checkLoginStatus() async {
     return LoginStatus.expired;
   }
 
+  print('checkLoginStatus: username = ${sp.getString('username')}'); //TODO Arthur TEST
+  await settingsProvider.init(); //TODO Arthur TEST
+  print('checkLoginStatus: init done'); //TODO Arthur TEST
   return LoginStatus.loggedIn;
 }
 
@@ -74,4 +80,11 @@ Future<void> refreshTokens() async {
         'refreshTokens() : Failed to refresh token patients: ${response.statusCode}',
       );
   }
+}
+
+Future<String?> getUsername() async{ //DELETE ????
+  final sp = await SharedPreferences.getInstance();
+
+  String? username = sp.getString('username');
+  return username;
 }

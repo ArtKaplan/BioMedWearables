@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/provider/stepsProvider.dart';
-import 'package:the_app/screens/profilePage.dart';
-import 'package:the_app/screens/settingsPage.dart';
-import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
-import 'package:the_app/widgets/presentationButtons.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/presentationPageButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loginStatusFuture = checkLoginStatus();
+
 
     // Update steps when the page loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -57,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           });
           return const SizedBox(); // empty placeholder
         }
-
+        
         return _buildHomeScreen(context);
       },
     );

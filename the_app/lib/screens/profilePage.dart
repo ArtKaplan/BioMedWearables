@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
-import 'package:the_app/widgets/homeButton.dart';
-import 'package:the_app/widgets/logoutButton.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:the_app/widgets/barChart.dart';
-import 'package:the_app/screens/homePage.dart';
-import 'package:the_app/screens/settingsPage.dart';
-import 'package:the_app/screens/hikesPage.dart';
-import 'package:the_app/screens/achievementsPage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

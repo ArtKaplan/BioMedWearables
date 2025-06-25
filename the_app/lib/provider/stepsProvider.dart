@@ -17,7 +17,7 @@ class StepsProvider extends ChangeNotifier {
 
   //int get todayTotalSteps => _todaySteps.fold(0, (sum, s) => sum + s.value);
 
-  getTodaySteps() async {
+  Future<List<Steps>> getTodaySteps() async {
     final sp = await SharedPreferences.getInstance();
     if (sp.getBool("presentation_mode") ?? false) {
       return _presentation_todaySteps;
@@ -26,7 +26,7 @@ class StepsProvider extends ChangeNotifier {
     }
   }
 
-  getStepsEachDay() async {
+  Future<List<Object>> getStepsEachDay() async {
     final sp = await SharedPreferences.getInstance();
     if (sp.getBool("presentation_mode") ?? false) {
       return _presentation_todaySteps;

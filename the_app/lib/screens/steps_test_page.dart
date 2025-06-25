@@ -1,8 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:the_app/provider/stepsProvider.dart';
-import 'package:the_app/utils/impact.dart';
-import 'package:the_app/widgets/logoutButton.dart';
 /*
 class StepsTestPage extends StatelessWidget {
   const StepsTestPage({super.key});

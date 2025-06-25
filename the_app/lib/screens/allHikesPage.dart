@@ -15,7 +15,7 @@ import 'package:the_app/screens/thisHikePage.dart';
 
 
 class Allhikespage extends StatefulWidget {
-  Allhikespage({super.key});
+  const Allhikespage({super.key});
 
   @override
   State<Allhikespage> createState() => _AllhikespageState();
@@ -48,7 +48,7 @@ class _AllhikespageState extends State<Allhikespage>{
       } else {
         return Icon(Icons.favorite_border);
       }
-    };
+    }
     return Scaffold(
       body: Center(
         child: Column(
@@ -95,7 +95,7 @@ class _AllhikespageState extends State<Allhikespage>{
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text(hike.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                      subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: '+hike.steps.toInt().toString()+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Colors.white, fontStyle: FontStyle.italic),),
+                      subtitle:Text('Distance: ${hike.distance} km, Duration: ${hike.duration}, Steps: ${hike.steps.toInt()}\nTravel time from Padova station: ${hike.traveltime}', style: const TextStyle(color: Colors.white, fontStyle: FontStyle.italic),),
                       onTap: () {
                         Navigator.push(
                             context,

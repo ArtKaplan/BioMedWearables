@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/screens/homePage.dart';
-import 'package:the_app/screens/steps_test_page.dart';
 import 'package:the_app/utils/impact.dart';
 import 'package:http/http.dart' as http;
+import 'package:the_app/provider/settings_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,17 +29,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _tryLogin() async {
+
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
     final username = userController.text;
     final password = passwordController.text;
+    
 
     try {
       if (await _isServerOnline()) {
         if (await _isCredentialsCorrect(username, password)) {
           _setUsernameAndPassord(username, password);
+          print('LoginPage: username = $username');
           if (!mounted) return;
           await _setLoggedIn();
           if (!mounted) return;
@@ -89,6 +92,8 @@ class _LoginPageState extends State<LoginPage> {
       final sp = await SharedPreferences.getInstance();
       await sp.setString('access', accessToken);
       await sp.setString('refresh', refreshToken);
+
+      //await Provider.of<SettingsProvider>(context, listen: false).init(username); //todo: Arthur
 
       print('Tokens saved');
       return true;
@@ -190,6 +195,11 @@ class _LoginPageState extends State<LoginPage> {
                           ? null
                           : () async {
                             await _setLoggedIn();
+                            final prefs = await SharedPreferences.getInstance();
+                            final settingsProvider = SettingsProvider(prefs);
+                            print('Debug Login: username = ${prefs.getString('username')}'); //TODO Arthur TEST
+                            await settingsProvider.init(); //TODO Arthur TEST
+                            print('Debug Login: init done'); //TODO Arthur TEST 
                             if (!mounted) return;
                             Navigator.pushAndRemoveUntil(
                               context,

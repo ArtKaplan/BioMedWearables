@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/utils/awards.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
@@ -15,13 +14,25 @@ class AchievementsPage extends StatelessWidget {
     final awardProvider = Provider.of<AwardProvider>(context);
 
     //load awards on first loading of page
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      awardProvider.loadAwards();
-    });
+    /*WidgetsBinding.instance.addPostFrameCallback((_){
+      awardProvider.initAwardList();
+    });*/
 
     return Scaffold(
-      body:
-        SingleChildScrollView(
+      body: FutureBuilder<void>(
+        future: awardProvider.loadAwards(), //awardProvider.initAwardList(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Fehler: ${snapshot.error}"));
+          }
+
+          final unlocked = awardProvider.unlockedAwards;
+          final locked = awardProvider.lockedAwards;
+
+          return SingleChildScrollView(
+        //body: SingleChildScrollView(
         child: Column(
         children: [    
           Container(
@@ -49,14 +60,15 @@ class AchievementsPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),   
-          Consumer<AwardProvider>(
+          /*Consumer<AwardProvider>(
             builder: (context, provider, _) {
               if (provider.awards.isEmpty) {
                 return Center(child: CircularProgressIndicator());
               }
-              return _buildAwardsList(provider.unlockedAwards);
+              return _buildAwardsList(awardProvider.unlockedAwards);
           },
-        ),
+        ),*/
+        _buildAwardsList(unlocked),
         Container(
             padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
             child: Text(
@@ -65,15 +77,16 @@ class AchievementsPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),   
-        Consumer<AwardProvider>(
+        /*Consumer<AwardProvider>(
           builder: (context, provider, _) {
             if (provider.awards.isEmpty) {
               return Center(child: CircularProgressIndicator());
             }
-            return _buildAwardsList(provider.lockedAwards);
+            return _buildAwardsList(awardProvider.lockedAwards);
           },
-        ),
-        Container(
+        ),*/
+        _buildAwardsList(locked),
+        /*Container(
             padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
             child: Text(
               'All available awards:',
@@ -86,69 +99,44 @@ class AchievementsPage extends StatelessWidget {
               if (provider.awards.isEmpty) {
                 return Center(child: CircularProgressIndicator());
               }
-              return _buildAwardsList(provider.awards);
+              return _buildAwardsList(awardProvider.awards);
           },
-        ),
-      ],),),
-      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.achievements)
+        ),*/
+      ],
+      ),
+      );
+      },
+      ),
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.achievements),
     );
   } //build
 
   Widget _buildAwardsList(List<Award> awards) {
-  return SizedBox(
-    height: 200, // Feste Höhe für horizontal scroll
-    child: ListView.builder(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: awards.isNotEmpty
-        ? awards.length
-        : 1,
-      itemBuilder: awards.isEmpty
-        ? (context, index){
-          try{
-          return Container(
-            width: 200,
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-               Image.asset(
-                  'lib/pictures/awards/noAwards.png',
-                  width: 150,
-                  height: 150,
-               ),
-              Text('No awards unlocked (YET)!', 
-                textAlign: TextAlign.center),
-              ],
-            ),
-          );
-        } catch (e) {
-          print('Error rendering award $index: $e');
-          return ErrorWidget(e);
-        }
-        }
-        : (context, index) {
-          try {
-            final award = awards[index];
+    print(awards);
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: awards.isNotEmpty
+          ? awards.length
+          : 1,
+        itemBuilder: awards.isEmpty
+          ? (context, index){
+            try{
             return Container(
               width: 200,
               margin: EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                Text(award.title, 
-                  maxLines: 2, 
-                  textAlign: TextAlign.center),
                 Image.asset(
-                    award.imagePath,
+                    'lib/pictures/awards/noAwards.png',
                     width: 150,
                     height: 150,
-                    color: award.isUnlocked ? null : Colors.grey.withOpacity(0.9),
-                    colorBlendMode: BlendMode.saturation,
                 ),
-                Text(award.condition, 
-                  maxLines: 4, 
+                Text('No awards unlocked (YET)!', 
                   textAlign: TextAlign.center),
                 ],
               ),
@@ -157,8 +145,38 @@ class AchievementsPage extends StatelessWidget {
             print('Error rendering award $index: $e');
             return ErrorWidget(e);
           }
-        },
-      ),
-    );
+          }
+          : (context, index) {
+            try {
+              final award = awards[index];
+              return Container(
+                width: 200,
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                  Text(award.title, 
+                    maxLines: 2, 
+                    textAlign: TextAlign.center),
+                  Image.asset(
+                      award.imagePath,
+                      width: 150,
+                      height: 150,
+                      color: award.isUnlocked ? null : Colors.grey.withOpacity(0.9),
+                      colorBlendMode: BlendMode.saturation,
+                  ),
+                  Text(award.condition, 
+                    maxLines: 4, 
+                    textAlign: TextAlign.center),
+                  ],
+                ),
+              );
+            } catch (e) {
+              print('Error rendering award $index: $e');
+              return ErrorWidget(e);
+            }
+          },
+        ),
+      );
+  }
 }
-} //HikePage

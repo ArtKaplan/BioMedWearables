@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/utils/awards.dart';
 import 'package:the_app/provider/stepsProvider.dart';
-import 'package:provider/provider.dart';
 
 class AwardProvider extends ChangeNotifier{
   final StepsProvider stepsProvider;
@@ -18,10 +17,10 @@ class AwardProvider extends ChangeNotifier{
 
   Future<void> loadAwards() async{
     _awards = await _repo.loadAwards();
-    _checkAllConditions();
+    //_checkAllConditions();
     notifyListeners();
   }
-
+/*
   /// function to proof if target nr of steps for award have been reached
   /// get steplist, search for da with >=x steps
   /// if found: flip bool in json file of award to TRUE  
@@ -41,5 +40,5 @@ class AwardProvider extends ChangeNotifier{
     final award = _awards.firstWhere((aw) => aw.id == id);
     award.isUnlocked = isUnlocked;
     notifyListeners();
-  }
+  }*/
 }

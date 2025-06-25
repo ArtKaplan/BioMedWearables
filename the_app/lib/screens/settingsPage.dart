@@ -100,7 +100,7 @@ class SettingsPage extends StatelessWidget {
             SettingsSection(title: Text('Personal Information'),
             tiles: <SettingsTile>[
               SettingsTile(title: Text('Sex'),
-                value: settings.sex != null
+                value: settings.sex != null && settings.sex != 'ERROR'
                   ? Text('${settings.sex}')
                   : Text('Choose your sex'),
                 leading: Icon(Icons.person),
@@ -116,7 +116,7 @@ class SettingsPage extends StatelessWidget {
                   ),
               ),
               SettingsTile(title: Text('Birthday'),
-                value: settings.birthday != null
+                value: settings.birthday != null && settings.birthday.toString() != '0000-00-00T00:00:00.000'
                   ? Text('${settings.birthday?.day}.${settings.birthday?.month}.${settings.birthday?.year}')
                   : Text('Choose birthday'),
                 leading: Icon(Icons.cake),
@@ -134,13 +134,13 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               SettingsTile(title: Text('Age'),
-                value: settings.age != null
+                value: settings.age != null && settings.age != -1
                   ? Text('${settings.age}')
                   : Text('Select your birthday to calculate your age'),
                 leading: Icon(Icons.person),
               ),
               SettingsTile(title: Text('Height'),
-                value: settings.height != null 
+                value: settings.height != null && settings.height != -1
                   ? Text('${settings.height} cm') 
                   : Text('Choose your height') ,
                 leading: Icon(Icons.height),
@@ -187,7 +187,7 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               SettingsTile(title: Text('Weight'),
-                value: settings.weight != null
+                value: settings.weight != null && settings.weight != -1.0
                   ? Text('${settings.weight} kg')
                   : Text('Choose your weight'),
                 leading: Icon(Icons.monitor_weight),
@@ -240,7 +240,7 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               SettingsTile(title: Text('Step Length'),
-                value: settings.stepLength != null
+                value: settings.stepLength != null && settings.stepLength != -1
                   ? Text('${settings.stepLength} cm')
                   : Text('Select your heigth to calculate your approx. step length'),
                 leading: Icon(Icons.width_wide),
@@ -298,7 +298,7 @@ class SettingsPage extends StatelessWidget {
                   activeSwitchColor: Theme.of(context).textTheme.titleLarge?.color,
                 ),
               SettingsTile(title: Text('Auto Step Length'),
-                value: settings.stepLength != null && !settings.stepLength_personalized
+                value: settings.stepLength != null && !settings.stepLength_personalized && settings.stepLength != -1
                   ? Text('${settings.stepLength} cm')
                   : Text('Select your heigth to calculate your approx. step length'),
                 leading: Icon(Icons.width_wide),
@@ -306,7 +306,7 @@ class SettingsPage extends StatelessWidget {
                 
               ),
               SettingsTile(title: Text('Select Step Length'),
-                value: settings.stepLength != null && settings.stepLength_personalized
+                value: settings.stepLength != null && settings.stepLength_personalized && settings.stepLength != -1
                   ? Text('${settings.stepLength} cm') 
                   : Text('Choose your Step Length') ,
                 leading: Icon(Icons.width_wide),
@@ -340,14 +340,14 @@ class SettingsPage extends StatelessWidget {
                   activeSwitchColor: Theme.of(context).textTheme.titleLarge?.color,
                 ),
               SettingsTile(title: Text('Auto Max Heart Rate'),
-                  value: settings.maxHeartRate != null && !settings.maxHeartRate_personalized
+                  value: settings.maxHeartRate != null && !settings.maxHeartRate_personalized && settings.maxHeartRate != -1
                     ? Text('${settings.maxHeartRate} bpm')
                     : Text('Select your birthday to calculate your approx. max. heart rate'),
                   leading: Icon(Icons.monitor_heart),
                   enabled: !settings.maxHeartRate_personalized,
                 ),
                SettingsTile(title: Text('Select Max Heart Rate'),
-                value: settings.maxHeartRate != null && settings.maxHeartRate_personalized
+                value: settings.maxHeartRate != null && settings.maxHeartRate_personalized && settings.maxHeartRate != -1
                   ? Text('${settings.maxHeartRate} bpm') 
                   : Text('Choose your Max Heart Rate') ,
                 leading: Icon(Icons.monitor_heart),
@@ -383,6 +383,7 @@ class SettingsPage extends StatelessWidget {
       
       bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.settings),
     );
-  } //build
-} //SettingPage
+  } }
+
+//SettingPage
 
