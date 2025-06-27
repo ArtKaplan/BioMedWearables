@@ -62,10 +62,9 @@ class SettingsProvider extends ChangeNotifier {
 
   Future<void> init({String? user}) async{
     _username = _prefs.getString('username') ?? 'default';
-    print('INIT: username = $_username');
+    //print('INIT: username = $_username');
     notifyListeners();
     await loadSettings();
-    print('INIT: name = $name');
   }
 
   Future<void> loadSettings() async{
@@ -107,7 +106,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future<DateTime?> _getBirthday(String? birthdayString) async{
-    print('birthdayString = $birthdayString');
+    //print('birthdayString = $birthdayString');
     if (birthdayString == null) return null;
 
     final parts = birthdayString.split('-'); 
@@ -118,16 +117,16 @@ class SettingsProvider extends ChangeNotifier {
     final day = int.tryParse(parts[2]);
 
     if (year == null || month == null || day == null) return null;
-    print('birthday as DateTime = ${DateTime(year, month, day)}');
+    //print('birthday as DateTime = ${DateTime(year, month, day)}');
     return DateTime(year, month, day);
   }
 
   String _key(String baseKey) {
     if (username != null && username!.isNotEmpty){
-      print('_key: Key = ${username}_$baseKey');
+      //print('_key: Key = ${username}_$baseKey');
       return '${username}_$baseKey';
     } else{
-      print('_key: Key = $baseKey');
+      //print('_key: Key = $baseKey');
       return baseKey;
     }
   }
@@ -135,11 +134,11 @@ class SettingsProvider extends ChangeNotifier {
   Future<void> setName(String newName) async {
     _name = newName;
     await _prefs.setString(_key('name'), newName);
-    //await _save('name', newName);
     notifyListeners();
-    print('setName: username = $username, name = $name');
+    //print('setName: username = $username, name = $name');
   }
 
+  ///do NOT delete even if uncommented! If I want to implement null-handling with error code.
   /*
   Future<void> _loadSettings() async {
     _name = _prefs.getString(_key('name')) ?? 'Jane Doe';
@@ -178,81 +177,28 @@ class SettingsProvider extends ChangeNotifier {
   */
 
 
-
-/*
-  Future<void> _save<T>(String key, T? value) async {
-  
-    print('BEFORE: Key = ${_key(key)} : value = ${_prefs.get(key)}');
-    // if null set ERROR value because sharedPref cannot handle null
-    if (value == null) {
-      if (T == String) {
-        await _prefs.setString(key, stringError);
-      } else if (T == int) {
-        await _prefs.setInt(key, intError);
-      } else if (T == bool) {
-        await _prefs.setBool(key, false);
-      } else if (T == double) {
-        await _prefs.setDouble(key, doubleError);
-      } else {
-        throw Exception('Unsupported type for null value saving');
-      }
-      return;
-    }
-
-    if (value is String) {
-      await _prefs.setString(key, value);
-    } else if (value is int) {
-      await _prefs.setInt(key, value);
-    } else if (value is bool) {
-      await _prefs.setBool(key, value);
-    } else if (value is double) {
-      await _prefs.setDouble(key, value);
-    } else {
-      throw Exception('Unsupported type for SharedPreferences');
-    }
-
-    print('AFTER: Key = ${_key(key)} : value = ${_prefs.get(key)}');
-  } 
-  */
-  
-
   Future<void> setDarkMode(bool value) async {
     _darkMode = value;
-    //await _save('darkMode', value);
     notifyListeners();
   }
 
+  /// for international edition in th future
   Future<void> setLanguage(String newLanguage) async {
     _language = newLanguage;
     //await _prefs.setString('language', newLanguage);
-    //await _save('language', newLanguage);
     notifyListeners();
   }
 
-  Future<void> setPushNotifications(bool newValue) async {
+  Future<void> setPushNotifications(bool newValue) async { //TODO: do we still implement that or not???
     _pushNotifications = newValue;
     //await _prefs.setBool('pushNotifications', newValue);
-    //await _save('pushNotifications', _pushNotifications);
     notifyListeners();
   }
 
   Future<void> setSex(String? newSex) async {
     _sex = newSex;
-    //await _prefs.setString('sex', _sex!);
-    //await _save('sex', _sex);
+    await _prefs.setString('sex', _sex!);
     notifyListeners();
-  }
-
-  Future<void> _saveDateTime(String key, DateTime? newBirthday) async {
-    //birthday has to be converted to string to be save in sharedPreference!
-    final birthdayString = "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
-    if(username != null && username!.isNotEmpty){ 
-      if (newBirthday == null) {
-        await _prefs.setString(key, dateError);
-      } else {
-        await _prefs.setString(key, birthdayString);
-      }
-    }
   }
 
   Future<void> setBirthday(DateTime? newBirthday) async {
@@ -283,14 +229,12 @@ class SettingsProvider extends ChangeNotifier {
 
       }
     }
-    //await _save<int>('age', newAge);
     notifyListeners();
   }
 
   Future<void> setHeight(int? newHeight) async {
     _height = newHeight;
     await _prefs.setInt(_key('height'), _height!);
-    //await _save<int>('height', newHeight);
     await setStepLength();
     notifyListeners();
   }
@@ -298,13 +242,11 @@ class SettingsProvider extends ChangeNotifier {
   Future<void> setWeight(double? newWeight) async {
     _weight = newWeight;
     await _prefs.setDouble(_key('weight'), _weight!);
-    //await _save('weight', _weight);
     notifyListeners();
   }
 
   Future<void> setMaxHeartRate_personalized(bool newValue) async {
     _maxHeartRate_personalized = newValue;
-    //await _save('maxHeartRate_personalized', newValue);
     await _prefs.setBool(_key('maxHeartRate_personalized'), newValue);
     await setMaxHeartRate();
     notifyListeners();
@@ -314,15 +256,12 @@ class SettingsProvider extends ChangeNotifier {
     if (newValue != null && _maxHeartRate_personalized) {
       _maxHeartRate = newValue;
       await _prefs.setInt(_key('maxHeartRate'), _maxHeartRate!);
-      //await _save<int>('maxHeartRate', newValue);
     } else if (!_maxHeartRate_personalized && age != null) {
       _maxHeartRate = (208 - (0.7 * age!)).round();
       await _prefs.setInt(_key('maxHeartRate'), _maxHeartRate!);
-      //await _save<int>('maxHeartRate', _maxHeartRate);
     } else {
       _maxHeartRate = null;
       await _prefs.remove(_key('maxHeartRate')); //TODO: klappt?
-     // await _save<int>('maxHeartRate', null);
     }
     notifyListeners();
   }
@@ -330,7 +269,6 @@ class SettingsProvider extends ChangeNotifier {
   Future<void> setStepLength_personalized(bool newValue) async {
     _stepLength_personalized = newValue;
     await _prefs.setBool('stepLength_personalized', newValue);
-    //await setStepLength(null);
     notifyListeners();
   }
 
@@ -338,15 +276,12 @@ class SettingsProvider extends ChangeNotifier {
     if (newValue != 0 && stepLength_personalized) {
       _stepLength = newValue;
       await _prefs.setInt(_key('stepLength'), _stepLength!);
-      //await _save<int>('stepLength', newValue);
     } else if (!stepLength_personalized && height != null) {
       _stepLength = (0.415 * (height ?? 0)).toInt();
       await _prefs.setInt(_key('stepLength'), _stepLength!);
-      //await _save<int>('stepLength', _stepLength);
     } else {
       _stepLength = null;
       await _prefs.remove(_key('stepLength')); //TODO: klappt?
-      //await _save<int>('stepLength', null);
     }
     notifyListeners();
   }

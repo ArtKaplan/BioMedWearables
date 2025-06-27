@@ -11,7 +11,7 @@ class AchievementsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final awardProvider = Provider.of<AwardProvider>(context);
+    final awardProvider = Provider.of<AwardProvider>(context, listen: false);
 
     //load awards on first loading of page
     /*WidgetsBinding.instance.addPostFrameCallback((_){
@@ -19,8 +19,9 @@ class AchievementsPage extends StatelessWidget {
     });*/
 
     return Scaffold(
+      
       body: FutureBuilder<void>(
-        future: awardProvider.loadAwards(), //awardProvider.initAwardList(),
+        future: awardProvider.init(), //awardProvider.initAwardList(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -28,11 +29,13 @@ class AchievementsPage extends StatelessWidget {
             return Center(child: Text("Fehler: ${snapshot.error}"));
           }
 
-          final unlocked = awardProvider.unlockedAwards;
-          final locked = awardProvider.lockedAwards;
+          //final unlocked = awardProvider.unlockedAwards;
+          //final locked = awardProvider.lockedAwards;
 
           return SingleChildScrollView(
+          
         //body: SingleChildScrollView(
+          
         child: Column(
         children: [    
           Container(
@@ -60,15 +63,18 @@ class AchievementsPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),   
-          /*Consumer<AwardProvider>(
+          Consumer<AwardProvider>(
             builder: (context, provider, _) {
+              /*
               if (provider.awards.isEmpty) {
                 return Center(child: CircularProgressIndicator());
               }
-              return _buildAwardsList(awardProvider.unlockedAwards);
+              */
+              return _buildAwardsList(provider.unlockedAwards);
           },
-        ),*/
-        _buildAwardsList(unlocked),
+        ),
+
+        //_buildAwardsList(unlocked),
         Container(
             padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
             child: Text(
@@ -77,15 +83,17 @@ class AchievementsPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),   
-        /*Consumer<AwardProvider>(
+        Consumer<AwardProvider>(
           builder: (context, provider, _) {
+            /*
             if (provider.awards.isEmpty) {
               return Center(child: CircularProgressIndicator());
             }
-            return _buildAwardsList(awardProvider.lockedAwards);
+            */
+            return _buildAwardsList(provider.lockedAwards);
           },
-        ),*/
-        _buildAwardsList(locked),
+        ),
+        //_buildAwardsList(locked),
         /*Container(
             padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
             child: Text(
@@ -114,7 +122,7 @@ class AchievementsPage extends StatelessWidget {
   Widget _buildAwardsList(List<Award> awards) {
     print(awards);
     return SizedBox(
-      height: 200,
+      height: 270,
       child: ListView.builder(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
@@ -155,19 +163,27 @@ class AchievementsPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                  Text(award.title, 
-                    maxLines: 2, 
-                    textAlign: TextAlign.center),
-                  Image.asset(
-                      award.imagePath,
-                      width: 150,
-                      height: 150,
-                      color: award.isUnlocked ? null : Colors.grey.withOpacity(0.9),
-                      colorBlendMode: BlendMode.saturation,
-                  ),
-                  Text(award.condition, 
-                    maxLines: 4, 
-                    textAlign: TextAlign.center),
+                    SizedBox(
+                      height: 40, //2 lines
+                      child: Text(award.title, 
+                        maxLines: 2, 
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center),
+                    ),
+                    Image.asset(
+                        award.imagePath,
+                        width: 150,
+                        height: 150,
+                        color: award.isUnlocked ? null : Colors.grey.withOpacity(0.9),
+                        colorBlendMode: BlendMode.saturation,
+                    ),
+                    SizedBox(
+                      height: 80, //4 lines
+                      child: Text(award.condition, 
+                        maxLines: 4, 
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center),
+                    )
                   ],
                 ),
               );

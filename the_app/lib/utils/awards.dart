@@ -17,7 +17,8 @@ class Award {
     required this.category,
     required this.imagePath,
     required this.condition,
-    required this.isUnlocked,
+    this.isUnlocked = false,
+    //required this.isUnlocked,
   });
 
   //to get info from json file
@@ -28,12 +29,49 @@ class Award {
     category: json['category'] as String,
     imagePath: json['imagePath'] as String,
     condition: json['condition'] as String,
-    isUnlocked: json['isUnlocked'] as bool
+    isUnlocked: json['isUnlocked'] as bool,
+
+    /* //chatgpt
+    id: json['id'],
+    title: json['title'],
+    category: json['category'],
+    imagePath: json['imagePath'],
+    condition: json['condition'],
+    isUnlocked: json['isUnlocked'] ?? false,
+    */
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'category': category,
+      'imagePath': imagePath,
+      'condition': condition,
+      'isUnlocked': isUnlocked,
+    };
+  }
+
+  static String encode(List<Award> awards) => json.encode(
+    awards.map<Map<String, dynamic>>((a) => a.toJson()).toList(),
+
+    //stackOverflow
+    //award..map<Map<String, dynamic>>((award) => Award.toMap(award)).toList(),
+  );
+
+  static List<Award> decode(String awards) =>
+    (json.decode(awards) as List<dynamic>)
+        .map<Award>((item) => Award.fromJson(item))
+        .toList();
+    /*stackOverflow
+    (json.decode(awards) as List<dynamic>)
+          .map<Award>((item) => Award.fromJson(item))
+          .toList();
+    */
 }
 
-
+/*
 class AwardRepo{
   Future<List<Award>> loadAwards() async{
     final String jsonString = await rootBundle.loadString('lib/utils/awards.json');
@@ -41,4 +79,4 @@ class AwardRepo{
     return jsonList.map((json) => Award.fromJson(json)).toList();
   }
 }
-
+*/

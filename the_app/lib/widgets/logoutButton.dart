@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:the_app/provider/stepsProvider.dart';
 import 'package:the_app/screens/loginPage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 
@@ -9,7 +11,9 @@ class LogoutButton extends StatelessWidget {
 
   //change logout status and go to login page
   Future<void> _logout(BuildContext context) async {
-    logOutInfo();
+    final stepsProvider = Provider.of<StepsProvider>(context, listen: false);
+    await logOutInfo(stepsProvider: stepsProvider);
+    //logOutInfo();
 
     Navigator.pushAndRemoveUntil(
       // supress all screens so cannot come back from login page

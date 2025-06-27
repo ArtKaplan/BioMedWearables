@@ -13,22 +13,30 @@ import 'package:the_app/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); 
-  // Initialisiere SharedPreferences und prüfe Login-Status
   final sp = await SharedPreferences.getInstance();
   //final loginStatus = await checkLoginStatus();echo
-  final username = sp.getString('username');
-  print('main: username = $username');
   final settingsProvider = SettingsProvider(sp);
   await settingsProvider.init();
+  //final awardProvider = AwardProvider(sp);
+  //await awardProvider.init();
   
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => StepsProvider()),
-        //ChangeNotifierProvider(create: (context) => AwardProvider()),
-        ChangeNotifierProvider(create: (context) => AwardProvider(Provider.of<StepsProvider>(context, listen: false),)), //to use StepsProvider in AwardProvider without Widget
-        //ChangeNotifierProvider(create: (context) => SettingsProvider(prefs)),//..init(username)),
+        ChangeNotifierProvider(create: (context) => AwardProvider(sp)),
+        //ChangeNotifierProvider(create: (context) => StepsProvider()),
+        //ChangeNotifierProvider(create: (context) => StepsProvider(Provider.of<AwardProvider>(context, listen: false))),
+        ChangeNotifierProxyProvider<AwardProvider, StepsProvider>( //connection needed for award testing
+          create: (context) => StepsProvider(),
+          update: (context, awardProvider, stepsProvider) {
+            stepsProvider ??= StepsProvider();
+            stepsProvider.setAwardProvider(awardProvider);
+            awardProvider.setStepsProvider(stepsProvider);
+            return stepsProvider;
+          },
+        ),
+        //ChangeNotifierProvider(create: (context) => AwardProvider(Provider.of<StepsProvider>(context, listen: false),)), //to use StepsProvider in AwardProvider without Widget
         ChangeNotifierProvider(create: (context) => SettingsProvider(sp)),
       ],
       child: const MyApp(),

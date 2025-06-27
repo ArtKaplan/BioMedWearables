@@ -1,5 +1,7 @@
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/provider/settings_provider.dart';
+import 'package:the_app/provider/stepsProvider.dart';
 import 'impact.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -23,8 +25,15 @@ Future<LoginStatus> checkLoginStatus({SettingsProvider? settingsProvider}) async
   return LoginStatus.loggedIn;
 }
 
-Future<void> logOutInfo() async {
+Future<void> logOutInfo({StepsProvider? stepsProvider}) async {
   final sp = await SharedPreferences.getInstance();
+  /*
+  if(stepsProvider != null){
+    print('logOutInfo: stepsProvider != null');
+    await stepsProvider.cleanPresentationData();
+  }*/
+  
+  //await sp.remove('stepsEachDay_${sp.getString('username')}');
   await sp.setBool('login_status', false);
   await sp.remove('username');
   await sp.remove('password');

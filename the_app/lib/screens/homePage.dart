@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
@@ -7,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/presentationPageButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -25,12 +25,24 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _loginStatusFuture = checkLoginStatus();
 
-
+    /*
     // Update steps when the page loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<StepsProvider>().updateTodaySteps();
       context.read<SettingsProvider>().init();
+      context.read<AwardProvider>().init();
     });
+    */
+    Future.microtask(() {
+    final steps = context.read<StepsProvider>();
+    final settings = context.read<SettingsProvider>();
+    final award = context.read<AwardProvider>();
+
+    steps.updateTodaySteps();
+    settings.init();
+    award.init();
+    steps.init();
+  });
   }
 
   @override
