@@ -63,7 +63,6 @@ class StepsProvider extends ChangeNotifier {
     }
   }
 
-  //Future<List<Object>> getStepsEachDay() async {
   Future<List<DaySteps>> getStepsEachDay() async {
 
     final sp = await SharedPreferences.getInstance();
@@ -203,7 +202,7 @@ class StepsProvider extends ChangeNotifier {
     }
     notifyListeners();
 
-    //await _awardProvider?.checkStepAwards(this); //TODO
+    await _awardProvider?.checkStepAwards(this); //TODO
     //print('load2MonthData _awardProvider.checkStepAwards(this); DONE');
     await saveStepsEachDayForUser(_awardProvider?.username ?? 'default');
     print('load2MonthData saveStepsEachDayForUser DONE');

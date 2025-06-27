@@ -13,29 +13,17 @@ class AchievementsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final awardProvider = Provider.of<AwardProvider>(context, listen: false);
 
-    //load awards on first loading of page
-    /*WidgetsBinding.instance.addPostFrameCallback((_){
-      awardProvider.initAwardList();
-    });*/
-
     return Scaffold(
       
       body: FutureBuilder<void>(
-        future: awardProvider.init(), //awardProvider.initAwardList(),
+        future: awardProvider.init(), 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text("Fehler: ${snapshot.error}"));
           }
-
-          //final unlocked = awardProvider.unlockedAwards;
-          //final locked = awardProvider.lockedAwards;
-
           return SingleChildScrollView(
-          
-        //body: SingleChildScrollView(
-          
         child: Column(
         children: [    
           Container(
@@ -65,16 +53,12 @@ class AchievementsPage extends StatelessWidget {
           ),   
           Consumer<AwardProvider>(
             builder: (context, provider, _) {
-              /*
               if (provider.awards.isEmpty) {
                 return Center(child: CircularProgressIndicator());
               }
-              */
               return _buildAwardsList(provider.unlockedAwards);
           },
         ),
-
-        //_buildAwardsList(unlocked),
         Container(
             padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
             child: Text(
@@ -85,31 +69,12 @@ class AchievementsPage extends StatelessWidget {
           ),   
         Consumer<AwardProvider>(
           builder: (context, provider, _) {
-            /*
             if (provider.awards.isEmpty) {
               return Center(child: CircularProgressIndicator());
             }
-            */
             return _buildAwardsList(provider.lockedAwards);
           },
         ),
-        //_buildAwardsList(locked),
-        /*Container(
-            padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
-            child: Text(
-              'All available awards:',
-              style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
-              textAlign: TextAlign.center,
-            ),
-          ),   
-          Consumer<AwardProvider>(
-            builder: (context, provider, _) {
-              if (provider.awards.isEmpty) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return _buildAwardsList(awardProvider.awards);
-          },
-        ),*/
       ],
       ),
       );

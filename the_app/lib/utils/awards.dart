@@ -30,15 +30,6 @@ class Award {
     imagePath: json['imagePath'] as String,
     condition: json['condition'] as String,
     isUnlocked: json['isUnlocked'] as bool,
-
-    /* //chatgpt
-    id: json['id'],
-    title: json['title'],
-    category: json['category'],
-    imagePath: json['imagePath'],
-    condition: json['condition'],
-    isUnlocked: json['isUnlocked'] ?? false,
-    */
     );
   }
 
@@ -70,13 +61,3 @@ class Award {
           .toList();
     */
 }
-
-/*
-class AwardRepo{
-  Future<List<Award>> loadAwards() async{
-    final String jsonString = await rootBundle.loadString('lib/utils/awards.json');
-    final List<dynamic> jsonList = json.decode(jsonString);
-    return jsonList.map((json) => Award.fromJson(json)).toList();
-  }
-}
-*/
