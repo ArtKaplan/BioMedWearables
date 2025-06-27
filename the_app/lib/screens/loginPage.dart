@@ -137,6 +137,10 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Column(
               children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(30, 50, 30, 15),
+                  child: Image.asset('lib/pictures/logo.png'),
+                ),
                 TextFormField(
                   controller: userController,
                   decoration: const InputDecoration(
