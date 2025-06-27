@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/provider/award_provider.dart';
+import 'package:the_app/utils/awards.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:the_app/widgets/barChart.dart';
+import 'package:provider/provider.dart';
+
 
 
 class AchievementsPage extends StatelessWidget {
@@ -9,13 +11,22 @@ class AchievementsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final awardProvider = Provider.of<AwardProvider>(context, listen: false);
+
     return Scaffold(
-      //appBar: AppBar(title: Text('Achievements Page')),
-      body: Column(
-        children: [
-          Column(
-          children: [    
-            Container(
+      
+      body: FutureBuilder<void>(
+        future: awardProvider.init(), 
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Fehler: ${snapshot.error}"));
+          }
+          return SingleChildScrollView(
+        child: Column(
+        children: [    
+          Container(
               padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
               child: Text(
                 'Keep it up!',
@@ -23,80 +34,130 @@ class AchievementsPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),   
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                Column(children: [
-                  Text("20", style: TextStyle(fontSize: 80)), // this 20 needs to be a streak amount
-                  Text("weeks of walking", style: TextStyle(fontSize: 20)),
-                ],),
-                Icon(Icons.local_fire_department, color: Colors.orange, size: 150.0,),
-              ],),],
-          ),
-           BarChartSample3(), // must update based on the info of the past 7 days
-            Row(
+          Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              Column(
-                children: [
-                Text("30k", style: TextStyle(fontSize: 80)), // this needs to be weekly goal - sum of all steps from start of week up until now
-                Text("steps removed of \n your weekly goal", style: TextStyle(fontSize: 20)),
+              Column(children: [
+                Text("20", style: TextStyle(fontSize: 80)), // this 20 needs to be a streak amount
+                Text("weeks of walking", style: TextStyle(fontSize: 20)),
               ],),
-              SizedBox(
-                height: 150,
-                width: 150,
-                child: 
-                SfRadialGauge(axes: <RadialAxis>[
-                        RadialAxis(
-                          canScaleToFit: true,
-                          minimum: 0,
-                          maximum: 100,
-                          showLabels: false,
-                          showTicks: false,
-                          startAngle: 270,
-                          endAngle: 270,
-                          axisLineStyle: AxisLineStyle(
-                            thickness: 0.2,
-                            cornerStyle: CornerStyle.bothCurve,
-                            color: Color.fromARGB(30, 0, 169, 181),
-                            thicknessUnit: GaugeSizeUnit.factor,
-                          ),
-                          pointers: <GaugePointer>[
-                          RangePointer(
-                              value: 75, // make dynamic
-                              width: 0.2,
-                              sizeUnit: GaugeSizeUnit.factor,
-                              cornerStyle: CornerStyle.startCurve,
-                              gradient: const SweepGradient(colors: <Color>[
-                                Colors.orange,
-                                Color.fromARGB(255, 255, 214, 127)
-                              ], stops: <double>[
-                                0.25,
-                                0.75
-                              ])),
-                          MarkerPointer(
-                            value: 75, // make dynamic
-                            markerType: MarkerType.circle,
-                            markerHeight: 25,
-                            markerWidth: 25,
-                            color: Colors.orange,
-                            )
-                          ],
-                          annotations: <GaugeAnnotation>[
-                            GaugeAnnotation(
-                            positionFactor: 0,
-                            angle: 90,
-                            widget: Text(
-                            '75%', // this should be the amount of steps stepped this week / weekly goal 
-                            style: TextStyle(fontSize: 30),
-                            ))
-                            ],
-                        )
-                      ]), 
-                ),  
+              Icon(Icons.local_fire_department, color: Colors.orange, size: 150.0,),
             ],),
-        ],),
-      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.achievements)
+          Container(
+            padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+            child: Text(
+              'Your awards:',
+              style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+              textAlign: TextAlign.center,
+            ),
+          ),   
+          Consumer<AwardProvider>(
+            builder: (context, provider, _) {
+              if (provider.awards.isEmpty) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return _buildAwardsList(provider.unlockedAwards);
+          },
+        ),
+        Container(
+            padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+            child: Text(
+              'Locked awards:',
+              style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+              textAlign: TextAlign.center,
+            ),
+          ),   
+        Consumer<AwardProvider>(
+          builder: (context, provider, _) {
+            if (provider.awards.isEmpty) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return _buildAwardsList(provider.lockedAwards);
+          },
+        ),
+      ],
+      ),
+      );
+      },
+      ),
+      bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.achievements),
     );
   } //build
-} //HikePage
+
+  Widget _buildAwardsList(List<Award> awards) {
+    print(awards);
+    return SizedBox(
+      height: 270,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: awards.isNotEmpty
+          ? awards.length
+          : 1,
+        itemBuilder: awards.isEmpty
+          ? (context, index){
+            try{
+            return Container(
+              width: 200,
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                Image.asset(
+                    'lib/pictures/awards/noAwards.png',
+                    width: 150,
+                    height: 150,
+                ),
+                Text('No awards unlocked (YET)!', 
+                  textAlign: TextAlign.center),
+                ],
+              ),
+            );
+          } catch (e) {
+            print('Error rendering award $index: $e');
+            return ErrorWidget(e);
+          }
+          }
+          : (context, index) {
+            try {
+              final award = awards[index];
+              return Container(
+                width: 200,
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 40, //2 lines
+                      child: Text(award.title, 
+                        maxLines: 2, 
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center),
+                    ),
+                    Image.asset(
+                        award.imagePath,
+                        width: 150,
+                        height: 150,
+                        color: award.isUnlocked ? null : Colors.grey.withOpacity(0.9),
+                        colorBlendMode: BlendMode.saturation,
+                    ),
+                    SizedBox(
+                      height: 80, //4 lines
+                      child: Text(award.condition, 
+                        maxLines: 4, 
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center),
+                    )
+                  ],
+                ),
+              );
+            } catch (e) {
+              print('Error rendering award $index: $e');
+              return ErrorWidget(e);
+            }
+          },
+        ),
+      );
+  }
+}

@@ -5,7 +5,7 @@ import 'package:the_app/screens/thisHikePage.dart';
 
 
 class FavouriteHikesPage extends StatefulWidget {
-  FavouriteHikesPage({super.key});
+  const FavouriteHikesPage({super.key});
 
   @override
   State<FavouriteHikesPage> createState() => _FavouritehikespageState();
@@ -22,7 +22,7 @@ class _FavouritehikespageState extends State<FavouriteHikesPage>{
       } else {
         return Icon(Icons.favorite_border);
       }
-    };
+    }
     return Scaffold(
       body: Center(
         child: Column(

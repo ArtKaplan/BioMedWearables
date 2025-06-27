@@ -76,10 +76,10 @@ class Impact {
     var access = await _getAccess(); // get the access token
 
     //Create the (representative) request
-    final url = Impact.baseURL + Impact.stepsEndpoint + Impact.patientUsername + '/day/$day/';
+    final url = '${Impact.baseURL}${Impact.stepsEndpoint}${Impact.patientUsername}/day/$day/';
     final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
 
-    print("stepsDuringDay url ="+url);
+    print("stepsDuringDay url =$url");
 
     //Get the response
     final response = await http.get(Uri.parse(url), headers: headers);
@@ -141,7 +141,7 @@ class Impact {
 }
 
 // updates the tokens if expired
-_getAccess() async {
+Future<String?>? _getAccess() async {
   final sp = await SharedPreferences.getInstance();
   var access = sp.getString('access');
   var refresh = sp.getString('refresh');

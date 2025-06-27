@@ -16,7 +16,7 @@ class PingButton extends StatelessWidget {
   }
 }
 
-_pingServer(BuildContext context) async {
+Future<void> _pingServer(BuildContext context) async {
   final url = Impact.baseURL + Impact.pingEndpoint;
   final uri = Uri.parse(url);
   final scaffoldMessenger = ScaffoldMessenger.of(

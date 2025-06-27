@@ -7,7 +7,7 @@ import 'package:the_app/screens/thisHikePage.dart';
 
 
 class Allhikespage extends StatefulWidget {
-  Allhikespage({super.key});
+  const Allhikespage({super.key});
 
   @override
   State<Allhikespage> createState() => _AllhikespageState();
@@ -40,7 +40,7 @@ class _AllhikespageState extends State<Allhikespage>{
       } else {
         return Icon(Icons.favorite_border);
       }
-    };
+    }
     return Scaffold(
       body: Center(
         child: Column(

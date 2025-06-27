@@ -19,7 +19,7 @@ class _Thishikepage extends State<Thishikepage>{
       } else {
         return Icon(Icons.favorite_border);
       }
-    };
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.hike.name),

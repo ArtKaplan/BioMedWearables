@@ -14,4 +14,16 @@ class Steps {
   String toString() {
     return 'Steps(time: $time, value: $value)';
   }
+
+  factory Steps.fromMap(Map<String, dynamic> json) {
+    return Steps(
+      time: DateTime.parse(json['time']),
+      value: json['value'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'time': time.toIso8601String(),
+    'value': value,
+  };
 }

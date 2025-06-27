@@ -5,6 +5,7 @@ import 'package:the_app/provider/settings_provider.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/logoutButton.dart';
+import 'package:the_app/utils/numPicker.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -13,7 +14,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = Provider.of<SettingsProvider>(context);//access to Settingsprovider
     return Scaffold(
-      appBar: AppBar(title: Text('Settings') , automaticallyImplyLeading: false),
       body: 
         SettingsList(
           lightTheme: SettingsThemeData(settingsListBackground: Theme.of(context).textTheme.labelLarge?.color, titleTextColor: Theme.of(context).textTheme.titleLarge?.color),
@@ -100,7 +100,7 @@ class SettingsPage extends StatelessWidget {
             SettingsSection(title: Text('Personal Information'),
             tiles: <SettingsTile>[
               SettingsTile(title: Text('Sex'),
-                value: settings.sex != null
+                value: settings.sex != null && settings.sex != 'ERROR'
                   ? Text('${settings.sex}')
                   : Text('Choose your sex'),
                 leading: Icon(Icons.person),
@@ -116,7 +116,7 @@ class SettingsPage extends StatelessWidget {
                   ),
               ),
               SettingsTile(title: Text('Birthday'),
-                value: settings.birthday != null
+                value: settings.birthday != null && settings.birthday.toString() != '0000-00-00T00:00:00.000'
                   ? Text('${settings.birthday?.day}.${settings.birthday?.month}.${settings.birthday?.year}')
                   : Text('Choose birthday'),
                 leading: Icon(Icons.cake),
@@ -134,68 +134,74 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               SettingsTile(title: Text('Age'),
-                value: settings.age != null
+                value: settings.age != null && settings.age != -1
                   ? Text('${settings.age}')
                   : Text('Select your birthday to calculate your age'),
                 leading: Icon(Icons.person),
               ),
               SettingsTile(title: Text('Height'),
-                value: settings.heigth != null 
-                  ? Text('${settings.heigth} cm') 
+                value: settings.height != null && settings.height != -1
+                  ? Text('${settings.height} cm') 
                   : Text('Choose your height') ,
                 leading: Icon(Icons.height),
                 trailing: Icon(Icons.arrow_drop_down),
                 onPressed: (context) {
+                  int wholeNumber = settings.height ?? 175;
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
+                    
                     builder: (context) {
-                      return StatefulBuilder(
-                        builder: (context, setState) {
-                          int wholeNumber = 175; 
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  NumberPicker(
-                                    minValue: 30,
-                                    maxValue: 240,
-                                    value: wholeNumber,
-                                    onChanged: (value) => setState(() => wholeNumber = value),
-                                  ),
-                                  const Text(' cm'),
-                                ],
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  final int newHeight = wholeNumber;
-                                  settings.setHeight(newHeight);
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Save'),
-                          ),],
-                        );
+                      return SafeArea(
+                        child: StatefulBuilder(
+                          builder: (context, setState) {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    NumberPicker(
+                                      minValue: 30,
+                                      maxValue: 240,
+                                      value: wholeNumber,
+                                      onChanged: (value) => setState(() => wholeNumber = value),
+                                    ),
+                                    const Text(' cm'),
+                                  ],
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    final int newHeight = wholeNumber;
+                                    settings.setHeight(newHeight);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Save'),
+                            ),
+                            ],
+                          );
                       },
-                    );
+                    ),);
                   },
                 );
                 },
               ),
               SettingsTile(title: Text('Weight'),
-                value: settings.weight != null
+                value: settings.weight != null && settings.weight != -1.0
                   ? Text('${settings.weight} kg')
                   : Text('Choose your weight'),
                 leading: Icon(Icons.monitor_weight),
                 trailing: Icon(Icons.arrow_drop_down),
                 onPressed: (context) {
+                  double weight = settings.weight ?? 75.6;
+                  int wholeNumber = weight.floor(); 
+                  int decimal = ((weight - wholeNumber) * 10).floor();
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     builder: (context) {
-                      return StatefulBuilder(
+                      return SafeArea(child: StatefulBuilder(
                         builder: (context, setState) {
-                          int wholeNumber = 75; 
-                          int decimal = 6;
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -228,13 +234,13 @@ class SettingsPage extends StatelessWidget {
                           ),],
                         );
                       },
-                    );
+                    ),);
                   },
                 );
                 },
               ),
               SettingsTile(title: Text('Step Length'),
-                value: settings.stepLength != null
+                value: settings.stepLength != null && settings.stepLength != -1
                   ? Text('${settings.stepLength} cm')
                   : Text('Select your heigth to calculate your approx. step length'),
                 leading: Icon(Icons.width_wide),
@@ -276,12 +282,91 @@ class SettingsPage extends StatelessWidget {
                 );
                 },*/
               ),
-              SettingsTile(title: Text('Resting Heart Rate'),
-                  value: settings.restingHeartRate != null
-                    ? Text('${settings.restingHeartRate} bpm')
-                    : Text('Select your birthday to calculate your approx. resting heart rate'),
+            
+            ],),
+
+
+            /*+++++++++++++++++++++++++++++++++++++++++
+            +++++++++++++++ Step Length +++++++++++++++
+            +++++++++++++++++++++++++++++++++++++++++++*/
+            SettingsSection(title: Text('Step Length'),
+            tiles: <SettingsTile>[
+               SettingsTile.switchTile(title: Text('Personalize Step Length'),
+                  leading: Icon(Icons.width_wide),
+                  initialValue: settings.stepLength_personalized,
+                  onToggle: (value) => settings.setStepLength_personalized(value),
+                  activeSwitchColor: Theme.of(context).textTheme.titleLarge?.color,
+                ),
+              SettingsTile(title: Text('Auto Step Length'),
+                value: settings.stepLength != null && !settings.stepLength_personalized && settings.stepLength != -1
+                  ? Text('${settings.stepLength} cm')
+                  : Text('Select your heigth to calculate your approx. step length'),
+                leading: Icon(Icons.width_wide),
+                enabled: !settings.stepLength_personalized,
+                
+              ),
+              SettingsTile(title: Text('Select Step Length'),
+                value: settings.stepLength != null && settings.stepLength_personalized && settings.stepLength != -1
+                  ? Text('${settings.stepLength} cm') 
+                  : Text('Choose your Step Length') ,
+                leading: Icon(Icons.width_wide),
+                trailing: Icon(Icons.arrow_drop_down),
+                enabled: settings.stepLength_personalized,
+                onPressed: (context) async {
+                  final newStepLength = await showNumberPickerDialog(
+                    context: context,
+                    initialValue: settings.stepLength ?? 72,
+                    minValue: 40,
+                    maxValue: 110,
+                    unit: 'cm',
+                  );
+                  
+                  if (newStepLength != null) {
+                    settings.setStepLength(newValue: newStepLength);
+                  }
+                },
+              ),
+            ],),
+
+            /*+++++++++++++++++++++++++++++++++++++++++
+            +++++++++++++++ HEART RATE ++++++++++++++++
+            +++++++++++++++++++++++++++++++++++++++++++*/
+            SettingsSection(title: Text('Heart Rate'),
+            tiles: <SettingsTile>[
+              SettingsTile.switchTile(title: Text('Personalize Max Heart Rate'),
                   leading: Icon(Icons.monitor_heart),
-                )
+                  initialValue: settings.maxHeartRate_personalized,
+                  onToggle: (value) => settings.setMaxHeartRate_personalized(value),
+                  activeSwitchColor: Theme.of(context).textTheme.titleLarge?.color,
+                ),
+              SettingsTile(title: Text('Auto Max Heart Rate'),
+                  value: settings.maxHeartRate != null && !settings.maxHeartRate_personalized && settings.maxHeartRate != -1
+                    ? Text('${settings.maxHeartRate} bpm')
+                    : Text('Select your birthday to calculate your approx. max. heart rate'),
+                  leading: Icon(Icons.monitor_heart),
+                  enabled: !settings.maxHeartRate_personalized,
+                ),
+               SettingsTile(title: Text('Select Max Heart Rate'),
+                value: settings.maxHeartRate != null && settings.maxHeartRate_personalized && settings.maxHeartRate != -1
+                  ? Text('${settings.maxHeartRate} bpm') 
+                  : Text('Choose your Max Heart Rate') ,
+                leading: Icon(Icons.monitor_heart),
+                trailing: Icon(Icons.arrow_drop_down),
+                enabled: settings.maxHeartRate_personalized,
+                onPressed: (context) async {
+                  final newMHR = await showNumberPickerDialog(
+                    context: context,
+                    initialValue: settings.maxHeartRate ?? 191, //default value
+                    minValue: 130,
+                    maxValue: 240,
+                    unit: 'bpm',
+                  );
+                  
+                  if (newMHR != null) {
+                    settings.setMaxHeartRate(newValue: newMHR); // Provider-Update
+                  }
+                },
+              ),
             ]),
           SettingsSection(title: Text('Logout'),
             tiles: <SettingsTile>[
@@ -298,6 +383,7 @@ class SettingsPage extends StatelessWidget {
       
       bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.settings),
     );
-  } //build
-} //SettingPage
+  } }
+
+//SettingPage
 

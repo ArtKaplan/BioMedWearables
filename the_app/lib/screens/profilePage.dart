@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
+<<<<<<< HEAD
 import 'dart:async';
 import 'package:the_app/data/hike.dart';
+=======
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:the_app/widgets/barChart.dart';
+>>>>>>> Arthur
 
 
 

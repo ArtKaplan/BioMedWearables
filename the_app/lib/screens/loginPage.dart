@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/utils/impact.dart';
 import 'package:http/http.dart' as http;
+import 'package:the_app/provider/settings_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,17 +30,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _tryLogin() async {
+
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
     final username = userController.text;
     final password = passwordController.text;
+    
 
     try {
       if (await _isServerOnline()) {
         if (await _isCredentialsCorrect(username, password)) {
           _setUsernameAndPassord(username, password);
+          print('LoginPage: username = $username');
           if (!mounted) return;
           await _setLoggedIn();
           if (!mounted) return;
@@ -97,12 +102,13 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-
   // adds the username and password to shared preferences
   Future<void> _setUsernameAndPassord(username, password) async {
     final sp = await SharedPreferences.getInstance();
     await sp.setString('username', username);
     await sp.setString('password', password);
+    final settings = SettingsProvider(sp);
+    await settings.init();
   }
 
   // pings the server
@@ -131,6 +137,10 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Column(
               children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(30, 50, 30, 15),
+                  child: Image.asset('lib/pictures/logo.png'),
+                ),
                 TextFormField(
                   controller: userController,
                   decoration: const InputDecoration(
@@ -190,6 +200,10 @@ class _LoginPageState extends State<LoginPage> {
                           : () async {
                             await _setLoggedIn();
                             if (!mounted) return;
+                            final sp = await SharedPreferences.getInstance();
+                            await sp.setString('username', 'debug');
+                            final settings = SettingsProvider(sp);
+                            await settings.init();
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/presentationButtons.dart';
-import 'package:provider/provider.dart';
-import 'package:the_app/provider/StepsProvider.dart';
 
 class PresentationPage extends StatelessWidget {
   const PresentationPage({super.key});

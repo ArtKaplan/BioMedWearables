@@ -69,7 +69,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated duration: ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.duration}',
+                  text: hike.duration,
                 ),
               ],
             ),
