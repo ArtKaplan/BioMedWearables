@@ -5,6 +5,7 @@ import 'package:the_app/provider/settings_provider.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/logoutButton.dart';
+import 'package:the_app/widgets/resetSettingsButton.dart';
 import 'package:the_app/utils/numPicker.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -368,19 +369,23 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
             ]),
-          SettingsSection(title: Text('Logout'),
-            tiles: <SettingsTile>[
-              SettingsTile(title: Text('Logout'),
-                leading: Icon(Icons.logout),
-                trailing: LogoutButton(),
-              )
-          ],
-        ),
-      ],),
-
-        //LogoutButton(), // TODO: change design or integrate elsewhere
-
-      
+            SettingsSection(title: Text('Reset'),
+                tiles: <SettingsTile>[
+                  SettingsTile(title: Text('Reset Settings'),
+                    leading: Icon(Icons.delete),
+                    trailing: ResetSettingsButton(),
+                  )
+              ],
+            ),
+            SettingsSection(title: Text('Logout'),
+              tiles: <SettingsTile>[
+                SettingsTile(title: Text('Logout'),
+                  leading: Icon(Icons.logout),
+                  trailing: LogoutButton(),
+                )
+            ],
+          ),
+        ],),     
       bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.settings),
     );
   } }

@@ -121,6 +121,25 @@ class SettingsProvider extends ChangeNotifier {
     return DateTime(year, month, day);
   }
 
+  Future<void> deleteSettings() async{
+    if(_prefs.getString('username') != null){
+      await _prefs.remove(_key('age'));
+      await _prefs.remove(_key('birthday'));
+      await _prefs.remove(_key('darkMode'));
+      await _prefs.remove(_key('height'));
+      await _prefs.remove(_key('language'));
+      await _prefs.remove(_key('maxHeartRate'));
+      await _prefs.remove(_key('maxHeartRate_personalized'));
+      await _prefs.remove(_key('name'));
+      await _prefs.remove(_key('pushNotifications'));
+      await _prefs.remove(_key('sex'));
+      await _prefs.remove(_key('stepLength'));
+      await _prefs.remove(_key('stepLength_personalized'));
+      await _prefs.remove(_key('weight'));
+      notifyListeners();
+    } else{print('no username detected');}
+  }
+
   String _key(String baseKey) {
     if (username != null && username!.isNotEmpty){
       //print('_key: Key = ${username}_$baseKey');
@@ -211,6 +230,7 @@ class SettingsProvider extends ChangeNotifier {
           (newBirthday.month == today.month && newBirthday.day > today.day)) {
         newAge--;
       }
+      _age = newAge;
       if (!maxHeartRate_personalized) {
         await setMaxHeartRate();
       }
@@ -228,7 +248,7 @@ class SettingsProvider extends ChangeNotifier {
         print('Birthday is not valid: $e');
 
       }
-    }
+    } else{_age = null;}
     notifyListeners();
   }
 

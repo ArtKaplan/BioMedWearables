@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/data/hike.dart';
 import 'package:the_app/provider/stepsProvider.dart';
-import 'package:the_app/provider/data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/screens/thisHikePage.dart';
 
@@ -76,7 +75,7 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                 return FutureBuilder<dynamic>(
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
-                    int step_goal = Provider.of<DataProvider>(context).step_weeklyGoal;
+                    int step_goal = Provider.of<StepsProvider>(context).step_weeklyGoal;
                     double deficit = getDeficit([10000,11000,12000,12000,12000,15000,10000], step_goal); // change this to snapshot.data
                     if(deficit>=0){
                       Hike recommended_hike = getHike(deficit);
