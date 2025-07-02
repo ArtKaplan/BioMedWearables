@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/data/hike.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:the_app/widgets/BarChart2.dart';
+import 'package:the_app/provider/hiketracking_provider.dart';
+import 'package:provider/provider.dart';
+
+
 
 class Hikedescrpage extends StatelessWidget {
   final Hike hike;
@@ -11,6 +16,24 @@ class Hikedescrpage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hikeProvider = context.watch<HikeTracker>();
+    final hikeStats = context.watch<HikeTracker>().getDetailedTimesForHike(hike.name);
+    print('hikeStats = $hikeStats');
+
+    //data for BarCharts - Duration, Difficullty
+    final List<String> x_Index = hikeStats.map((e) => e['index'].toString()).toList();
+    final List<double> y_Duration = hikeStats.map((e) => (e['duration'] as Duration).inSeconds / 3600).toList(); //convert. from sec to h
+    final List<double> y_Diffiulty = hikeStats.map((e) {
+      final value = e['difficulty'];
+      if (value is num) {
+        return value.toDouble();
+      } else if (value is String) {
+        return double.tryParse(value) ?? 0.0;
+      } else {
+        return 0.0;
+      }
+    }).toList();
+
     List getAxisListTime(){
       List AxisList = [];
       List<String> AxisListx = [];
@@ -48,8 +71,6 @@ class Hikedescrpage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
               child: Text(
                 'About this hike',
-                style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
-                textAlign: TextAlign.center,
               ),
             ),
           RichText(
@@ -241,11 +262,49 @@ class Hikedescrpage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
+        SizedBox(height: 10),
+        if (hikeStats.isEmpty)
+          Text('You did not complete this hike yet!')
+        else
+          Table(
+            border: TableBorder.all(color: Colors.grey),
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            columnWidths: {
+              0: FixedColumnWidth(50),
+              1: FixedColumnWidth(110),
+              2: FlexColumnWidth(),
+            },
+            children: [
+              TableRow(
+                decoration: BoxDecoration(color: Colors.grey[300]),
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(8), child: Text('#', style: TextStyle(fontWeight: FontWeight.bold))),
+                  Padding(
+                      padding: EdgeInsets.all(8), child: Text('Date', style: TextStyle(fontWeight: FontWeight.bold))),
+                  Padding(
+                      padding: EdgeInsets.all(8), child: Text('Duration', style: TextStyle(fontWeight: FontWeight.bold))),
+                ],
+              ),
+              ...hikeStats.map((e) {
+                final dur = e['duration'] as Duration;
+                final durText =
+                    "${dur.inHours}h${(dur.inMinutes % 60).toString().padLeft(2, '0')}min${(dur.inSeconds % 60).toString().padLeft(2, '0')}s";
+                return TableRow(children: [
+                  Padding(padding: EdgeInsets.all(8), child: Text('${e['index']}')),
+                  Padding(padding: EdgeInsets.all(8), child: Text(e['date'])),
+                  Padding(padding: EdgeInsets.all(8), child: Text(durText)),
+                ]);
+              }).toList(),  
+            ],
+          ),
+      
         RichText(
             text: TextSpan(
               style: DefaultTextStyle.of(context).style,
               children: [
-                TextSpan(text: 'Well done! You have done this hike ${hike.times.length} times already! \n', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: 'Well done! You have done this hike ${hikeStats.length} times already! \n', style: TextStyle(fontWeight: FontWeight.bold)),
+                //TextSpan(text: 'Well done! You have done this hike ${hike.times.length} times already! \n', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
                   text: 'Check out your stats for this hike below. How do you like your progress?',
                 ),
@@ -253,10 +312,12 @@ class Hikedescrpage extends StatelessWidget {
             ),
           ),
         Container(height: 350, width : 350, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),child:
-          SimpleBarChart(xAxisList: getAxisListTime()[0], yAxisList: getAxisListTime()[1], xAxisName: 'Hike #', yAxisName: 'Time [h]', interval: 1),
+          SimpleBarChart(xAxisList: x_Index, yAxisList: y_Duration, xAxisName: 'Hike #', yAxisName: 'Time [h]', interval: 1),          
+          //SimpleBarChart(xAxisList: getAxisListTime()[0], yAxisList: getAxisListTime()[1], xAxisName: 'Hike #', yAxisName: 'Time [h]', interval: 1),
         ),
         Container(height: 350, width : 350, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),child:
-          SimpleBarChart(xAxisList: getAxisListDiff()[0], yAxisList: getAxisListDiff()[1], xAxisName: 'Hike #', yAxisName: 'Difficulty', interval: 1),
+          SimpleBarChart(xAxisList: x_Index, yAxisList: y_Diffiulty, xAxisName: 'Hike #', yAxisName: 'Difficulty', interval: 1),
+          //SimpleBarChart(xAxisList: getAxisListDiff()[0], yAxisList: getAxisListDiff()[1], xAxisName: 'Hike #', yAxisName: 'Difficulty', interval: 1),
         ),
         ],
       ),

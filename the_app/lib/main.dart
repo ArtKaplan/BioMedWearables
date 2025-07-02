@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/data/hike.dart';
 import 'package:the_app/provider/award_provider.dart';
+import 'package:the_app/provider/hiketracking_provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/provider/stepsProvider.dart';
@@ -17,6 +19,8 @@ void main() async {
   //final loginStatus = await checkLoginStatus();echo
   final settingsProvider = SettingsProvider(sp);
   await settingsProvider.init();
+  //final hikeProvider = HikeTracker();
+  //await hikeProvider.init();
   //final awardProvider = AwardProvider(sp);
   //await awardProvider.init();
   
@@ -36,8 +40,18 @@ void main() async {
             return stepsProvider;
           },
         ),
+        ChangeNotifierProxyProvider<AwardProvider, HikeTracker>( //connection needed for award testing
+          create: (context) => HikeTracker(sp),
+          update: (context, awardProvider, hikeProvider) {
+            hikeProvider ??= HikeTracker(sp);
+            hikeProvider.setAwardProvider(awardProvider);
+            awardProvider.setHikeProvider(hikeProvider);
+            return hikeProvider;
+          },
+        ),
         //ChangeNotifierProvider(create: (context) => AwardProvider(Provider.of<StepsProvider>(context, listen: false),)), //to use StepsProvider in AwardProvider without Widget
         ChangeNotifierProvider(create: (context) => SettingsProvider(sp)),
+        //ChangeNotifierProvider<HikeTracker>.value(value: hikeProvider),
       ],
       child: const MyApp(),
     ),

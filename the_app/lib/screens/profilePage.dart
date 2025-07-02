@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:the_app/data/hike.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:the_app/widgets/barChart.dart';
+import 'package:provider/provider.dart';
+import 'package:the_app/provider/hiketracking_provider.dart';
 
 
 
@@ -16,17 +18,26 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>{
   // taken from https://www.geeksforgeeks.org/how-to-create-a-stopwatch-app-in-flutter/
+  late HikeTracker hikeProvider;
   late Stopwatch stopwatch;
   late Timer t;
   
   @override
   void initState() {
     super.initState();
+    hikeProvider = Provider.of<HikeTracker>(context, listen: false);
     stopwatch = Stopwatch();
     t = Timer.periodic(Duration(milliseconds: 30), (timer) {
       setState(() {});
     });
   }
+
+  @override
+  void dispose() {
+    t.cancel();
+    super.dispose();
+  }
+
   String buttontitle = "Start stopwatch";
   Color? buttoncolor = Color(0xFFDE7C5A);
   void handleStartStop() {
@@ -58,18 +69,32 @@ class _ProfilePageState extends State<ProfilePage>{
           return StatefulBuilder(
             builder: (context, setStateDialog){
               return AlertDialog(
-                content: Column(mainAxisSize: MainAxisSize.min, children: [Text('How tired are you after the hike?'),
-                Slider(
-                  value: _currentValue,
-                  max: 10,
-                  divisions: 100,
-                  label: _currentValue.toStringAsFixed(1),
-                  onChanged: (double value) {
-                    setStateDialog(() {
-                      _currentValue = value;
-                    });
-                  },
-                )]),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min, 
+                  children: [
+                    Text('How tired are you after the hike?'),
+                    Slider(
+                      value: _currentValue,
+                      max: 10,
+                      divisions: 100,
+                      label: _currentValue.toStringAsFixed(1),
+                      onChanged: (double value) {
+                        setStateDialog(() {
+                          _currentValue = value;
+                        });
+                      },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0), // Anpassbarer Abstand
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text('Easy'),  // left end
+                      Text('Hard'),  //right end
+                    ],
+                  ),
+                ),
+                ]),
                 actions: <Widget>[
                   TextButton(
                     child: Text('OK'),
@@ -116,14 +141,19 @@ class _ProfilePageState extends State<ProfilePage>{
               TextButton(
                 child: Text('Yes'),
                 onPressed: () async {
+                  final duration = stopwatch.elapsed;
                   setState((){
                     hikelist[index].times.add(stopwatch.elapsed);
                   });
+                  stopwatch.reset();
+                  t.cancel();
                   Navigator.of(context).pop();
                   double difficulty = await getDifficulty();
                   setState((){
                     hikelist[index].difficulties.add(difficulty);
                   });
+                  await hikeProvider.saveCompletedHike(_chosenHike!, duration, difficulty);
+                  
                 },
               ),
               TextButton(
@@ -144,7 +174,7 @@ class _ProfilePageState extends State<ProfilePage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(

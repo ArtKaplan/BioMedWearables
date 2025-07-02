@@ -39,6 +39,14 @@ Future<void> logOutInfo({StepsProvider? stepsProvider}) async {
   await sp.remove('password');
   await sp.remove('access');
   await sp.remove('refresh');
+
+  //##########################################################################################
+  //##########################################################################################
+  //only for debug purposes!!! DO NOT LEAVE IT UNCOMMENTED AFTER NOT NEEDING IT ANYMORE TODO
+  //await sp.clear(); DELETES ENTIRE SHARED PREFS
+  //##########################################################################################
+  //##########################################################################################
+
 }
 
 Future<void> getTokenPair() async {

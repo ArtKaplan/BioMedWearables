@@ -7,7 +7,7 @@ import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/homePage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 import 'dart:convert';
-
+import 'package:the_app/provider/hiketracking_provider.dart';
 
 class AwardProvider extends ChangeNotifier{
 
@@ -17,12 +17,15 @@ class AwardProvider extends ChangeNotifier{
   StepsProvider? _stepsProvider;
   void setStepsProvider(StepsProvider provider) {
     _stepsProvider = provider;
-}
+  }
 
+  HikeTracker? _hikeProvider;
+  void setHikeProvider(HikeTracker provider) {
+    _hikeProvider = provider;
+  }
 
   final String _keyPrefix = 'awards_';
   late List<Award> _awards;
-
 
   //List<Award> _awards = [];
   //final AwardRepo _repo = AwardRepo();
@@ -89,7 +92,13 @@ class AwardProvider extends ChangeNotifier{
       print('loadAwardsUser: checkStepAwards DONE');
       notifyListeners();
     }
+    if (_hikeProvider != null) {
+      await _hikeProvider!.checkAllHikeAwards();
+      print('loadAwardsUser: checkAllHikeAwards DONE');
+      notifyListeners();
+    }
   }
+
   
   Future<void> unlockAward(String id, String username) async {
     final index = _awards.indexWhere((a) => a.id == id);
@@ -97,21 +106,19 @@ class AwardProvider extends ChangeNotifier{
       _awards[index].isUnlocked = true;
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String key = '$_keyPrefix$username';
+      final String key = '$_keyPrefix$username';//username + _keyPrefix + id;
       await prefs.setString(key, Award.encode(_awards));
+      print('key = $key, unlocked = ${Award.encode(_awards)}');
 
       notifyListeners();
     }
   }
-
-
 
   Future<void> checkStepAwards(StepsProvider stepsProvider) async {
     print('checkStepAwards: START');
     final stepsList = await stepsProvider.getStepsEachDay();
 
     print('StepsList in checkStepAwards: $stepsList');
-
 
     final Map<String, int> awardsMap = {
       'steps_20k': 20000,

@@ -8,7 +8,6 @@ import 'package:the_app/screens/settingsPage.dart';
 class ResetSettingsButton extends StatelessWidget {
   const ResetSettingsButton({super.key});
 
-  //change logout status and go to login page
   Future<void> _resetSettings(BuildContext context) async {
     final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
     await settingsProvider.deleteSettings();
