@@ -3,6 +3,8 @@ import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/utils/awards.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:provider/provider.dart';
+import 'package:the_app/widgets/barChart2.dart';
+
 
 
 

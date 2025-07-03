@@ -69,6 +69,7 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
         await sp.setBool('presentation_mode', !previousState);
         setState(() {
           light = value;
+          print(sp.getBool('presentation_mode'));
         });
       },
     );

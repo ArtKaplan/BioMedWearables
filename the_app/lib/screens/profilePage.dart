@@ -3,7 +3,6 @@ import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'dart:async';
 import 'package:the_app/data/hike.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:the_app/widgets/barChart.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/hiketracking_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage>{
   void initState() {
     super.initState();
     SharedPreferences.getInstance().then((sp) {
-      final pres_mode = sp.getBool('presentation_mode') ?? false;
+      setState((){pres_mode = sp.getBool('presentation_mode') ?? false;});
       });
     hikeProvider = Provider.of<HikeTracker>(context, listen: false);
     stopwatch = Stopwatch();
