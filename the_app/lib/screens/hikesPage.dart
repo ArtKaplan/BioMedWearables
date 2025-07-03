@@ -19,8 +19,9 @@ class HikesPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            Container(height:150, child:Image.asset('lib/pictures/logo.png')),
             Container(
-              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+              padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
               child: Text(
                 'Ready to reach your goal?',
                 style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),

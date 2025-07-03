@@ -47,7 +47,7 @@ class AchievementsPage extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
             child: Text(
               'Your awards:',
-              style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+              style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
               textAlign: TextAlign.center,
             ),
           ),   
@@ -63,7 +63,7 @@ class AchievementsPage extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
             child: Text(
               'Locked awards:',
-              style: TextStyle(color: Color(0xFF66101F), fontSize: 25),
+              style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
               textAlign: TextAlign.center,
             ),
           ),   
