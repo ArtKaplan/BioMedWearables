@@ -76,7 +76,7 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
                     int step_goal = Provider.of<StepsProvider>(context).step_weeklyGoal;
-                    double deficit = getDeficit([10000,11000,12000,12000,12000,15000,10000], step_goal); // change this to snapshot.data
+                    double deficit = getDeficit(snapshot.data!, step_goal); // change this to snapshot.data, this still doesn't work :////
                     if(deficit>=0){
                       Hike recommended_hike = getHike(deficit);
                     return Card(

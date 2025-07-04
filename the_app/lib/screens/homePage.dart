@@ -35,11 +35,11 @@ class _HomePageState extends State<HomePage> {
     */
     Future.microtask(() {
     final steps = context.read<StepsProvider>();
-    final settings = context.read<SettingsProvider>();
+    // final settings = context.read<SettingsProvider>();
     final award = context.read<AwardProvider>();
 
     steps.updateTodaySteps();
-    settings.init();
+    // settings.init();
     award.init();
     steps.init();
   });
