@@ -29,6 +29,163 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  void getGDPR4(){
+    showDialog( // taken from https://www.dhiwise.com/post/how-to-build-customizable-pop-ups-with-flutter-dialog
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: RichText(
+            text: TextSpan(
+              style: Theme.of(context).textTheme.bodyLarge,
+              children: [
+                TextSpan(text: 'Consent\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(
+                  text: '• Do you agree to the collection and processing of your steps, heartrate and any additional information you provide in settings?\n'
+                ),
+                TextSpan(
+                  text: '• Are you aware of the information included below?\n \n'
+                ),
+                TextSpan(
+                  text: 'For any questions or for the full removal of your account, including all connected data, contact us at', style: TextStyle(fontStyle: FontStyle.italic)
+                ),
+                TextSpan(
+                  text: ' privacy@stepoutside.it \n'
+                ),
+                TextSpan(
+                  text: 'Complaints may be made to', style: TextStyle(fontStyle: FontStyle.italic)
+                ),
+                TextSpan(
+                  text: ' Garante per la Protezione dei Dati Personal (e-mail front office: urp@gpdp.it)'
+                ),
+              ],
+            ),
+          ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HomePage()),
+                    //MaterialPageRoute(builder: (_) => const StepsTestPage()),//DEBUG 
+                    
+                    (route) => false,
+                  );
+                },
+              ),
+              TextButton(
+                child: Text('No (you cannot use the application)'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  void getGDPR3(){
+      showDialog( // taken from https://www.dhiwise.com/post/how-to-build-customizable-pop-ups-with-flutter-dialog
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: RichText(
+            text: TextSpan(
+              style: Theme.of(context).textTheme.bodyLarge,
+              children: [
+                TextSpan(text: 'Additional personal data\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(
+                  text: 'To enhance your experience, you can add additional personal data in the settings. This data can be easily editted and removed in settings at any time. The data you entered in the settings is the only additional data stored at our back-end.'
+                ),
+              ],
+            ),
+          ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Continue →'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  getGDPR4();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+  void getGDPR2(){
+      showDialog( // taken from https://www.dhiwise.com/post/how-to-build-customizable-pop-ups-with-flutter-dialog
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: RichText(
+            text: TextSpan(
+              style: Theme.of(context).textTheme.bodyLarge,
+              children: [
+                TextSpan(text: 'Which data will we collect automatically?\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(
+                  text: 'For basic functionality, we need to collect and process your'
+                ),
+                TextSpan(
+                  text: ' steps ', style: TextStyle(fontStyle: FontStyle.italic)
+                ),
+                TextSpan(
+                  text: 'and'
+                ),
+                TextSpan(
+                  text: ' heart rate ', style: TextStyle(fontStyle: FontStyle.italic)
+                ),
+                TextSpan(
+                  text: 'from your wearable. This information is necessary for the operation of this application.'
+                ),
+              ],
+            ),
+          ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Continue →'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  getGDPR3();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+  void getGDPR(){
+      showDialog( // taken from https://www.dhiwise.com/post/how-to-build-customizable-pop-ups-with-flutter-dialog
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: RichText(
+            text: TextSpan(
+              style: Theme.of(context).textTheme.bodyLarge,
+              children: [
+                TextSpan(text: 'Privacy notice \n', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(
+                  text: 'Step Outside highly values your privacy. To make it simple for you, let us explain which of your data we will collect and process, and how you can edit or delete them.'
+                ),
+              ],
+            ),
+          ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Continue →'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  getGDPR2();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
   Future<void> _tryLogin() async {
 
     if (!_formKey.currentState!.validate()) return;
@@ -47,13 +204,8 @@ class _LoginPageState extends State<LoginPage> {
           if (!mounted) return;
           await _setLoggedIn();
           if (!mounted) return;
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => const HomePage()),
-            //MaterialPageRoute(builder: (_) => const StepsTestPage()),//DEBUG 
-            
-            (route) => false,
-          );
+          // hierrr
+          getGDPR();
         } else {
           if (!mounted) return; //mounted = is part of a tree
           _showMessage('Wrong credentials');
@@ -204,13 +356,7 @@ class _LoginPageState extends State<LoginPage> {
                             await sp.setString('username', 'debug');
                             final settings = SettingsProvider(sp);
                             await settings.init();
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const HomePage(),
-                              ),
-                              (route) => false,
-                            );
+                            getGDPR();
                           },
                   child: const Text('Login (debug)'),
                 ),
