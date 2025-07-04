@@ -13,13 +13,21 @@ Icon getIcon(Hike hike){
       }
     }
 
-double getDeficit(steps, goal){
+double getDeficit(steps, goal) {
   double total = 0;
-  for(var i=steps.length-1;i>steps.length-8; i--){
-    total = total + steps[i];
+  int count = 0;
+
+  for (int i = steps.length - 1; count < 7; i--, count++) {
+    if (i >= 0) { // negative if not enough elements
+      total += steps[i].value;
+    } else {
+      total += 0; 
+    }
   }
-  return goal*7 - total;
+
+  return goal * 7 - total;
 }
+
 Hike getHike(deficit){
   double difference = 100000;
   double new_difference = 0;
@@ -76,7 +84,13 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
                     int step_goal = Provider.of<StepsProvider>(context).step_weeklyGoal;
-                    double deficit = getDeficit([10000,11000,12000,12000,12000,15000,10000], step_goal); // change this to snapshot.data
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return const CircularProgressIndicator();
+                    }
+                    if(!snapshot.hasData || snapshot.data==0){
+                      return const Text("step data not available.");
+                    }
+                    double deficit = getDeficit(snapshot.data!, step_goal); // change this to snapshot.data, this still doesn't work :////
                     if(deficit>=0){
                       Hike recommended_hike = getHike(deficit);
                     return Card(

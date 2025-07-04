@@ -3,9 +3,9 @@ import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'dart:async';
 import 'package:the_app/data/hike.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:the_app/widgets/barChart.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/hiketracking_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -21,10 +21,15 @@ class _ProfilePageState extends State<ProfilePage>{
   late HikeTracker hikeProvider;
   late Stopwatch stopwatch;
   late Timer t;
+  int extra = 0;
+  bool pres_mode = false;
   
   @override
   void initState() {
     super.initState();
+    SharedPreferences.getInstance().then((sp) {
+      setState((){pres_mode = sp.getBool('presentation_mode') ?? false;});
+      });
     hikeProvider = Provider.of<HikeTracker>(context, listen: false);
     stopwatch = Stopwatch();
     t = Timer.periodic(Duration(milliseconds: 30), (timer) {
@@ -51,6 +56,16 @@ class _ProfilePageState extends State<ProfilePage>{
       buttontitle = "Stop stopwatch";
       buttoncolor = Theme.of(context).textTheme.titleLarge?.color;
     }
+  }
+  String getTime(Duration time, int extra){
+    int sec = time.inSeconds.toInt() + extra;
+    int hour = sec~/3600;
+    sec = sec - hour*3600;
+    int min = sec~/60;
+    sec = sec - min*60;
+
+    String output = hour.toString().padLeft(2, '0')+':'+min.toString().padLeft(2, '0')+':'+sec.toString().padLeft(2, '0');
+    return output;
   }
   int getIndex(){
     for(var i=0;i<hikelist.length;i++){
@@ -99,7 +114,6 @@ class _ProfilePageState extends State<ProfilePage>{
                   TextButton(
                     child: Text('OK'),
                     onPressed: () {
-                      print(_currentValue);
                       Navigator.of(context).pop(_currentValue);
                     },
                   ),
@@ -136,14 +150,14 @@ class _ProfilePageState extends State<ProfilePage>{
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('Are you sure that you want to save your time of ${stopwatch.elapsed} to Hike "${hikelist[index].name}"?'),
+            content: Text('Are you sure that you want to save your time of ${stopwatch.elapsed + Duration(seconds:extra)} to Hike "${hikelist[index].name}"?'),
             actions: <Widget>[
               TextButton(
                 child: Text('Yes'),
                 onPressed: () async {
-                  final duration = stopwatch.elapsed;
+                  final duration = stopwatch.elapsed+ Duration(seconds:extra);
                   setState((){
-                    hikelist[index].times.add(stopwatch.elapsed);
+                    hikelist[index].times.add(stopwatch.elapsed+ Duration(seconds:extra));
                   });
                   stopwatch.reset();
                   t.cancel();
@@ -177,18 +191,51 @@ class _ProfilePageState extends State<ProfilePage>{
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Container(height:150, child:Image.asset('lib/pictures/logo.png')),
             Container(
-              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+              padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
               child: Text(
                 'Time your Hike',
                 style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
             ),
-            Container(
-              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+            Card(
+            elevation: 8.0,
+            margin: const EdgeInsets.all(30.0),
+            child: Container(
+              decoration: BoxDecoration(color: buttoncolor),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                title: Text(buttontitle, style: const TextStyle(color: Color(0xFFFFF1D7),fontSize:20),textAlign: TextAlign.center,),
+                onTap: (){
+                  handleStartStop();
+                },
+              ),
+            ),
+          ),
+          Text(getTime(stopwatch.elapsed, extra)),
+          Card(
+            elevation: 8.0,
+            margin: const EdgeInsets.all(30.0),
+            child: Container(
+              decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                title: Text("Reset timer", style: const TextStyle(color: Color(0xFFFFF1D7), fontSize:20),textAlign: TextAlign.center,),
+                onTap: (){
+                  extra = 0;
+                  stopwatch.reset();
+                },
+              ),
+            ),
+          ),
+          if(pres_mode)
+            ElevatedButton.icon(onPressed: (){setState((){extra = extra+900;});}, label: Text("Add 15 minutes"),icon: const Icon(Icons.align_vertical_bottom)),
+          Container(
+              padding: EdgeInsets.fromLTRB(5, 30, 5, 5),
               child: Text(
-                'Which hike are you walking?',
+                'Which hike are you doing?',
                 style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
@@ -209,45 +256,16 @@ class _ProfilePageState extends State<ProfilePage>{
                 });
               },
               hint: Text(
-                "Choose a Car Model",
+                "Choose a Hike",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600),
               ),
             ),
-            Card(
-            elevation: 8.0,
-            margin: const EdgeInsets.all(50.0),
-            child: Container(
-              decoration: BoxDecoration(color: buttoncolor),
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text(buttontitle, style: const TextStyle(color: Color(0xFFFFF1D7),fontSize:20),textAlign: TextAlign.center,),
-                onTap: (){
-                  handleStartStop();
-                },
-              ),
-            ),
-          ),
-          Text("${stopwatch.elapsed}"),
           Card(
             elevation: 8.0,
-            margin: const EdgeInsets.all(50.0),
-            child: Container(
-              decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text("Reset timer", style: const TextStyle(color: Color(0xFFFFF1D7), fontSize:20),textAlign: TextAlign.center,),
-                onTap: (){
-                  stopwatch.reset();
-                },
-              ),
-            ),
-          ),
-          Card(
-            elevation: 8.0,
-            margin: const EdgeInsets.all(50.0),
+            margin: const EdgeInsets.all(30.0),
             child: Container(
               decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
               child: ListTile(
