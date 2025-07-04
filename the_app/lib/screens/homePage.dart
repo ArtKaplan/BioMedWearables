@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     steps.updateTodaySteps();
     // settings.init();
     award.init();
-    steps.init();
+    //steps.init();
   });
   }
 
@@ -113,7 +113,8 @@ class _HomePageState extends State<HomePage> {
                       axes: <RadialAxis>[
                         RadialAxis(
                           minimum: 0,
-                          maximum: 10000, // this should become the provider of the step goal
+                          //maximum: 10000, // this should become the provider of the step goal
+                          maximum: Provider.of<StepsProvider>(context).step_weeklyGoal.toDouble(),
                           showLabels: false,
                           showTicks: false,
                           axisLineStyle: AxisLineStyle(
@@ -139,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                               positionFactor: 0,
                               angle: 90,
                               widget: Text(
-                                '${stepsDouble.toStringAsFixed(0)} / 10000', // this should become the provider of the step goal
+                                '${stepsDouble.toStringAsFixed(0)} / ${Provider.of<StepsProvider>(context).step_weeklyGoal.toString()}', // this should become the provider of the step goal
                                 style: Theme.of(context).textTheme.headlineSmall
                                     ?.copyWith(fontSize: 30),
                               ),
