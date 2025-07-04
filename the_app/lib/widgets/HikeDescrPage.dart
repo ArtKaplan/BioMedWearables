@@ -71,6 +71,7 @@ class Hikedescrpage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
               child: Text(
                 'About this hike',
+                style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
               ),
             ),
           RichText(
@@ -133,7 +134,7 @@ class Hikedescrpage extends StatelessWidget {
           Card(
             elevation: 8.0,
                   child: Container(
-                    decoration: BoxDecoration(color:  Color(0xFF66101F)),
+                    decoration: BoxDecoration(color: Theme.of(context).textTheme.titleLarge?.color),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text('See full hike at Komoot', style: const TextStyle(color: Colors.white),),
@@ -147,7 +148,7 @@ class Hikedescrpage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
               child: Text(
                 'Check your stats',
-                style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -180,7 +181,7 @@ class Hikedescrpage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
               child: Text(
                 'About this hike',
-                style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -244,7 +245,7 @@ class Hikedescrpage extends StatelessWidget {
           Card(
             elevation: 8.0,
                   child: Container(
-                    decoration: BoxDecoration(color:  Color(0xFF66101F)),
+                    decoration: BoxDecoration(color: Theme.of(context).textTheme.titleLarge?.color),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text('See full hike at Komoot', style: const TextStyle(color: Colors.white),),
@@ -258,7 +259,7 @@ class Hikedescrpage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
               child: Text(
                 'Check your stats',
-                style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),
