@@ -24,7 +24,9 @@ class TwoMonthDataButton extends StatelessWidget {
 
 // The switch button
 class SwitchPresentation extends StatefulWidget {
-  const SwitchPresentation({super.key});
+  final VoidCallback? onChanged;
+
+  const SwitchPresentation({super.key, this.onChanged});
 
   @override
   State<SwitchPresentation> createState() => _SwitchPresentationState();
@@ -41,6 +43,7 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
       setState(() {
         light = currentState;
       });
+      widget.onChanged?.call();// notify parents to refresh UI
     });
   }
 
@@ -71,6 +74,7 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
           light = value;
           print(sp.getBool('presentation_mode'));
         });
+        widget.onChanged?.call();
       },
     );
   }
