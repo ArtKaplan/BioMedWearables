@@ -13,13 +13,21 @@ Icon getIcon(Hike hike){
       }
     }
 
-double getDeficit(steps, goal){
+double getDeficit(steps, goal) {
   double total = 0;
-  for(var i=steps.length-1;i>steps.length-8; i--){
-    total = total + steps[i];
+  int count = 0;
+
+  for (int i = steps.length - 1; count < 7; i--, count++) {
+    if (i >= 0) { // negative if not enough elements
+      total += steps[i].value;
+    } else {
+      total += 0; 
+    }
   }
-  return goal*7 - total;
+
+  return goal * 7 - total;
 }
+
 Hike getHike(deficit){
   double difference = 100000;
   double new_difference = 0;
