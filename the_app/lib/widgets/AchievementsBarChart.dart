@@ -85,16 +85,16 @@ class _Achievementsbarchart extends State<Achievementsbarchart>{
 
                     double deficit = getDeficit(snapshot.data!, step_goal); 
 
-                    return Container(height: 4000, width : 350, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),child:
-                      Column(children:[
-                      SimpleBarChart(xAxisList: x_days, yAxisList: y_steps, xAxisName:"", yAxisName: '# of steps', interval: 2500),
-                      if(deficit>=0)
+                    return Column(children:[
+                        Container(height:150, child:Image.asset('lib/pictures/logo.png')),
+                        Container(height: 350, width : 350, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),child:
+                          SimpleBarChart(xAxisList: x_days, yAxisList: y_steps, xAxisName:"", yAxisName: '# of steps', interval: 2500),
+                        ), 
+                      if(deficit <= 0)                     
                         Text('Congrats! You are on track to reach your goal this week!'),
                       if(deficit>0)
-                        Text('Want to reach your goal? You need ${deficit} more steps!')
-
-                      ]
-                      )          
+                        Text('You need ${deficit.toInt()} more steps to reach your goal this week!'),
+                      ]          
                     );
                   },
                 );

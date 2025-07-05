@@ -27,14 +27,6 @@ class AchievementsPage extends StatelessWidget {
           return SingleChildScrollView(
         child: Column(
         children: [    
-          Container(
-              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
-              child: Text(
-                'Keep it up!',
-                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
-                textAlign: TextAlign.center,
-              ),
-            ),
           Achievementsbarchart(),   
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
