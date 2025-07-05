@@ -3,8 +3,7 @@ import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/utils/awards.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:provider/provider.dart';
-import 'package:the_app/widgets/barChart2.dart';
-
+import 'package:the_app/widgets/AchievementsBarChart.dart';
 
 
 
@@ -35,7 +34,8 @@ class AchievementsPage extends StatelessWidget {
                 style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
-            ),   
+            ),
+          Achievementsbarchart(),   
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

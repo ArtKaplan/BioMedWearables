@@ -70,7 +70,7 @@ class _SimpleBarChartState extends State<SimpleBarChart> {
             ),
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 50,
+              reservedSize: 70,
               interval: interval,
               getTitlesWidget: leftTitles,
             ),
