@@ -84,6 +84,12 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
                     int step_goal = Provider.of<StepsProvider>(context).step_weeklyGoal;
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return const CircularProgressIndicator();
+                    }
+                    if(!snapshot.hasData || snapshot.data==0){
+                      return const Text("step data not available.");
+                    }
                     double deficit = getDeficit(snapshot.data!, step_goal); // change this to snapshot.data, this still doesn't work :////
                     if(deficit>=0){
                       Hike recommended_hike = getHike(deficit);
