@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:the_app/data/hike.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/screens/thisHikePage.dart';
+import 'package:the_app/provider/settings_provider.dart';
+import 'package:provider/provider.dart';
+
 
 
 class FavouriteHikesPage extends StatefulWidget {
@@ -23,6 +26,7 @@ class _FavouritehikespageState extends State<FavouriteHikesPage>{
         return Icon(Icons.favorite_border);
       }
     }
+    double step_length = Provider.of<SettingsProvider>(context).stepLength! / 100;
     return Scaffold(
       body: Center(
         child: Column(
@@ -43,7 +47,7 @@ class _FavouritehikespageState extends State<FavouriteHikesPage>{
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text(hike.name, style: const TextStyle(color: Color(0xFFFFF1D7), fontWeight: FontWeight.bold),),
-                      subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: '+hike.steps.toInt().toString()+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
+                      subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: ${hike.distance * 1000 ~/ step_length}'+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
                       onTap: () {
                         Navigator.push(
                             context,

@@ -7,6 +7,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:the_app/widgets/BarChart2.dart';
 import 'package:the_app/provider/hiketracking_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:the_app/provider/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -19,6 +21,8 @@ class Hikedescrpage extends StatelessWidget {
     final hikeProvider = context.watch<HikeTracker>();
     final hikeStats = context.watch<HikeTracker>().getDetailedTimesForHike(hike.name);
     print('hikeStats = $hikeStats');
+
+    double step_length = Provider.of<SettingsProvider>(context).stepLength! / 100;
 
     //data for BarCharts - Duration, Difficullty
     final List<String> x_Index = hikeStats.map((e) => e['index'].toString()).toList();
@@ -102,7 +106,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated amount of steps : ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.steps}',
+                  text: '${hike.distance * 1000 ~/ step_length}',
                 ),
               ],
             ),
@@ -213,7 +217,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated amount of steps : ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.steps}',
+                  text: '${hike.distance * 1000 ~/ step_length}',
                 ),
               ],
             ),

@@ -4,6 +4,8 @@ import 'package:the_app/data/hike.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/screens/thisHikePage.dart';
+import 'package:the_app/provider/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 Icon getIcon(Hike hike){
       if(hike.favourite == true){
@@ -28,19 +30,16 @@ double getDeficit(steps, goal) {
   return goal * 7 - total;
 }
 
-Hike getHike(deficit){
+Hike getHike(deficit, step_length){
   double difference = 100000;
   double new_difference = 0;
   Hike best_hike = hikelist[1];
 
   for(var i = 0; i<hikelist.length; i++){
-    print(hikelist[i].name);
-    print(hikelist[i].steps);
-    new_difference = hikelist[i].steps.toDouble() - deficit;
-    print(new_difference);
+    int steps = hikelist[i].distance * 1000 ~/ step_length;
+    new_difference = steps.toDouble() - deficit;
     if(new_difference.abs() < difference.abs()){
       best_hike = hikelist[i];
-      print('OK');
     }
     difference = new_difference.abs();
   }
@@ -80,10 +79,11 @@ class _Recommendhikepage extends State<Recommendhikepage>{
             ),
             Consumer<StepsProvider>(
               builder: (context, stepsProvider, _) {
+                double step_length = Provider.of<SettingsProvider>(context).stepLength! / 100;
                 return FutureBuilder<dynamic>(
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
-                    int step_goal = Provider.of<StepsProvider>(context).step_weeklyGoal;
+                    int step_goal = Provider.of<SettingsProvider>(context).goal;
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return const CircularProgressIndicator();
                     }
@@ -92,7 +92,7 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                     }
                     double deficit = getDeficit(snapshot.data!, step_goal); // change this to snapshot.data, this still doesn't work :////
                     if(deficit>=0){
-                      Hike recommended_hike = getHike(deficit);
+                      Hike recommended_hike = getHike(deficit, step_length);
                     return Card(
                       elevation: 8.0,
                       margin: const EdgeInsets.all(8.0),
@@ -101,7 +101,7 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                           title: Text(recommended_hike.name, style: const TextStyle(color: Color(0xFFFFF1D7), fontWeight: FontWeight.bold),),
-                          subtitle:Text('Distance: '+recommended_hike.distance.toString()+' km, Duration: '+recommended_hike.duration + ', Steps: '+recommended_hike.steps.toInt().toString()+'\nTravel time from Padova station: '+recommended_hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
+                          subtitle:Text('Distance: '+recommended_hike.distance.toString()+' km, Duration: '+recommended_hike.duration + ', Steps: ${recommended_hike.distance * 1000 ~/ step_length}'+'\nTravel time from Padova station: '+recommended_hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
                           onTap: () {
                             Navigator.push(
                                 context,

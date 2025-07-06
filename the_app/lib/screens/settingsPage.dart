@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
@@ -30,7 +31,7 @@ class SettingsPage extends StatelessWidget {
                   title: Text('General'),
                   tiles: <SettingsTile>[
                     SettingsTile(
-                      title: Text('Name'),
+                      title: Text('Goal'),
                       value: Text(settings.name),
                       leading: Icon(Icons.person),
                       onPressed: (context) {
@@ -53,6 +54,44 @@ class SettingsPage extends StatelessWidget {
                                   onPressed: () {
                                     final newName = textController.text;
                                     settings.setName(newName);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Save'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    SettingsTile(
+                      title: Text('Step goal'),
+                      value: Text('${settings.goal}'),
+                      leading: Icon(Icons.emoji_events_rounded),
+                      onPressed: (context) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            final textController = TextEditingController(text: '${settings.goal}');
+                            return AlertDialog(
+                              title: const Text('Enter your goal'),
+                              content: TextField( // https://medium.com/@gabrieloranekwu/number-input-on-flutter-textfields-the-right-way-06441f7b5550
+                                inputFormatters:[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                controller: textController,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(hintText: '10000'),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    final newGoal = textController.text;
+                                    settings.setName(newGoal);
                                     Navigator.pop(context);
                                   },
                                   child: const Text('Save'),
