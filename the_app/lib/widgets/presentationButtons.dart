@@ -113,7 +113,7 @@ class Add1Week5kSteps extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       icon: Icon(Icons.directions_walk),
-      label: Text('Add 1 Week 5k Steps'),
+      label: Text('Add 5k Week'),
       onPressed: () {
         context.read<StepsProvider>().addStepsAndDaysPresentationDate(
           stepsPerDay: 5000,
@@ -153,6 +153,54 @@ class Add1Week12kSteps extends StatelessWidget {
       },
       icon: const Icon(Icons.directions_walk),
       label: const Text('Add 12k Week'),
+    );
+  }
+}
+
+class Add1Week7_5kSteps extends StatelessWidget {
+  const Add1Week7_5kSteps({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        context.read<StepsProvider>().addStepsAndDaysPresentationDate(
+          stepsPerDay: 7500,
+          numberOfDays: 7,
+        );
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(content: Text('Added a Week of 7500 Steps.')),
+          );
+      },
+      icon: const Icon(Icons.directions_walk),
+      label: const Text('Add 7.5k Week'),
+    );
+  }
+}
+
+class Add1Week9kSteps extends StatelessWidget {
+  const Add1Week9kSteps({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        context.read<StepsProvider>().addStepsAndDaysPresentationDate(
+          stepsPerDay: 9000,
+          numberOfDays: 7,
+        );
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(content: Text('Added a Week of 9000 Steps.')),
+          );
+      },
+      icon: const Icon(Icons.directions_walk),
+      label: const Text('Add 9k Week'),
     );
   }
 }
