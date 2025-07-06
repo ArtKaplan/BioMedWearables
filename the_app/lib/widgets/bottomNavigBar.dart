@@ -42,7 +42,7 @@ class BottomNavigBar extends StatelessWidget {
         ),
         IconButton(
           icon:
-          Icon(IconData(0xe662, fontFamily: 'MaterialIcons')),
+          Icon(const IconData(0xe662, fontFamily: 'MaterialIcons')),
           tooltip: 'Stopwatch',
           color:  getIconColor(CurrentPage.profile),
           onPressed: (){
