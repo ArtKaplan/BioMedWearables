@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:the_app/data/hike.dart';
 import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/provider/hiketracking_provider.dart';
 import 'package:the_app/provider/settings_provider.dart';

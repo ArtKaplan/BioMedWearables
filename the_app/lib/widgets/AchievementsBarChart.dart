@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:the_app/widgets/BarChart2.dart';
+import 'package:the_app/widgets/BarChart.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
-import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/widgets/DeficitWeek.dart';
 
 List<double> getSteps(steps){
@@ -75,7 +74,6 @@ class _Achievementsbarchart extends State<Achievementsbarchart>{
                 return FutureBuilder<dynamic>(
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
-                    int step_goal = Provider.of<SettingsProvider>(context).goal;
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return const CircularProgressIndicator();
                     }
@@ -86,8 +84,6 @@ class _Achievementsbarchart extends State<Achievementsbarchart>{
                     final List<String> x_days = getDate();
 
                     int weeks = snapshot.data!.length ~/ 7;
-
-                    double deficit = getDeficit(snapshot.data!, step_goal); 
 
                     return Column(children:[
                         Container(height: 300, width : 350, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),child:

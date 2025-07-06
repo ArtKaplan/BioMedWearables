@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_app/utils/loginStatus.dart';
-import 'package:the_app/screens/homePage.dart';
-import 'package:the_app/screens/settingsPage.dart';
-import 'package:the_app/screens/loginPage.dart';
 
 class SettingsProvider extends ChangeNotifier {
   //late SharedPreferences _prefs;
