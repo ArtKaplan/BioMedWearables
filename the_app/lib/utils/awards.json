@@ -65,7 +65,7 @@
     },
     {
         "id": "steps_20k",
-        "title": "20.000 Schritte",
+        "title": "20.000 steps",
         "category": "Steps",
         "imagePath": "lib/pictures/awards/badge_steps_20k.png",
         "condition": "Complete 20k steps in a day!",
@@ -73,7 +73,7 @@
     },
     {
         "id": "steps_30k",
-        "title": "30.000 Schritte",
+        "title": "30.000 steps",
         "category": "Steps",
         "imagePath": "lib/pictures/awards/badge_steps_30k.png",
         "condition": "Complete 30k steps in a day!",
@@ -81,7 +81,7 @@
     },
     {
         "id": "steps_40k",
-        "title": "40.000 Schritte",
+        "title": "40.000 steps",
         "category": "Steps",
         "imagePath": "lib/pictures/awards/badge_steps_40k.png",
         "condition": "Complete 40k steps in a day!",
@@ -89,7 +89,7 @@
     },
     {
         "id": "steps_50k",
-        "title": "50.000 Schritte",
+        "title": "50.000 steps",
         "category": "Steps",
         "imagePath": "lib/pictures/awards/badge_steps_50k.png",
         "condition": "Complete 50k steps in a day!",

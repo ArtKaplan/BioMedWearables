@@ -283,7 +283,7 @@ class SettingsPage extends StatelessWidget {
                     },
                   ),
                   SettingsTile(title: Text('Step Length'),
-                    value: settings.stepLength != null && settings.stepLength != -1
+                    value: settings.height != null && settings.height != -1
                       ? Text('${settings.stepLength} cm')
                       : Text('Select your heigth to calculate your approx. step length'),
                     leading: Icon(Icons.width_wide),

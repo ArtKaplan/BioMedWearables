@@ -98,12 +98,8 @@ class AchievementsPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                Image.asset(
-                    'lib/pictures/awards/noAwards.png',
-                    width: 150,
-                    height: 150,
-                ),
-                Text('No awards unlocked (YET)!', 
+                Icon(Icons.assignment_late_outlined, color: Theme.of(context).textTheme.labelMedium?.color, size: 150),
+                Text('No awards unlocked (YET)! Go on a hike to unlock your first award!', 
                   textAlign: TextAlign.center),
                 ],
               ),

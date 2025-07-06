@@ -53,9 +53,9 @@ class Hikedescrpage extends StatelessWidget {
             text: TextSpan(
               style: DefaultTextStyle.of(context).style,
               children: [
-                TextSpan(text: 'Distance: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: 'Hiking distance: ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.distance}',
+                  text: '${hike.distance} km (including transfer from train/bus station to hike)',
                 ),
               ],
             ),
@@ -66,7 +66,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated duration: ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: hike.duration,
+                  text: '${hike.duration} (including transfer from train/bus station to hike)',
                 ),
               ],
             ),
