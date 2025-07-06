@@ -43,6 +43,9 @@ class Hikedescrpage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+              child: Image.asset(hike.image),
+            ),
+          Container(
               padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
               child: Text(
                 'About this hike',
