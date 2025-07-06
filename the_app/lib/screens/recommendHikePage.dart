@@ -33,14 +33,13 @@ Hike getHike(deficit, step_length){
   double difference = 100000;
   double new_difference = 0;
   Hike best_hike = hikelist[1];
-
   for(var i = 0; i<hikelist.length; i++){
     int steps = hikelist[i].distance * 1000 ~/ step_length;
     new_difference = steps.toDouble() - deficit;
     if(new_difference.abs() < difference.abs()){
       best_hike = hikelist[i];
+      difference = new_difference.abs();
     }
-    difference = new_difference.abs();
   }
   return best_hike;
 }
