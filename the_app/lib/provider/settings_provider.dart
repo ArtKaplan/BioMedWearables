@@ -44,7 +44,7 @@ class SettingsProvider extends ChangeNotifier {
   bool _stepLength_personalized = false;
   bool get stepLength_personalized => _stepLength_personalized;
 
-  int? _stepLength;
+  int? _stepLength = 72;
   int? get stepLength => _stepLength;
 
   bool _maxHeartRate_personalized = false;
