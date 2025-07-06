@@ -59,7 +59,7 @@ class _SimpleBarChartState extends State<SimpleBarChart> {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (value, meta) =>
-                  bottomTitles(value, meta, xAxisList),
+                  bottomTitles(value, meta, xAxisList, context),
               reservedSize: 42,
             ),
           ),
@@ -70,18 +70,18 @@ class _SimpleBarChartState extends State<SimpleBarChart> {
             ),
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 50,
+              reservedSize: 70,
               interval: interval,
-              getTitlesWidget: leftTitles,
+              getTitlesWidget: (value, meta) => leftTitles(value, meta, context),
             ),
           ),
         ),
         borderData: FlBorderData(
-          border: const Border(
+          border: Border(
             top: BorderSide.none,
             right: BorderSide.none,
-            left: BorderSide(width: 1),
-            bottom: BorderSide(width: 1),
+            left: BorderSide(width: 1, color:Theme.of(context).textTheme.titleLarge?.color ?? Colors.black),
+            bottom: BorderSide(width: 1, color:Theme.of(context).textTheme.titleLarge?.color ?? Colors.black),
           ),
         ),
         gridData: FlGridData(show: false),
@@ -93,7 +93,7 @@ class _SimpleBarChartState extends State<SimpleBarChart> {
               BarChartRodData(
                   toY: yAxisList[index],
                   width: 15,
-                  color: Theme.of(context).textTheme.titleLarge?.color,
+                  color: Theme.of(context).textTheme.labelMedium?.color,
                   borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(10),
                       topLeft: Radius.circular(10))),
@@ -106,11 +106,11 @@ class _SimpleBarChartState extends State<SimpleBarChart> {
 }
 
 Widget bottomTitles(
-    double value, TitleMeta meta, List<String> bottomTilesData) {
+    double value, TitleMeta meta, List<String> bottomTilesData, BuildContext context) {
   final Widget text = Text(
     bottomTilesData[value.toInt()],
-    style: const TextStyle(
-      color: Colors.black,
+    style: TextStyle(
+      color: Theme.of(context).textTheme.titleLarge?.color,
       fontWeight: FontWeight.bold,
       fontSize: 12,
     ),
@@ -123,12 +123,12 @@ Widget bottomTitles(
   );
 }
 
-Widget leftTitles(double value, TitleMeta meta) {
+Widget leftTitles(double value, TitleMeta meta, BuildContext context) {
   final formattedValue = (value).toStringAsFixed(0);
   final Widget text = Text(
     formattedValue,
-    style: const TextStyle(
-      color: Colors.black,
+    style: TextStyle(
+      color: Theme.of(context).textTheme.titleLarge?.color,
       fontWeight: FontWeight.bold,
       fontSize: 12,
     ),
