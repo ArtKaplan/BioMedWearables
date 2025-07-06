@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/data/hike.dart';
-import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:the_app/widgets/BarChart2.dart';
+import 'package:the_app/widgets/BarChart.dart';
 import 'package:the_app/provider/hiketracking_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:the_app/provider/settings_provider.dart';
 
 
 
@@ -16,9 +14,10 @@ class Hikedescrpage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hikeProvider = context.watch<HikeTracker>();
     final hikeStats = context.watch<HikeTracker>().getDetailedTimesForHike(hike.name);
     print('hikeStats = $hikeStats');
+
+    double step_length = Provider.of<SettingsProvider>(context).stepLength! / 100;
 
     //data for BarCharts - Duration, Difficullty
     final List<String> x_Index = hikeStats.map((e) => e['index'].toString()).toList();
@@ -34,30 +33,6 @@ class Hikedescrpage extends StatelessWidget {
       }
     }).toList();
 
-    List getAxisListTime(){
-      List AxisList = [];
-      List<String> AxisListx = [];
-      List<double> AxisListy =[];
-      AxisList.add(AxisListx);
-      AxisList.add(AxisListy);
-      for (var i = 0; i<hike.times.length; i++){
-        AxisList[0].add(i.toString());
-        AxisList[1].add(hike.times[i].inSeconds.toDouble()); // [REMINDER] UNDO THIS: THIS MUST BE HOURS, only for debugging purposes in seconds
-      }
-      return AxisList;
-    }
-    List getAxisListDiff(){
-      List AxisList = [];
-      List<String> AxisListx = [];
-      List<double> AxisListy =[];
-      AxisList.add(AxisListx);
-      AxisList.add(AxisListy);
-      for (var i = 0; i<hike.difficulties.length; i++){
-        AxisList[0].add(i.toString());
-        AxisList[1].add(hike.difficulties[i]); // [REMINDER] UNDO THIS: THIS MUST BE HOURS, only for debugging purposes in seconds
-      }
-      return AxisList;
-    }
     if(hike.times.length == 0){
       return  SingleChildScrollView(
       child: Container(
@@ -78,9 +53,9 @@ class Hikedescrpage extends StatelessWidget {
             text: TextSpan(
               style: DefaultTextStyle.of(context).style,
               children: [
-                TextSpan(text: 'Distance: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: 'Hiking distance: ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.distance}',
+                  text: '${hike.distance} km (including transfer from train/bus station to hike)',
                 ),
               ],
             ),
@@ -91,7 +66,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated duration: ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: hike.duration,
+                  text: '${hike.duration} (including transfer from train/bus station to hike)',
                 ),
               ],
             ),
@@ -102,7 +77,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated amount of steps : ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.steps}',
+                  text: '${hike.distance * 1000 ~/ step_length}',
                 ),
               ],
             ),
@@ -213,7 +188,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated amount of steps : ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.steps}',
+                  text: '${hike.distance * 1000 ~/ step_length}',
                 ),
               ],
             ),

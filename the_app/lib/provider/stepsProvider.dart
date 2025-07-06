@@ -26,10 +26,6 @@ class StepsProvider extends ChangeNotifier {
   //List<DaySteps> get stepsEachDay => _stepsEachdays;
 
   //int get todayTotalSteps => _todaySteps.fold(0, (sum, s) => sum + s.value);
-
-
-  int step_weeklyGoal = 10000;
-
   Future<void> init() async{
     final sp = await SharedPreferences.getInstance();
 

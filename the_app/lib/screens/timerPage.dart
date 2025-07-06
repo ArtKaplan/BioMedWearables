@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'dart:async';
 import 'package:the_app/data/hike.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/hiketracking_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class TimerPage extends StatefulWidget {
+  const TimerPage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<TimerPage> createState() => _TimerPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage>{
+class _TimerPageState extends State<TimerPage>{
   // taken from https://www.geeksforgeeks.org/how-to-create-a-stopwatch-app-in-flutter/
   late HikeTracker hikeProvider;
   late Stopwatch stopwatch;
@@ -144,8 +143,6 @@ class _ProfilePageState extends State<ProfilePage>{
       );
     } else {
       int index = getIndex();
-      double difficulty = 0;
-      bool change = false;
       showDialog( // taken from https://www.dhiwise.com/post/how-to-build-customizable-pop-ups-with-flutter-dialog
         context: context,
         builder: (BuildContext context) {
@@ -283,20 +280,4 @@ class _ProfilePageState extends State<ProfilePage>{
       bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.profile),
     );
   } //build
-} //ProfilePage
-
-Widget _buildNavIcon(BuildContext context, IconData icon, String tooltip, Widget page, bool isSelected) {
-    return IconButton(
-      icon: Icon(icon),
-      tooltip: tooltip,
-      color: isSelected ? const Color(0xFFDE7C5A) : const Color(0xFFFFF1D7),
-      onPressed: () {
-        if (!isSelected) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => page),
-          );
-        }
-      },
-    );
-  }
+} //TimerPage

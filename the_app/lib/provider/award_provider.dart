@@ -3,9 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:the_app/utils/awards.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_app/utils/loginStatus.dart';
-import 'package:the_app/screens/homePage.dart';
-import 'package:the_app/screens/settingsPage.dart';
 import 'dart:convert';
 import 'package:the_app/provider/hiketracking_provider.dart';
 
@@ -156,15 +153,15 @@ class AwardProvider extends ChangeNotifier{
   }
   */
 
-  String _key(String baseKey) {
-    if (username != null && username!.isNotEmpty){
-      //print('_key: Key = ${username}_$baseKey');
-      return '${username}_$baseKey';
-    } else{
-      //print('_key: Key = $baseKey');
-      return baseKey;
-    }
-  }
+  //String _key(String baseKey) {
+  //  if (username != null && username!.isNotEmpty){
+  //    //print('_key: Key = ${username}_$baseKey');
+  //    return '${username}_$baseKey';
+  //  } else{
+  //    //print('_key: Key = $baseKey');
+  //    return baseKey;
+  //  }
+  //}
 /*
   /// function to proof if target nr of steps for award have been reached
   /// get steplist, search for da with >=x steps

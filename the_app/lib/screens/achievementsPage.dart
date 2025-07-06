@@ -24,61 +24,53 @@ class AchievementsPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text("Fehler: ${snapshot.error}"));
           }
-          return SingleChildScrollView(
-        child: Column(
-        children: [    
-          Container(
-              padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
+          return Column(
+        children: [  
+          Container(height:150, child:Image.asset('lib/pictures/logo.png')),
+          Expanded(child: SingleChildScrollView(child: Column(children:[
+            Container(
+              padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
               child: Text(
-                'Keep it up!',
+                'This week\'s stats:',
                 style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
-            ),
-          Achievementsbarchart(),   
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              Column(children: [
-                Text("20", style: TextStyle(fontSize: 80)), // this 20 needs to be a streak amount
-                Text("weeks of walking", style: TextStyle(fontSize: 20)),
-              ],),
-              Icon(Icons.local_fire_department, color: Colors.orange, size: 150.0,),
-            ],),
+            ), 
+            Achievementsbarchart(),   
+            Container(
+              padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+              child: Text(
+                'Your awards:',
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),   
+            Consumer<AwardProvider>(
+              builder: (context, provider, _) {
+                if (provider.awards.isEmpty) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return _buildAwardsList(provider.unlockedAwards);
+            },
+          ),
           Container(
-            padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
-            child: Text(
-              'Your awards:',
-              style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
-              textAlign: TextAlign.center,
-            ),
-          ),   
+              padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+              child: Text(
+                'Locked awards:',
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),   
           Consumer<AwardProvider>(
             builder: (context, provider, _) {
               if (provider.awards.isEmpty) {
                 return Center(child: CircularProgressIndicator());
               }
-              return _buildAwardsList(provider.unlockedAwards);
-          },
-        ),
-        Container(
-            padding: EdgeInsets.fromLTRB(5, 75, 5, 5),
-            child: Text(
-              'Locked awards:',
-              style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
-              textAlign: TextAlign.center,
-            ),
-          ),   
-        Consumer<AwardProvider>(
-          builder: (context, provider, _) {
-            if (provider.awards.isEmpty) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return _buildAwardsList(provider.lockedAwards);
-          },
-        ),
+              return _buildAwardsList(provider.lockedAwards);
+            },
+          ),
+        ]))),
       ],
-      ),
       );
       },
       ),
@@ -106,12 +98,8 @@ class AchievementsPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                Image.asset(
-                    'lib/pictures/awards/noAwards.png',
-                    width: 150,
-                    height: 150,
-                ),
-                Text('No awards unlocked (YET)!', 
+                Icon(Icons.assignment_late_outlined, color: Theme.of(context).textTheme.labelMedium?.color, size: 150),
+                Text('No awards unlocked (YET)! Go on a hike to unlock your first award!', 
                   textAlign: TextAlign.center),
                 ],
               ),

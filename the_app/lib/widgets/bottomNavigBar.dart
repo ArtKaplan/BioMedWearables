@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:the_app/screens/achievementsPage.dart';
 import 'package:the_app/screens/hikesPage.dart';
 import 'package:the_app/screens/homePage.dart';
-import 'package:the_app/screens/profilePage.dart';
+import 'package:the_app/screens/timerPage.dart';
 import 'package:the_app/screens/settingsPage.dart';
 
 enum CurrentPage { home, profile, hikes, achievements, settings}
@@ -48,7 +48,7 @@ class BottomNavigBar extends StatelessWidget {
           onPressed: (){
             Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const ProfilePage()),
+                  MaterialPageRoute(builder: (_) => const TimerPage()),
                 );
           },
         ),

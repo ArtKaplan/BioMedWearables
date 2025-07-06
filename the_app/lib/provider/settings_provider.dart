@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_app/utils/loginStatus.dart';
-import 'package:the_app/screens/homePage.dart';
-import 'package:the_app/screens/settingsPage.dart';
-import 'package:the_app/screens/loginPage.dart';
 
 class SettingsProvider extends ChangeNotifier {
   //late SharedPreferences _prefs;
@@ -17,6 +13,9 @@ class SettingsProvider extends ChangeNotifier {
   /// Init and get provider variables
   String _name = 'Jane Doe';
   String get name => _name;
+
+  int _goal = 10000;
+  int get goal => _goal;
 
   String? _sex;
   String? get sex => _sex;
@@ -45,7 +44,7 @@ class SettingsProvider extends ChangeNotifier {
   bool _stepLength_personalized = false;
   bool get stepLength_personalized => _stepLength_personalized;
 
-  int? _stepLength;
+  int? _stepLength = 72;
   int? get stepLength => _stepLength;
 
   bool _maxHeartRate_personalized = false;
@@ -78,10 +77,11 @@ class SettingsProvider extends ChangeNotifier {
         _maxHeartRate_personalized = false;
         _maxHeartRate = null;
         _name = 'Jane Doe';
+        _goal = 10000;
         _pushNotifications = true;
         _sex = null;
         _stepLength_personalized = false;
-        _stepLength = null;
+        _stepLength = 72;
         _weight = null;
         notifyListeners();
     } else{
@@ -92,9 +92,10 @@ class SettingsProvider extends ChangeNotifier {
       _maxHeartRate= _prefs.getInt(_key('maxHeartRate'));
       _maxHeartRate_personalized = _prefs.getBool(_key('maxHeartRate_personalized')) ?? false;
       _name = _prefs.getString(_key('name')) ?? 'Jane Doe';
+      _goal = _prefs.getInt(_key('goal')) ?? 10000;
       _pushNotifications = _prefs.getBool(_key('pushNotifications')) ?? true;
       _sex = _prefs.getString(_key('sex'));
-      _stepLength = _prefs.getInt(_key('stepLength'));
+      _stepLength = _prefs.getInt(_key('stepLength')) ?? 72;
       _stepLength_personalized = _prefs.getBool(_key('stepLength_personalized')) ?? false;
       _weight = _prefs.getDouble(_key('weight'));
 
@@ -131,6 +132,7 @@ class SettingsProvider extends ChangeNotifier {
       await _prefs.remove(_key('maxHeartRate'));
       await _prefs.remove(_key('maxHeartRate_personalized'));
       await _prefs.remove(_key('name'));
+      await _prefs.remove(_key('goal'));
       await _prefs.remove(_key('pushNotifications'));
       await _prefs.remove(_key('sex'));
       await _prefs.remove(_key('stepLength'));
@@ -153,6 +155,13 @@ class SettingsProvider extends ChangeNotifier {
   Future<void> setName(String newName) async {
     _name = newName;
     await _prefs.setString(_key('name'), newName);
+    notifyListeners();
+    //print('setName: username = $username, name = $name');
+  }
+
+  Future<void> setGoal(int newGoal) async {
+    _goal = newGoal;
+    await _prefs.setInt(_key('goal'), newGoal);
     notifyListeners();
     //print('setName: username = $username, name = $name');
   }

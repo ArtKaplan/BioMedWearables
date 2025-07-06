@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';

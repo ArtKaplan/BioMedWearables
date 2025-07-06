@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:the_app/widgets/BarChart2.dart';
+import 'package:the_app/widgets/BarChart.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
+import 'package:the_app/widgets/DeficitWeek.dart';
 
 List<double> getSteps(steps){
   List<double> total = [];
@@ -73,7 +74,6 @@ class _Achievementsbarchart extends State<Achievementsbarchart>{
                 return FutureBuilder<dynamic>(
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
-                    int step_goal = Provider.of<StepsProvider>(context).step_weeklyGoal;
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return const CircularProgressIndicator();
                     }
@@ -83,18 +83,23 @@ class _Achievementsbarchart extends State<Achievementsbarchart>{
                     final List<double> y_steps = getSteps(snapshot.data!); 
                     final List<String> x_days = getDate();
 
-                    double deficit = getDeficit(snapshot.data!, step_goal); 
+                    int weeks = snapshot.data!.length ~/ 7;
 
-                    return Container(height: 4000, width : 350, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),child:
-                      Column(children:[
-                      SimpleBarChart(xAxisList: x_days, yAxisList: y_steps, xAxisName:"", yAxisName: '# of steps', interval: 2500),
-                      if(deficit>=0)
-                        Text('Congrats! You are on track to reach your goal this week!'),
-                      if(deficit>0)
-                        Text('Want to reach your goal? You need ${deficit} more steps!')
-
-                      ]
-                      )          
+                    return Column(children:[
+                        Container(height: 300, width : 350, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),child:
+                          SimpleBarChart(xAxisList: x_days, yAxisList: y_steps, xAxisName:"", yAxisName: '# of steps', interval: 2500),
+                        ),
+                        Container(width:300, child:Showdeficit()),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          Column(children: [
+                            Text("${weeks}", style: TextStyle(fontSize: 80)), // this 20 needs to be a streak amount
+                            Text("weeks of walking", style: TextStyle(fontSize: 20)),
+                          ],),
+                          Icon(Icons.local_fire_department, color: Theme.of(context).textTheme.labelMedium?.color, size: 150.0,),
+                        ],),
+                      ]          
                     );
                   },
                 );
