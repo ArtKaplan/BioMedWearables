@@ -70,6 +70,20 @@ class _PresentationPageState extends State<PresentationPage> {
                         Row(
                           children: const [
                             Expanded(child: Text('add week of 12k steps')),
+                            Add1Week7_5kSteps(),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: const [
+                            Expanded(child: Text('add week of 12k steps')),
+                            Add1Week9kSteps(),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: const [
+                            Expanded(child: Text('add week of 12k steps')),
                             Add1Week12kSteps(),
                           ],
                         ),

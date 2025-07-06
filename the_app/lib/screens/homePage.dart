@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
     steps.updateTodaySteps();
     // settings.init();
     award.init();
-    steps.init();
+    //steps.init();
   });
   }
 
@@ -198,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                       return const CircularProgressIndicator();
                     }
 
-                    final double stepsDouble = snapshot.data!.toDouble(); // amount of steps done today
+                    final double stepsDouble = snapshot.data!.toDouble(); // amount of steps done toda
                     return
                         Container(width:300, child:
                           SfRadialGauge(
