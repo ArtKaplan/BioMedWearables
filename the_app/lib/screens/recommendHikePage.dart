@@ -5,7 +5,6 @@ import 'package:the_app/provider/stepsProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/screens/thisHikePage.dart';
 import 'package:the_app/provider/settings_provider.dart';
-import 'package:provider/provider.dart';
 
 Icon getIcon(Hike hike){
       if(hike.favourite == true){

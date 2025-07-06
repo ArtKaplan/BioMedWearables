@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 import 'package:the_app/widgets/bottomNavigBar.dart';
 import 'package:the_app/widgets/presentationPageButton.dart';
-import 'package:the_app/screens/recommendHikePage.dart';
 import 'package:the_app/screens/allHikesPage.dart';
 
 getDeficit1(steps,goal){
@@ -117,9 +116,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.fromLTRB(30, 25, 30, 15),
               child: Text(
                 'Welcome, ${Provider.of<SettingsProvider>(context).name}!',
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineSmall?.copyWith(fontSize: 25),
+                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -182,9 +179,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.fromLTRB(30, 30, 30,0),
                           child: Text(
                             'Today\'s steps:',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.headlineSmall?.copyWith(fontSize: 25),
+                            style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 25),
                             textAlign: TextAlign.center,
                           ),
                         ),

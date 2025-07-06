@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class DaySteps {
   final DateTime day;
   //final int value;

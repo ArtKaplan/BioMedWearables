@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:the_app/widgets/BarChart2.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 import 'package:the_app/provider/settings_provider.dart';

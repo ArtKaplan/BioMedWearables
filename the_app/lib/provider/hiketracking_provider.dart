@@ -18,7 +18,7 @@ class HikeTracker with ChangeNotifier {
 
   String _key(String baseKey) {
     final _username = sp.getString('username');
-    if (_username != null && _username!.isNotEmpty){
+    if (_username != null && _username.isNotEmpty){
       //print('_key: Key = ${username}_$baseKey');
       return '${_username}_$baseKey';
     } else{
