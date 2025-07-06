@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
                   title: Text('General'),
                   tiles: <SettingsTile>[
                     SettingsTile(
-                      title: Text('Goal'),
+                      title: Text('Name'),
                       value: Text(settings.name),
                       leading: Icon(Icons.person),
                       onPressed: (context) {
@@ -90,8 +90,8 @@ class SettingsPage extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    final newGoal = textController.text;
-                                    settings.setName(newGoal);
+                                    final int newGoal = int.parse(textController.text);
+                                    settings.setGoal(newGoal);
                                     Navigator.pop(context);
                                   },
                                   child: const Text('Save'),
