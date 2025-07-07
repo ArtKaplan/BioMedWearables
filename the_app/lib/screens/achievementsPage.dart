@@ -22,7 +22,7 @@ class AchievementsPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text("Fehler: ${snapshot.error}"));
+            return Center(child: Text("Error : ${snapshot.error}"));
           }
           return Column(
         children: [  
