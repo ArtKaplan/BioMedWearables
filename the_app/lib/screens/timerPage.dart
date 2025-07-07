@@ -116,7 +116,7 @@ class _TimerPageState extends State<TimerPage>{
                   TextButton(
                     child: Text('OK'),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TimerPage()));
+                      Navigator.of(context).pop(_currentValue);
                     },
                   ),
                 ],
@@ -167,13 +167,12 @@ class _TimerPageState extends State<TimerPage>{
                     hikelist[index].difficulties.add(difficulty);
                   });
                   await hikeProvider.saveCompletedHike(_chosenHike!, duration, difficulty);
-                  
                 },
               ),
               TextButton(
                 child: Text('No'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TimerPage()));
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -276,10 +275,10 @@ class _TimerPageState extends State<TimerPage>{
               ),
             ),
           ),
-          ],
+          ],  
         ), 
       ),
       bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.profile),
     );
   } //build
-} //TimerPage
+} 
