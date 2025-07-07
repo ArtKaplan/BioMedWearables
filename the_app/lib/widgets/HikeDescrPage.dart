@@ -5,6 +5,7 @@ import 'package:the_app/widgets/BarChart.dart';
 import 'package:the_app/provider/hiketracking_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/provider/settings_provider.dart';
+import 'package:the_app/screens/timerPage.dart';
 
 
 
@@ -36,7 +37,7 @@ class Hikedescrpage extends StatelessWidget {
     if(hike.times.length == 0){
       return  SingleChildScrollView(
       child: Container(
-      margin: const EdgeInsets.all(50.0),
+      margin: const EdgeInsets.fromLTRB(50, 0, 50, 50),
       alignment: Alignment(0, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -46,7 +47,7 @@ class Hikedescrpage extends StatelessWidget {
               child: Image.asset(hike.image),
             ),
           Container(
-              padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
               child: Text(
                 'About this hike',
                 style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
@@ -112,12 +113,28 @@ class Hikedescrpage extends StatelessWidget {
           Card(
             elevation: 8.0,
                   child: Container(
-                    decoration: BoxDecoration(color: Theme.of(context).textTheme.titleLarge?.color),
+                    decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text('See full hike at Komoot', style: const TextStyle(color: Colors.white),),
                       onTap: () async{
                         await launchUrl(Uri.parse(hike.url));
+                      },
+                    ),
+                  ),
+          ),
+          Card(
+            elevation: 8.0,
+                  child: Container(
+                    decoration: BoxDecoration(color: Theme.of(context).textTheme.titleLarge?.color),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      title: Text('Register this hike', style: const TextStyle(color: Colors.white),),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => TimerPage(preselected_hike: hike.name)),
+                          );
                       },
                     ),
                   ),

@@ -20,6 +20,9 @@ class SettingsProvider extends ChangeNotifier {
   String? _sex;
   String? get sex => _sex;
 
+  int? _font;
+  int? get font => _font;
+
   String _language = 'English';
   String get language => _language;
 
@@ -80,6 +83,7 @@ class SettingsProvider extends ChangeNotifier {
         _goal = 10000;
         _pushNotifications = true;
         _sex = null;
+        _font = 14;
         _stepLength_personalized = false;
         _stepLength = 72;
         _weight = null;
@@ -95,6 +99,7 @@ class SettingsProvider extends ChangeNotifier {
       _goal = _prefs.getInt(_key('goal')) ?? 10000;
       _pushNotifications = _prefs.getBool(_key('pushNotifications')) ?? true;
       _sex = _prefs.getString(_key('sex'));
+      _font = _prefs.getInt(_key('font'));
       _stepLength = _prefs.getInt(_key('stepLength')) ?? 72;
       _stepLength_personalized = _prefs.getBool(_key('stepLength_personalized')) ?? false;
       _weight = _prefs.getDouble(_key('weight'));
@@ -135,6 +140,7 @@ class SettingsProvider extends ChangeNotifier {
       await _prefs.remove(_key('goal'));
       await _prefs.remove(_key('pushNotifications'));
       await _prefs.remove(_key('sex'));
+      await _prefs.remove(_key('font'));
       await _prefs.remove(_key('stepLength'));
       await _prefs.remove(_key('stepLength_personalized'));
       await _prefs.remove(_key('weight'));
@@ -228,6 +234,11 @@ class SettingsProvider extends ChangeNotifier {
     await _prefs.setString('sex', _sex!);
     notifyListeners();
   }
+  Future<void> setFont(int? newFont) async {
+    _font = newFont;
+    await _prefs.setInt('fpnt', _font!);
+    notifyListeners();
+  }
 
   Future<void> setBirthday(DateTime? newBirthday) async {
     DateTime today = DateTime.now();
@@ -247,8 +258,9 @@ class SettingsProvider extends ChangeNotifier {
 
     //birthday has to be converted to string to be save in sharedPreference!
     final birthdayString = "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
-    if(username != null && username!.isNotEmpty){ 
+    //if(username != null && username!.isNotEmpty){ 
       try{
+        print('birthday reached');
         _birthday = newBirthday;
         await _prefs.setString(_key('birthday'), birthdayString);
         _age = newAge;
@@ -257,7 +269,7 @@ class SettingsProvider extends ChangeNotifier {
         print('Birthday is not valid: $e');
 
       }
-    } else{_age = null;}
+    //} else{_age = null;}
     notifyListeners();
   }
 

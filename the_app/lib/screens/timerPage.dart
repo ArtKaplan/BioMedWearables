@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class TimerPage extends StatefulWidget {
-  const TimerPage({super.key});
+  final String preselected_hike;
+  const TimerPage({super.key, this.preselected_hike = 'Sentiero del Monte Cecilia'});
 
   @override
   State<TimerPage> createState() => _TimerPageState();
@@ -22,10 +23,12 @@ class _TimerPageState extends State<TimerPage>{
   late Timer t;
   int extra = 0;
   bool pres_mode = false;
+  String? _chosenHike;
   
   @override
   void initState() {
     super.initState();
+    _chosenHike = widget.preselected_hike;
     SharedPreferences.getInstance().then((sp) {
       setState((){pres_mode = sp.getBool('presentation_mode') ?? false;});
       });
@@ -180,7 +183,6 @@ class _TimerPageState extends State<TimerPage>{
     }
   }
   List<String> all_hikes = hike_names();
-  String? _chosenHike = "Sentiero del Monte Cecilia";
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +221,7 @@ class _TimerPageState extends State<TimerPage>{
               decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text("Reset timer", style: const TextStyle(color: Color(0xFFFFF1D7), fontSize:20),textAlign: TextAlign.center,),
+                title: Text("Reset stopwatch", style: const TextStyle(color: Color(0xFFFFF1D7), fontSize:20),textAlign: TextAlign.center,),
                 onTap: (){
                   extra = 0;
                   stopwatch.reset();

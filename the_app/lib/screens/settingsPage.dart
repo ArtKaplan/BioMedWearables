@@ -149,7 +149,7 @@ class SettingsPage extends StatelessWidget {
                     leading: Icon(Icons.person),
                     trailing: DropdownButton(
                       value: settings.sex,
-                      items: ['male', 'female', 'divers'].map((String value) {
+                      items: ['male', 'female', 'diverse'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -282,50 +282,6 @@ class SettingsPage extends StatelessWidget {
                     );
                     },
                   ),
-                  SettingsTile(title: Text('Step Length'),
-                    value: settings.height != null && settings.height != -1
-                      ? Text('${settings.stepLength} cm')
-                      : Text('Select your heigth to calculate your approx. step length'),
-                    leading: Icon(Icons.width_wide),
-                    /*trailing: Text('${settings.stepLength} cm'),
-                    onPressed: (BuildContext context) {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return StatefulBuilder(
-                            builder: (context, setState) {
-                              int wholeNumber = 175; 
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      NumberPicker(
-                                        minValue: 30,
-                                        maxValue: 150,
-                                        value: wholeNumber,
-                                        onChanged: (value) => setState(() => wholeNumber = value),
-                                      ),
-                                      const Text(' cm'),
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      final int newStepLength = wholeNumber;
-                                      settings.setStepLength(newStepLength);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Save'),
-                              ),],
-                            );
-                          },
-                        );
-                      },
-                    );
-                    },*/
-                  ),
-                
                 ],),
 
 
@@ -341,8 +297,8 @@ class SettingsPage extends StatelessWidget {
                       activeSwitchColor: Theme.of(context).textTheme.titleLarge?.color,
                     ),
                   SettingsTile(title: Text('Auto Step Length'),
-                    value: settings.stepLength != null && !settings.stepLength_personalized && settings.stepLength != -1
-                      ? Text('${settings.stepLength} cm')
+                    value: settings.height != null  && settings.height != -1
+                      ? Text('Approx. step length based on your height: ${settings.stepLength} cm')
                       : Text('Select your heigth to calculate your approx. step length'),
                     leading: Icon(Icons.width_wide),
                     enabled: !settings.stepLength_personalized,

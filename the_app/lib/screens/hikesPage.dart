@@ -12,7 +12,7 @@ class HikesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final titles = ['Surprise me', 'Discover the options', 'My own pickings'];
     final subtitles = ['Recommended hike', 'All hikes', 'Saved hikes'];
-    final icons = [IconData(0xe37b, fontFamily: 'MaterialIcons'), IconData(0xe3c8, fontFamily: 'MaterialIcons') ,Icons.favorite];
+    final icons = [const IconData(0xe37b, fontFamily: 'MaterialIcons'), const IconData(0xe3c8, fontFamily: 'MaterialIcons') ,Icons.favorite];
     final nav = [Recommendhikepage(), Allhikespage(), FavouriteHikesPage()];
 
     return Scaffold(

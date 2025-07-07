@@ -119,7 +119,7 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                       ),
                     );
                     }else{
-                      return Column(mainAxisAlignment: MainAxisAlignment.center, children: [Container(height:15),Icon(IconData(0xe149, fontFamily: 'MaterialIcons'), size: 75,color:Theme.of(context).textTheme.titleLarge?.color ),Container(padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30), child:(Text("You've reached your weekly goal! \nYou're all set!", style: TextStyle(fontSize: 20))))]);
+                      return Column(mainAxisAlignment: MainAxisAlignment.center, children: [Container(height:15),Icon(const IconData(0xe149, fontFamily: 'MaterialIcons'), size: 75,color:Theme.of(context).textTheme.titleLarge?.color ),Container(padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30), child:(Text("You've reached your weekly goal! \nYou're all set!", style: TextStyle(fontSize: 20))))]);
                     }
                   },
                 );
