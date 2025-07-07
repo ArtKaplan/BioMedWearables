@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
-import 'package:the_app/screens/favouriteHikesPage.dart';
+import 'package:the_app/screens/recommendHikePage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                 title: Text('You\'re all set for this week! Feeling up for a hike? Click here to pick one.', style: const TextStyle(color: Colors.white),),
-                                leading: Icon(IconData(0xe149, fontFamily: 'MaterialIcons'), color: Color(0xFF66101F), size: 50),
+                                leading: Icon(const IconData(0xe149, fontFamily: 'MaterialIcons'), color: Color(0xFF66101F), size: 50),
                                 onTap: (){
                                   Navigator.pushReplacement(
                                     context,
@@ -169,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                                 onTap: (){
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (_) => FavouriteHikesPage()),
+                                    MaterialPageRoute(builder: (_) => Recommendhikepage()),
                                   );
                                 },
                               ),
