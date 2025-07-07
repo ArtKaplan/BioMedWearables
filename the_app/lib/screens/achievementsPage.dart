@@ -79,7 +79,6 @@ class AchievementsPage extends StatelessWidget {
   } //build
 
   Widget _buildAwardsList(List<Award> awards) {
-    print(awards);
     return SizedBox(
       height: 270,
       child: ListView.builder(
@@ -105,7 +104,7 @@ class AchievementsPage extends StatelessWidget {
               ),
             );
           } catch (e) {
-            print('Error rendering award $index: $e');
+            //print('Error rendering award $index: $e');
             return ErrorWidget(e);
           }
           }
@@ -143,7 +142,7 @@ class AchievementsPage extends StatelessWidget {
                 ),
               );
             } catch (e) {
-              print('Error rendering award $index: $e');
+              //print('Error rendering award $index: $e');
               return ErrorWidget(e);
             }
           },

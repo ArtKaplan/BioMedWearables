@@ -44,14 +44,14 @@ class SettingsProvider extends ChangeNotifier {
   double? _weight;
   double? get weight => _weight;
 
-  bool _stepLength_personalized = false;
-  bool get stepLength_personalized => _stepLength_personalized;
+  bool _stepLengthPersonalized = false;
+  bool get stepLengthPersonalized => _stepLengthPersonalized;
 
   int? _stepLength = 72;
   int? get stepLength => _stepLength;
 
-  bool _maxHeartRate_personalized = false;
-  bool get maxHeartRate_personalized => _maxHeartRate_personalized;
+  bool _maxHeartRatePersonalized = false;
+  bool get maxHeartRatePersonalized => _maxHeartRatePersonalized;
 
   int? _maxHeartRate;
   int? get maxHeartRate => _maxHeartRate;
@@ -62,60 +62,61 @@ class SettingsProvider extends ChangeNotifier {
   static const double doubleError = -1.0;
   static const String dateError = '0000-00-00';
 
-  Future<void> init({String? user}) async{
+  Future<void> init({String? user}) async {
     _username = _prefs.getString('username') ?? 'default';
-    //print('INIT: username = $_username');
     notifyListeners();
     await loadSettings();
   }
 
-  Future<void> loadSettings() async{
-    if(username == null || username == 'default'){
+  Future<void> loadSettings() async {
+    if (username == null || username == 'default') {
       //load default settings
-        _age = null;
-        _birthday = null;
-        _darkMode = false;
-        _height = null;
-        _language = 'English';
-        _maxHeartRate_personalized = false;
-        _maxHeartRate = null;
-        _name = 'Jane Doe';
-        _goal = 10000;
-        _pushNotifications = true;
-        _sex = null;
-        _font = 14;
-        _stepLength_personalized = false;
-        _stepLength = 72;
-        _weight = null;
-        notifyListeners();
-    } else{
+      _age = null;
+      _birthday = null;
+      _darkMode = false;
+      _height = null;
+      _language = 'English';
+      _maxHeartRatePersonalized = false;
+      _maxHeartRate = null;
+      _name = 'Jane Doe';
+      _goal = 10000;
+      _pushNotifications = true;
+      _sex = null;
+      _font = 14;
+      _stepLengthPersonalized = false;
+      _stepLength = 72;
+      _weight = null;
+      notifyListeners();
+    } else {
       _age = _prefs.getInt(_key('age')) ?? null;
       _darkMode = _prefs.getBool(_key('darkMode')) ?? false;
-      _height = _prefs.getInt(_key('height'));      
+      _height = _prefs.getInt(_key('height'));
       _language = _prefs.getString(_key('language')) ?? 'English';
-      _maxHeartRate= _prefs.getInt(_key('maxHeartRate'));
-      _maxHeartRate_personalized = _prefs.getBool(_key('maxHeartRate_personalized')) ?? false;
+      _maxHeartRate = _prefs.getInt(_key('maxHeartRate'));
+      _maxHeartRatePersonalized =
+          _prefs.getBool(_key('maxHeartRate_personalized')) ?? false;
       _name = _prefs.getString(_key('name')) ?? 'Jane Doe';
       _goal = _prefs.getInt(_key('goal')) ?? 10000;
       _pushNotifications = _prefs.getBool(_key('pushNotifications')) ?? true;
       _sex = _prefs.getString(_key('sex'));
       _font = _prefs.getInt(_key('font'));
       _stepLength = _prefs.getInt(_key('stepLength')) ?? 72;
-      _stepLength_personalized = _prefs.getBool(_key('stepLength_personalized')) ?? false;
+      _stepLengthPersonalized =
+          _prefs.getBool(_key('stepLength_personalized')) ?? false;
       _weight = _prefs.getDouble(_key('weight'));
 
       final birthdayStr = _prefs.getString(_key('birthday'));
       _birthday = await _getBirthday(birthdayStr);
-      
+
       notifyListeners();
     }
   }
 
-  Future<DateTime?> _getBirthday(String? birthdayString) async{
+  Future<DateTime?> _getBirthday(String? birthdayString) async {
     //print('birthdayString = $birthdayString');
     if (birthdayString == null) return null;
 
-    final parts = birthdayString.split('-'); 
+    final parts = birthdayString.split('-');
     if (parts.length != 3) return null;
 
     final year = int.tryParse(parts[0]);
@@ -123,12 +124,11 @@ class SettingsProvider extends ChangeNotifier {
     final day = int.tryParse(parts[2]);
 
     if (year == null || month == null || day == null) return null;
-    //print('birthday as DateTime = ${DateTime(year, month, day)}');
     return DateTime(year, month, day);
   }
 
-  Future<void> deleteSettings() async{
-    if(_prefs.getString('username') != null){
+  Future<void> deleteSettings() async {
+    if (_prefs.getString('username') != null) {
       await _prefs.remove(_key('age'));
       await _prefs.remove(_key('birthday'));
       await _prefs.remove(_key('darkMode'));
@@ -145,15 +145,15 @@ class SettingsProvider extends ChangeNotifier {
       await _prefs.remove(_key('stepLength_personalized'));
       await _prefs.remove(_key('weight'));
       notifyListeners();
-    } else{print('no username detected');}
+    } else {
+      //print('no username detected');
+    }
   }
 
   String _key(String baseKey) {
-    if (username != null && username!.isNotEmpty){
-      //print('_key: Key = ${username}_$baseKey');
+    if (username != null && username!.isNotEmpty) {
       return '${username}_$baseKey';
-    } else{
-      //print('_key: Key = $baseKey');
+    } else {
       return baseKey;
     }
   }
@@ -162,54 +162,13 @@ class SettingsProvider extends ChangeNotifier {
     _name = newName;
     await _prefs.setString(_key('name'), newName);
     notifyListeners();
-    //print('setName: username = $username, name = $name');
   }
 
   Future<void> setGoal(int newGoal) async {
     _goal = newGoal;
     await _prefs.setInt(_key('goal'), newGoal);
     notifyListeners();
-    //print('setName: username = $username, name = $name');
   }
-
-  ///do NOT delete even if uncommented! If I want to implement null-handling with error code.
-  /*
-  Future<void> _loadSettings() async {
-    _name = _prefs.getString(_key('name')) ?? 'Jane Doe';
-    _darkMode = _prefs.getBool(_key('darkMode')) ?? false;
-    _pushNotifications = _prefs.getBool(_key('pushNotifications')) ?? true;
-    _language = _prefs.getString(_key('language')) ?? 'English';
-
-    final sexStr = _prefs.getString(_key('sex')) ?? stringError;
-    _sex = sexStr == stringError ? null : sexStr;
-
-    final birthdayStr = _prefs.getString(_key('birthday')) ?? dateError;
-    _birthday = birthdayStr == dateError ? null : await _getBirthday(birthdayStr);
-
-    final ageInt = _prefs.getInt(_key('age')) ?? intError;
-    _age = ageInt == intError ? null : ageInt;
-
-    final heightInt = _prefs.getInt(_key('height')) ?? intError;
-    _height = heightInt == intError ? null : heightInt;
-
-    final weightDouble = _prefs.getDouble(_key('weight')) ?? doubleError;
-    _weight = weightDouble == doubleError ? null : weightDouble;
-
-    _stepLength_personalized = _prefs.getBool(_key('stepLength_personalized')) ?? false;
-
-    final stepLengthInt = _prefs.getInt(_key('stepLength')) ?? intError;
-    _stepLength = stepLengthInt == intError ? null : stepLengthInt;
-
-    _maxHeartRate_personalized = _prefs.getBool(_key('maxHeartRate_personalized')) ?? false;
-
-    final maxHRInt = _prefs.getInt(_key('maxHeartRate')) ?? intError;
-    _maxHeartRate = maxHRInt == intError ? null : maxHRInt;
-    
-    print('key = ${_key('name')} : value = $_name');
-    notifyListeners();
-  }
-  */
-
 
   Future<void> setDarkMode(bool value) async {
     _darkMode = value;
@@ -219,13 +178,11 @@ class SettingsProvider extends ChangeNotifier {
   /// for international edition in th future
   Future<void> setLanguage(String newLanguage) async {
     _language = newLanguage;
-    //await _prefs.setString('language', newLanguage);
     notifyListeners();
   }
 
-  Future<void> setPushNotifications(bool newValue) async { //TODO: do we still implement that or not???
+  Future<void> setPushNotifications(bool newValue) async {
     _pushNotifications = newValue;
-    //await _prefs.setBool('pushNotifications', newValue);
     notifyListeners();
   }
 
@@ -234,6 +191,7 @@ class SettingsProvider extends ChangeNotifier {
     await _prefs.setString('sex', _sex!);
     notifyListeners();
   }
+
   Future<void> setFont(int? newFont) async {
     _font = newFont;
     await _prefs.setInt('fpnt', _font!);
@@ -251,25 +209,22 @@ class SettingsProvider extends ChangeNotifier {
         newAge--;
       }
       _age = newAge;
-      if (!maxHeartRate_personalized) {
+      if (!maxHeartRatePersonalized) {
         await setMaxHeartRate();
       }
     }
 
     //birthday has to be converted to string to be save in sharedPreference!
-    final birthdayString = "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
-    //if(username != null && username!.isNotEmpty){ 
-      try{
-        print('birthday reached');
-        _birthday = newBirthday;
-        await _prefs.setString(_key('birthday'), birthdayString);
-        _age = newAge;
-        await _prefs.setInt(_key('age'), newAge);
-      } catch(e){
-        print('Birthday is not valid: $e');
-
-      }
-    //} else{_age = null;}
+    final birthdayString =
+        "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
+    try {
+      _birthday = newBirthday;
+      await _prefs.setString(_key('birthday'), birthdayString);
+      _age = newAge;
+      await _prefs.setInt(_key('age'), newAge);
+    } catch (e) {
+      //print('Birthday is not valid: $e');
+    }
     notifyListeners();
   }
 
@@ -286,18 +241,18 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setMaxHeartRate_personalized(bool newValue) async {
-    _maxHeartRate_personalized = newValue;
+  Future<void> setMaxHeartRatePersonalized(bool newValue) async {
+    _maxHeartRatePersonalized = newValue;
     await _prefs.setBool(_key('maxHeartRate_personalized'), newValue);
     await setMaxHeartRate();
     notifyListeners();
   }
 
   Future<void> setMaxHeartRate({int? newValue}) async {
-    if (newValue != null && _maxHeartRate_personalized) {
+    if (newValue != null && _maxHeartRatePersonalized) {
       _maxHeartRate = newValue;
       await _prefs.setInt(_key('maxHeartRate'), _maxHeartRate!);
-    } else if (!_maxHeartRate_personalized && age != null) {
+    } else if (!_maxHeartRatePersonalized && age != null) {
       _maxHeartRate = (208 - (0.7 * age!)).round();
       await _prefs.setInt(_key('maxHeartRate'), _maxHeartRate!);
     } else {
@@ -307,22 +262,22 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setStepLength_personalized(bool newValue) async {
-    _stepLength_personalized = newValue;
+  Future<void> setStepLengthPersonalized(bool newValue) async {
+    _stepLengthPersonalized = newValue;
     await _prefs.setBool('stepLength_personalized', newValue);
     notifyListeners();
   }
 
   Future<void> setStepLength({int? newValue}) async {
-    if (newValue != 0 && stepLength_personalized) {
+    if (newValue != 0 && stepLengthPersonalized) {
       _stepLength = newValue;
       await _prefs.setInt(_key('stepLength'), _stepLength!);
-    } else if (!stepLength_personalized && height != null) {
+    } else if (!stepLengthPersonalized && height != null) {
       _stepLength = (0.415 * (height ?? 0)).toInt();
       await _prefs.setInt(_key('stepLength'), _stepLength!);
     } else {
       _stepLength = null;
-      await _prefs.remove(_key('stepLength')); //TODO: klappt?
+      await _prefs.remove(_key('stepLength'));
     }
     notifyListeners();
   }

@@ -43,7 +43,7 @@ class _AllhikespageState extends State<Allhikespage>{
         return Icon(Icons.favorite_border);
       }
     }
-    double step_length = Provider.of<SettingsProvider>(context).stepLength! / 100;
+    double stepLength = Provider.of<SettingsProvider>(context).stepLength! / 100;
     return Scaffold(
       body: Center(
         child: Column(
@@ -90,7 +90,7 @@ class _AllhikespageState extends State<Allhikespage>{
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text(hike.name, style: const TextStyle(color: Color(0xFFFFF1D7), fontWeight: FontWeight.bold),),
-                      subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: ${hike.distance * 1000 ~/ step_length}'+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
+                      subtitle:Text('Distance: '+hike.distance.toString()+' km, Duration: '+hike.duration + ', Steps: ${hike.distance * 1000 ~/ stepLength}'+'\nTravel time from Padova station: '+hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
                       onTap: () {
                         Navigator.push(
                             context,

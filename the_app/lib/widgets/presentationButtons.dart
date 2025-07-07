@@ -52,7 +52,7 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
     return Switch(
       // This bool value toggles the switch.
       value: light,
-      activeColor: Colors.green, //TODO theme color
+      activeColor: Colors.green,
       onChanged: (bool value) async {
         // This is called when the user toggles the switch.
         final sp = await SharedPreferences.getInstance();
@@ -63,8 +63,6 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
 
         // going to presentation mode : reset fake date and reset presentation data
         if (sp.getBool('presentation_mode') ?? false) {
-          //final stepsProvider = Provider.of<StepsProvider>(context, listen: false);
-          //stepsProvider.cleanPresentationData();
           context.read<StepsProvider>().cleanPresentationData();
           sp.setString('presentation_date', "2027-07-08");
         }
@@ -72,7 +70,6 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
         await sp.setBool('presentation_mode', !previousState);
         setState(() {
           light = value;
-          print(sp.getBool('presentation_mode'));
         });
         widget.onChanged?.call();
       },

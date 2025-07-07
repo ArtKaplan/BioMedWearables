@@ -29,19 +29,19 @@ double getDeficit(steps, goal) {
   return goal * 7 - total;
 }
 
-Hike getHike(deficit, step_length){
+Hike getHike(deficit, stepLength){
   double difference = 100000;
-  double new_difference = 0;
-  Hike best_hike = hikelist[1];
+  double newDifference = 0;
+  Hike bestHike = hikelist[1];
   for(var i = 0; i<hikelist.length; i++){
-    int steps = hikelist[i].distance * 1000 ~/ step_length;
-    new_difference = steps.toDouble() - deficit;
-    if(new_difference.abs() < difference.abs()){
-      best_hike = hikelist[i];
-      difference = new_difference.abs();
+    int steps = hikelist[i].distance * 1000 ~/ stepLength;
+    newDifference = steps.toDouble() - deficit;
+    if(newDifference.abs() < difference.abs()){
+      bestHike = hikelist[i];
+      difference = newDifference.abs();
     }
   }
-  return best_hike;
+  return bestHike;
 }
 
 class Recommendhikepage extends StatefulWidget {
@@ -77,20 +77,20 @@ class _Recommendhikepage extends State<Recommendhikepage>{
             ),
             Consumer<StepsProvider>(
               builder: (context, stepsProvider, _) {
-                double step_length = Provider.of<SettingsProvider>(context).stepLength! / 100;
+                double stepLength = Provider.of<SettingsProvider>(context).stepLength! / 100;
                 return FutureBuilder<dynamic>(
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
-                    int step_goal = Provider.of<SettingsProvider>(context).goal;
+                    int stepGoal = Provider.of<SettingsProvider>(context).goal;
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return const CircularProgressIndicator();
                     }
                     if(!snapshot.hasData || snapshot.data==0){
                       return const Text("step data not available.");
                     }
-                    double deficit = getDeficit(snapshot.data!, step_goal); // change this to snapshot.data, this still doesn't work :////
+                    double deficit = getDeficit(snapshot.data!, stepGoal); // change this to snapshot.data, this still doesn't work :////
                     if(deficit>=0){
-                      Hike recommended_hike = getHike(deficit, step_length);
+                      Hike recommendedHike = getHike(deficit, stepLength);
                     return Card(
                       elevation: 8.0,
                       margin: const EdgeInsets.all(8.0),
@@ -98,20 +98,20 @@ class _Recommendhikepage extends State<Recommendhikepage>{
                         decoration: BoxDecoration(color: const Color(0xFFDE7C5A)),
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          title: Text(recommended_hike.name, style: const TextStyle(color: Color(0xFFFFF1D7), fontWeight: FontWeight.bold),),
-                          subtitle:Text('Distance: '+recommended_hike.distance.toString()+' km, Duration: '+recommended_hike.duration + ', Steps: ${recommended_hike.distance * 1000 ~/ step_length}'+'\nTravel time from Padova station: '+recommended_hike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
+                          title: Text(recommendedHike.name, style: const TextStyle(color: Color(0xFFFFF1D7), fontWeight: FontWeight.bold),),
+                          subtitle:Text('Distance: '+recommendedHike.distance.toString()+' km, Duration: '+recommendedHike.duration + ', Steps: ${recommendedHike.distance * 1000 ~/ stepLength}'+'\nTravel time from Padova station: '+recommendedHike.traveltime, style: const TextStyle(color: Color(0xFFFFF1D7), fontStyle: FontStyle.italic),),
                           onTap: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => Thishikepage(hike: recommended_hike)),
+                                MaterialPageRoute(builder: (_) => Thishikepage(hike: recommendedHike)),
                               ).then((result){setState((){});});
                           },
                           trailing: IconButton(
-                            icon: getIcon(recommended_hike),
+                            icon: getIcon(recommendedHike),
                             color: Theme.of(context).textTheme.titleLarge?.color,
                             onPressed: () => {
                               setState(() {
-                                recommended_hike.favourite = !recommended_hike.favourite;
+                                recommendedHike.favourite = !recommendedHike.favourite;
                               })
                             },
                           ),
