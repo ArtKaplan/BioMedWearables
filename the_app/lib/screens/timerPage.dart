@@ -186,11 +186,7 @@ class _TimerPageState extends State<TimerPage> {
                   setState(() {
                     hikelist[index].difficulties.add(difficulty);
                   });
-                  await hikeProvider.saveCompletedHike(
-                    _chosenHike!,
-                    duration,
-                    difficulty,
-                  );
+                  await hikeProvider.saveCompletedHike(_chosenHike!, duration, difficulty);
                 },
               ),
               TextButton(
@@ -353,7 +349,7 @@ class _TimerPageState extends State<TimerPage> {
               ),
             ),
           ],
-        ),
+        ), 
       ),
       bottomNavigationBar: BottomNavigBar(currentPage: CurrentPage.profile),
     );

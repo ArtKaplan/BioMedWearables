@@ -214,17 +214,21 @@ class SettingsProvider extends ChangeNotifier {
       }
     }
 
+    _username = _prefs.getString('username');
+    notifyListeners();
     //birthday has to be converted to string to be save in sharedPreference!
-    final birthdayString =
-        "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
-    try {
-      _birthday = newBirthday;
-      await _prefs.setString(_key('birthday'), birthdayString);
-      _age = newAge;
-      await _prefs.setInt(_key('age'), newAge);
-    } catch (e) {
-      //print('Birthday is not valid: $e');
-    }
+    final birthdayString = "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
+    if(username != null && username!.isNotEmpty){ 
+      try{
+        _birthday = newBirthday;
+        await _prefs.setString(_key('birthday'), birthdayString);
+        _age = newAge;
+        await _prefs.setInt(_key('age'), newAge);
+      } catch(e){
+        print('Birthday is not valid: $e');
+
+      }
+    } else{_age = null;}
     notifyListeners();
   }
 
@@ -257,7 +261,7 @@ class SettingsProvider extends ChangeNotifier {
       await _prefs.setInt(_key('maxHeartRate'), _maxHeartRate!);
     } else {
       _maxHeartRate = null;
-      await _prefs.remove(_key('maxHeartRate')); //TODO: klappt?
+      await _prefs.remove(_key('maxHeartRate'));
     }
     notifyListeners();
   }
@@ -282,3 +286,4 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+

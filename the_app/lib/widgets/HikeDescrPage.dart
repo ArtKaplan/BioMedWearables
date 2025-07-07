@@ -16,7 +16,6 @@ class Hikedescrpage extends StatelessWidget {
     final hikeStats = context.watch<HikeTracker>().getDetailedTimesForHike(
       hike.name,
     );
-
     double stepLength =
         Provider.of<SettingsProvider>(context).stepLength! / 100;
 
@@ -171,7 +170,8 @@ class Hikedescrpage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => TimerPage(preselectedHike: hike.name),
+                          builder:
+                              (_) => TimerPage(preselectedHike: hike.name),
                         ),
                       );
                     },
@@ -214,15 +214,12 @@ class Hikedescrpage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(child: Image.asset(hike.image)),
               Container(
-                padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                 child: Text(
                   'About this hike',
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.titleLarge?.color,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
                 ),
               ),
               RichText(
@@ -230,10 +227,13 @@ class Hikedescrpage extends StatelessWidget {
                   style: DefaultTextStyle.of(context).style,
                   children: [
                     TextSpan(
-                      text: 'Distance: ',
+                      text: 'Hiking distance: ',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextSpan(text: '${hike.distance}'),
+                    TextSpan(
+                      text:
+                          '${hike.distance} km (including transfer from train/bus station to hike)',
+                    ),
                   ],
                 ),
               ),
@@ -245,7 +245,10 @@ class Hikedescrpage extends StatelessWidget {
                       text: 'Estimated duration: ',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextSpan(text: '${hike.duration}'),
+                    TextSpan(
+                      text:
+                          '${hike.duration} (including transfer from train/bus station to hike)',
+                    ),
                   ],
                 ),
               ),
@@ -298,7 +301,7 @@ class Hikedescrpage extends StatelessWidget {
                 elevation: 8.0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).textTheme.titleLarge?.color,
+                    color: Theme.of(context).textTheme.labelMedium?.color,
                   ),
                   child: ListTile(
                     contentPadding: EdgeInsets.symmetric(
@@ -311,6 +314,33 @@ class Hikedescrpage extends StatelessWidget {
                     ),
                     onTap: () async {
                       await launchUrl(Uri.parse(hike.url));
+                    },
+                  ),
+                ),
+              ),
+              Card(
+                elevation: 8.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).textTheme.titleLarge?.color,
+                  ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
+                    title: Text(
+                      'Register this hike',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (_) => TimerPage(preselectedHike: hike.name),
+                        ),
+                      );
                     },
                   ),
                 ),
