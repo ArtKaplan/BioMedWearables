@@ -204,25 +204,3 @@ class Add1Week9kSteps extends StatelessWidget {
     );
   }
 }
-
-
-/*
-// Button to load data for the presentation
-class TwoMonthDataButton extends StatelessWidget {
-  const TwoMonthDataButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: () async {
-        await Provider.of<StepsProvider>(
-          context,
-          listen: false,
-        ).load2MonthData();
-      },
-      icon: Icon(Icons.bar_chart),
-      label: Text('Load 2 Months of Data'),
-    );
-  }
-}
-*/
