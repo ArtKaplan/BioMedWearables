@@ -105,7 +105,6 @@ class Impact {
 
     return result;
   } //heartRateDuringDay
-  
 
 }
 
