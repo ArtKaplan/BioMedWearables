@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
 import 'package:the_app/provider/settings_provider.dart';
 
-GetDeficit(steps,goal){
+getDeficit(steps,goal){
   double total = 0;
   int count = 0;
 
@@ -52,7 +52,7 @@ class _Showdeficit extends State<Showdeficit>{
                       return const Text("step data not available.");
                     }
 
-                    double deficit = GetDeficit(snapshot.data!, step_goal); 
+                    double deficit = getDeficit(snapshot.data!, step_goal); 
 
                     return Column(children:[
                       if(deficit <= 0)                     

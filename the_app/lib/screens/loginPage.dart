@@ -192,13 +192,11 @@ class _LoginPageState extends State<LoginPage> {
 
     final username = userController.text;
     final password = passwordController.text;
-    
 
     try {
       if (await _isServerOnline()) {
         if (await _isCredentialsCorrect(username, password)) {
           _setUsernameAndPassord(username, password);
-          print('LoginPage: username = $username');
           if (!mounted) return;
           await _setLoggedIn();
           if (!mounted) return;
@@ -244,11 +242,12 @@ class _LoginPageState extends State<LoginPage> {
       await sp.setString('access', accessToken);
       await sp.setString('refresh', refreshToken);
 
-      print('Tokens saved');
       return true;
+    } else {
+      print('Token request failed: ${response.statusCode} - ${response.body}');
     }
 
-    print('Token request failed: ${response.statusCode} - ${response.body}');
+
     return false;
   }
 

@@ -3,15 +3,17 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:the_app/utils/heartRatesDay.dart';
 import 'loginStatus.dart';
 import 'steps.dart';
 
 class Impact {
   static const baseURL = 'https://impact.dei.unipd.it/bwthw/';
-  static const pingEndpoint = '/gate/v1/ping/';
-  static const tokenEndpoint = '/gate/v1/token/';
-  static const refreshEndpoint = '/gate/v1/refresh/';
+  static const pingEndpoint = 'gate/v1/ping/';
+  static const tokenEndpoint = 'gate/v1/token/';
+  static const refreshEndpoint = 'gate/v1/refresh/';
   static const stepsEndpoint = 'data/v1/steps/patients/';
+  static const heartRatesEndpoint = 'data/v1/heart_rate/patients/';
   static const patientUsername = 'Jpefaq6m58';
 
   // day must be a string 'YYYY-MM-DD'
@@ -30,44 +32,6 @@ class Impact {
     return total;
   }
 
-
-/*
-   //to debug when impact (my code) doesn't work
-  static Future<List<Steps>> stepsDuringDay(String date) async {
-    await Future.delayed(Duration(milliseconds: 100)); // Simulate delay
-
-    // Parse date in format 'YYYY-MM-DD'
-    final parts = date.split('-');
-    if (parts.length != 3) {
-      throw FormatException('Date must be in YYYY-MM-DD format');
-    }
-
-    final year = int.parse(parts[0]);
-    final month = int.parse(parts[1]);
-    final day = int.parse(parts[2]);
-
-    return [
-      Steps(
-        time: DateTime.parse(date).add(Duration(hours: 9)),
-        value: year,
-      ),
-      Steps(
-        time: DateTime.parse(date).add(Duration(hours: 12)),
-        value: year + day,
-      ),
-      Steps(
-        time: DateTime.parse(date).add(Duration(hours: 16)),
-        value: year + month,
-      ),
-      Steps(
-        time: DateTime.parse(date).add(Duration(hours: 20)),
-        value: year + month+ day,
-      ),
-    ];
-  } 
-*/
-
-
   // day must be a string 'YYYY-MM-DD'
   static Future<List<Steps>?> stepsDuringDay(day) async {
     //Initialize the result
@@ -78,8 +42,6 @@ class Impact {
     //Create the (representative) request
     final url = '${Impact.baseURL}${Impact.stepsEndpoint}${Impact.patientUsername}/day/$day/';
     final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
-
-    print("stepsDuringDay url =$url");
 
     //Get the response
     final response = await http.get(Uri.parse(url), headers: headers);
@@ -101,43 +63,49 @@ class Impact {
       } //for
     } //if
     else {
-      print('Failed to fetch steps: ${response.statusCode} - ${response.body}');
       result = null;
     }
 
     return result;
   } //StepsDuringDay
-  
 
-  static Future<void> printPatientsList() async {
-    var access = await _getAccess();
-    if (access == null) {
-      print('Access token not available');
-      return;
-    }
-    
-    final url = '$baseURL/study/v1/patients/';
+  // day must be a string 'YYYY-MM-DD'
+  static Future<List<HeartRatesDay>?> heartRateDuringDay(day) async {
+    //Initialize the result
+    List<HeartRatesDay>? result;
+
+    var access = await _getAccess(); // get the access token
+
+    //Create the (representative) request
+    final url = '${Impact.baseURL}${Impact.heartRatesEndpoint}${Impact.patientUsername}/day/$day/';
     final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
-    print('Using access token: $access');
-    print('Headers: $headers');
 
-
+    //Get the response
     final response = await http.get(Uri.parse(url), headers: headers);
 
+    //if OK parse the response, otherwise return null
     if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-      final patients = decoded['data'];
+      final decodedResponse = jsonDecode(response.body);
+      result = [];
 
-      print('Patients List:');
-      for (var patient in patients) {
-        print(patient);
-      }
-    } else {
-      print(
-        'Failed to fetch patients: ${response.statusCode} - ${response.body}',
-      );
+      if (decodedResponse["data"].isEmpty) return [];
+
+      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+        result.add(
+          HeartRatesDay.fromJson(
+            decodedResponse['data']['date'],
+            decodedResponse['data']['data'][i],
+          ),
+        );
+      } //for
+    } //if
+    else {
+      result = null;
     }
-  } //printPatientList
+
+    return result;
+  } //heartRateDuringDay
+
 }
 
 // updates the tokens if expired
@@ -147,19 +115,13 @@ Future<String?>? _getAccess() async {
   var refresh = sp.getString('refresh');
   if (access == null || refresh == null) {
     // shouldn't happen (if not logged in)
-    print('_getAccess : both tokens are null');
     return null;
   }
 
   if (JwtDecoder.isExpired(access)) {
-    print('_getAccesss : access is expired');
     if (JwtDecoder.isExpired(refresh)) {
-      print('_getAccesss : refresh is expired');
       await getTokenPair();
-      access = sp.getString('access'); //debug
-      refresh = sp.getString('refresh'); //debug 
-      print('New access: $access'); // debug
-      print('New refresh: $refresh'); // debug
+
     } else {
       await refreshTokens();
     }
@@ -168,3 +130,4 @@ Future<String?>? _getAccess() async {
 
   return access;
 } // _getAccess
+

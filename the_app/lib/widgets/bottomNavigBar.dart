@@ -32,7 +32,7 @@ class BottomNavigBar extends StatelessWidget {
           icon:
           Icon(Icons.home),
           tooltip: 'Home',
-          color: getIconColor(CurrentPage.home), //const Color(0xFFFFF1D7),
+          color: getIconColor(CurrentPage.home),
           onPressed: (){
             Navigator.push(
               context,

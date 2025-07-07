@@ -43,7 +43,7 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
       setState(() {
         light = currentState;
       });
-      widget.onChanged?.call();// notify parents to refresh UI
+      widget.onChanged?.call(); // notify parents to refresh UI
     });
   }
 
@@ -52,7 +52,7 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
     return Switch(
       // This bool value toggles the switch.
       value: light,
-      activeColor: Colors.green, //TODO theme color
+      activeColor: Colors.green,
       onChanged: (bool value) async {
         // This is called when the user toggles the switch.
         final sp = await SharedPreferences.getInstance();
@@ -63,8 +63,6 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
 
         // going to presentation mode : reset fake date and reset presentation data
         if (sp.getBool('presentation_mode') ?? false) {
-          //final stepsProvider = Provider.of<StepsProvider>(context, listen: false);
-          //stepsProvider.cleanPresentationData();
           context.read<StepsProvider>().cleanPresentationData();
           sp.setString('presentation_date', "2027-07-08");
         }
@@ -72,7 +70,6 @@ class _SwitchPresentationState extends State<SwitchPresentation> {
         await sp.setBool('presentation_mode', !previousState);
         setState(() {
           light = value;
-          print(sp.getBool('presentation_mode'));
         });
         widget.onChanged?.call();
       },
@@ -125,7 +122,6 @@ class Add1Week5kSteps extends StatelessWidget {
           ..showSnackBar(
             const SnackBar(content: Text('Added a Week of 5000 Steps.')),
           );
-
       },
     );
   }
@@ -148,8 +144,6 @@ class Add1Week12kSteps extends StatelessWidget {
           ..showSnackBar(
             const SnackBar(content: Text('Added a Week of 12000 Steps.')),
           );
-        
-
       },
       icon: const Icon(Icons.directions_walk),
       label: const Text('Add 12k Week'),
@@ -203,4 +197,24 @@ class Add1Week9kSteps extends StatelessWidget {
       label: const Text('Add 9k Week'),
     );
   }
+}
+
+// Button to ping the server and display its status
+class ResetSP extends StatelessWidget {
+  const ResetSP({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      icon: const Icon(Icons.delete),
+      label: const Text('Hard reset'),
+      onPressed: () => resetSP(),
+    );
+  }
+}
+
+resetSP() async {
+  final sp = await SharedPreferences.getInstance();
+  sp.clear();
+  await sp.setBool('login_status', false); // Invalidate session
 }

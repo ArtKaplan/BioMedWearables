@@ -52,23 +52,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _loginStatusFuture = checkLoginStatus();
 
-    /*
-    // Update steps when the page loads
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<StepsProvider>().updateTodaySteps();
-      context.read<SettingsProvider>().init();
-      context.read<AwardProvider>().init();
-    });
-    */
     Future.microtask(() {
     final steps = context.read<StepsProvider>();
-    // final settings = context.read<SettingsProvider>();
     final award = context.read<AwardProvider>();
 
     steps.updateTodaySteps();
-    // settings.init();
     award.init();
-    //steps.init();
   });
   }
 
@@ -122,17 +111,17 @@ class _HomePageState extends State<HomePage> {
             ),
             Consumer<StepsProvider>(
               builder: (context, stepsProvider, _) {
-                int step_goal = Provider.of<SettingsProvider>(context).goal;
+                int stepGoal = Provider.of<SettingsProvider>(context).goal;
                 return FutureBuilder<dynamic>(
                   future: stepsProvider.getStepsEachDay(),
                   builder: (context, snapshot) {
                     double deficit = 0;
                     if(!snapshot.hasData || snapshot.data==0){
-                      deficit = getDeficit1([0,0,0,0,0,0,0], step_goal);
+                      deficit = getDeficit1([0,0,0,0,0,0,0], stepGoal);
                     }
                     else{
                       final steps = snapshot.data!;
-                      deficit = getDeficit2(steps, step_goal);
+                      deficit = getDeficit2(steps, stepGoal);
                     }
 
                     return Column(

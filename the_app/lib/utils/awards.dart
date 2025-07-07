@@ -17,7 +17,6 @@ class Award {
     required this.imagePath,
     required this.condition,
     this.isUnlocked = false,
-    //required this.isUnlocked,
   });
 
   //to get info from json file

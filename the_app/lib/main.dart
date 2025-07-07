@@ -11,25 +11,16 @@ import 'package:the_app/utils/loginStatus.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/theme/app_theme.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); 
   final sp = await SharedPreferences.getInstance();
-  //final loginStatus = await checkLoginStatus();echo
   final settingsProvider = SettingsProvider(sp);
   await settingsProvider.init();
-  //final hikeProvider = HikeTracker();
-  //await hikeProvider.init();
-  //final awardProvider = AwardProvider(sp);
-  //await awardProvider.init();
-  
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AwardProvider(sp)),
-        //ChangeNotifierProvider(create: (context) => StepsProvider()),
-        //ChangeNotifierProvider(create: (context) => StepsProvider(Provider.of<AwardProvider>(context, listen: false))),
         ChangeNotifierProxyProvider<AwardProvider, StepsProvider>( //connection needed for award testing
           create: (context) => StepsProvider(),
           update: (context, awardProvider, stepsProvider) {
@@ -48,9 +39,7 @@ void main() async {
             return hikeProvider;
           },
         ),
-        //ChangeNotifierProvider(create: (context) => AwardProvider(Provider.of<StepsProvider>(context, listen: false),)), //to use StepsProvider in AwardProvider without Widget
         ChangeNotifierProvider(create: (context) => SettingsProvider(sp)),
-        //ChangeNotifierProvider<HikeTracker>.value(value: hikeProvider),
       ],
       child: const MyApp(),
     ),
@@ -81,7 +70,7 @@ class MyApp extends StatelessWidget {
               }
               
               switch (snapshot.data) {
-                case LoginStatus.loggedIn:     
+                case LoginStatus.loggedIn:
                   return  HomePage();
                 case LoginStatus.expired:
                   return SessionExpiredPage();

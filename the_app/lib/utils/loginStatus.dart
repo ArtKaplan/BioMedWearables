@@ -26,25 +26,13 @@ Future<LoginStatus> checkLoginStatus({SettingsProvider? settingsProvider}) async
 
 Future<void> logOutInfo({StepsProvider? stepsProvider}) async {
   final sp = await SharedPreferences.getInstance();
-  /*
-  if(stepsProvider != null){
-    print('logOutInfo: stepsProvider != null');
-    await stepsProvider.cleanPresentationData();
-  }*/
-  
-  //await sp.remove('stepsEachDay_${sp.getString('username')}');
+
+
   await sp.setBool('login_status', false);
   await sp.remove('username');
   await sp.remove('password');
   await sp.remove('access');
   await sp.remove('refresh');
-
-  //##########################################################################################
-  //##########################################################################################
-  //only for debug purposes!!! DO NOT LEAVE IT UNCOMMENTED AFTER NOT NEEDING IT ANYMORE TODO
-  //await sp.clear(); DELETES ENTIRE SHARED PREFS
-  //##########################################################################################
-  //##########################################################################################
 
 }
 
@@ -66,7 +54,6 @@ Future<void> getTokenPair() async {
       final decodedResponse = jsonDecode(response.body);
       sp.setString('access', decodedResponse['access']);
       sp.setString('refresh', decodedResponse['refresh']);
-      print('Tokens saved');
     }
   }
 }
@@ -84,10 +71,9 @@ Future<void> refreshTokens() async {
     final sp = await SharedPreferences.getInstance();
     sp.setString('access', decodedResponse['access']);
     sp.setString('refresh', decodedResponse['refresh']);
-    print('token refreshed succesfully');
   } else {
     print(
-        'refreshTokens() : Failed to refresh token patients: ${response.statusCode}',
+        'refreshTokens() : Failed to refresh token : ${response.statusCode}',
       );
   }
 }
