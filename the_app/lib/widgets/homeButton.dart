@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_app/screens/homePage.dart';
 
 class HomeButton extends StatelessWidget {
   const HomeButton({super.key});
@@ -8,7 +9,10 @@ class HomeButton extends StatelessWidget {
     return ElevatedButton.icon(
       icon: const Icon(Icons.home),
       label: const Text('Homepage'),
-      onPressed: () => Navigator.pop(context),
+      onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const HomePage()),
+            ),
     );
   }
 }
