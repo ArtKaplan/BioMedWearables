@@ -206,7 +206,7 @@ class _TimerPageState extends State<TimerPage>{
               decoration: BoxDecoration(color: buttoncolor),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text(buttontitle, style: const TextStyle(color: Color(0xFFFFF1D7),fontSize:20),textAlign: TextAlign.center,),
+                title: Text(buttontitle, style: TextStyle(color: Theme.of(context).textTheme.labelSmall?.color,fontSize:20),textAlign: TextAlign.center,),
                 onTap: (){
                   handleStartStop();
                 },
