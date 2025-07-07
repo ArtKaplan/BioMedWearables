@@ -116,7 +116,7 @@ class _TimerPageState extends State<TimerPage>{
                   TextButton(
                     child: Text('OK'),
                     onPressed: () {
-                      Navigator.of(context).pop(_currentValue);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TimerPage()));
                     },
                   ),
                 ],
@@ -173,7 +173,7 @@ class _TimerPageState extends State<TimerPage>{
               TextButton(
                 child: Text('No'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TimerPage()));
                 },
               ),
             ],
