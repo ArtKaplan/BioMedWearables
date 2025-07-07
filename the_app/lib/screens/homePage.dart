@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_app/provider/award_provider.dart';
 import 'package:the_app/provider/stepsProvider.dart';
-import 'package:the_app/screens/favouriteHikesPage.dart';
+import 'package:the_app/screens/recommendHikePage.dart';
 import 'package:the_app/utils/loginStatus.dart';
 import 'package:the_app/screens/sessionExpiredPage.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -169,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                                 onTap: (){
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (_) => FavouriteHikesPage()),
+                                    MaterialPageRoute(builder: (_) => Recommendhikepage()),
                                   );
                                 },
                               ),
