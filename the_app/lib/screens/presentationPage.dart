@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_app/widgets/homeButton.dart';
 import 'package:the_app/widgets/presentationButtons.dart';
+import 'package:the_app/widgets/testExpiracyDateButton.dart';
 
 class PresentationPage extends StatefulWidget {
   const PresentationPage({super.key});
@@ -44,6 +45,7 @@ class _PresentationPageState extends State<PresentationPage> {
                       ),
                       HomeButton(),
                       TwoMonthDataButton(),
+                      TestExpiracyDateButton(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
