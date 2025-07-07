@@ -9,9 +9,9 @@ import 'steps.dart';
 
 class Impact {
   static const baseURL = 'https://impact.dei.unipd.it/bwthw/';
-  static const pingEndpoint = '/gate/v1/ping/';
-  static const tokenEndpoint = '/gate/v1/token/';
-  static const refreshEndpoint = '/gate/v1/refresh/';
+  static const pingEndpoint = 'gate/v1/ping/';
+  static const tokenEndpoint = 'gate/v1/token/';
+  static const refreshEndpoint = 'gate/v1/refresh/';
   static const stepsEndpoint = 'data/v1/steps/patients/';
   static const heartRatesEndpoint = 'data/v1/heart_rate/patients/';
   static const patientUsername = 'Jpefaq6m58';
@@ -130,3 +130,4 @@ Future<String?>? _getAccess() async {
 
   return access;
 } // _getAccess
+

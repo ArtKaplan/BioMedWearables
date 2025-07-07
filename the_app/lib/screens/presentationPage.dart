@@ -46,6 +46,7 @@ class _PresentationPageState extends State<PresentationPage> {
                       HomeButton(),
                       TwoMonthDataButton(),
                       TestExpiracyDateButton(),
+                      ResetSP(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
