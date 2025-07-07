@@ -167,7 +167,6 @@ class _TimerPageState extends State<TimerPage>{
                     hikelist[index].difficulties.add(difficulty);
                   });
                   await hikeProvider.saveCompletedHike(_chosenHike!, duration, difficulty);
-                  
                 },
               ),
               TextButton(
@@ -206,7 +205,7 @@ class _TimerPageState extends State<TimerPage>{
               decoration: BoxDecoration(color: buttoncolor),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                title: Text(buttontitle, style: const TextStyle(color: Color(0xFFFFF1D7),fontSize:20),textAlign: TextAlign.center,),
+                title: Text(buttontitle, style: TextStyle(color: Theme.of(context).textTheme.labelSmall?.color,fontSize:20),textAlign: TextAlign.center,),
                 onTap: (){
                   handleStartStop();
                 },
@@ -276,10 +275,10 @@ class _TimerPageState extends State<TimerPage>{
               ),
             ),
           ),
-          ],
+          ],  
         ), 
       ),
       bottomNavigationBar:BottomNavigBar(currentPage: CurrentPage.profile),
     );
   } //build
-} //TimerPage
+} 

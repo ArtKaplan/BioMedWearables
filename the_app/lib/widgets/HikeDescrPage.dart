@@ -173,20 +173,22 @@ class Hikedescrpage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+              child: Image.asset(hike.image),
+            ),
+          Container(
+              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
               child: Text(
                 'About this hike',
-                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 20),
-                textAlign: TextAlign.center,
+                style: TextStyle(color: Color(0xFF66101F), fontSize: 20),
               ),
             ),
           RichText(
             text: TextSpan(
               style: DefaultTextStyle.of(context).style,
               children: [
-                TextSpan(text: 'Distance: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: 'Hiking distance: ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.distance}',
+                  text: '${hike.distance} km (including transfer from train/bus station to hike)',
                 ),
               ],
             ),
@@ -197,7 +199,7 @@ class Hikedescrpage extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimated duration: ', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                  text: '${hike.duration}',
+                  text: '${hike.duration} (including transfer from train/bus station to hike)',
                 ),
               ],
             ),
@@ -240,12 +242,28 @@ class Hikedescrpage extends StatelessWidget {
           Card(
             elevation: 8.0,
                   child: Container(
-                    decoration: BoxDecoration(color: Theme.of(context).textTheme.titleLarge?.color),
+                    decoration: BoxDecoration(color: Theme.of(context).textTheme.labelMedium?.color),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       title: Text('See full hike at Komoot', style: const TextStyle(color: Colors.white),),
                       onTap: () async{
                         await launchUrl(Uri.parse(hike.url));
+                      },
+                    ),
+                  ),
+          ),
+          Card(
+            elevation: 8.0,
+                  child: Container(
+                    decoration: BoxDecoration(color: Theme.of(context).textTheme.titleLarge?.color),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      title: Text('Register this hike', style: const TextStyle(color: Colors.white),),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => TimerPage(preselected_hike: hike.name)),
+                          );
                       },
                     ),
                   ),

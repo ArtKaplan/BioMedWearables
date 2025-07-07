@@ -256,9 +256,11 @@ class SettingsProvider extends ChangeNotifier {
       }
     }
 
+    _username = _prefs.getString('username');
+    notifyListeners();
     //birthday has to be converted to string to be save in sharedPreference!
     final birthdayString = "${newBirthday?.year}-${newBirthday?.month}-${newBirthday?.day}";
-    //if(username != null && username!.isNotEmpty){ 
+    if(username != null && username!.isNotEmpty){ 
       try{
         print('birthday reached');
         _birthday = newBirthday;
@@ -269,7 +271,7 @@ class SettingsProvider extends ChangeNotifier {
         print('Birthday is not valid: $e');
 
       }
-    //} else{_age = null;}
+    } else{_age = null;}
     notifyListeners();
   }
 
@@ -327,3 +329,4 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
