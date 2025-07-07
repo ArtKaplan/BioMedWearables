@@ -11,7 +11,6 @@ import 'package:the_app/utils/loginStatus.dart';
 import 'package:provider/provider.dart';
 import 'package:the_app/theme/app_theme.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); 
   final sp = await SharedPreferences.getInstance();
@@ -71,7 +70,7 @@ class MyApp extends StatelessWidget {
               }
               
               switch (snapshot.data) {
-                case LoginStatus.loggedIn:     
+                case LoginStatus.loggedIn:
                   return  HomePage();
                 case LoginStatus.expired:
                   return SessionExpiredPage();
