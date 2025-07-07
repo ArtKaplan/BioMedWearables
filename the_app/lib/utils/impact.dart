@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:the_app/utils/heartRatesDay.dart';
 import 'loginStatus.dart';
 import 'steps.dart';
 
@@ -12,6 +13,7 @@ class Impact {
   static const tokenEndpoint = '/gate/v1/token/';
   static const refreshEndpoint = '/gate/v1/refresh/';
   static const stepsEndpoint = 'data/v1/steps/patients/';
+  static const heartRatesEndpoint = 'data/v1/heart_rate/patients/';
   static const patientUsername = 'Jpefaq6m58';
 
   // day must be a string 'YYYY-MM-DD'
@@ -66,6 +68,43 @@ class Impact {
 
     return result;
   } //StepsDuringDay
+
+  // day must be a string 'YYYY-MM-DD'
+  static Future<List<HeartRatesDay>?> heartRateDuringDay(day) async {
+    //Initialize the result
+    List<HeartRatesDay>? result;
+
+    var access = await _getAccess(); // get the access token
+
+    //Create the (representative) request
+    final url = '${Impact.baseURL}${Impact.heartRatesEndpoint}${Impact.patientUsername}/day/$day/';
+    final headers = {HttpHeaders.authorizationHeader: 'Bearer $access'};
+
+    //Get the response
+    final response = await http.get(Uri.parse(url), headers: headers);
+
+    //if OK parse the response, otherwise return null
+    if (response.statusCode == 200) {
+      final decodedResponse = jsonDecode(response.body);
+      result = [];
+
+      if (decodedResponse["data"].isEmpty) return [];
+
+      for (var i = 0; i < decodedResponse['data']['data'].length; i++) {
+        result.add(
+          HeartRatesDay.fromJson(
+            decodedResponse['data']['date'],
+            decodedResponse['data']['data'][i],
+          ),
+        );
+      } //for
+    } //if
+    else {
+      result = null;
+    }
+
+    return result;
+  } //heartRateDuringDay
   
 
 }
